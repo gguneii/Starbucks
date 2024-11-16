@@ -7,13 +7,15 @@ function Header() {
     setMenu((prevMenu) => {
       const isMenuOpen = !prevMenu
       document.body.style.overflow = isMenuOpen ? "hidden" : "auto"
-      // document.body.style.backgroundColor = isMenuOpen ? "rgba(0, 0, 0, 0.1)" : ''
       return isMenuOpen
     })
   }
+  function stopProp(e){
+    e.stopPropagation()
+  }
   return (
     <>
-      <nav className="header border-b ">
+      <nav className="header border-b">
         <div className="max-w-[1500px] mx-auto px-[16px] custom:px-[24px] lg:px-[30px]">
           <div className="all-header flex items-center justify-between">
             <div className="logo w-[85px] h-[64px] flex items-center">
@@ -130,11 +132,10 @@ function Header() {
             </div>
           </div>
         </div>
-        {/* "absolute bg-white max-w-full h-[100vh] w-[80vw] top-1 right-0 custom:hidden" */}
       {
         menu && (
-          <div className="menubar relative">
-          <div className={`absolute top-1 custom:hidden bg-white h-[100vh] w-[80vw] transition-transform ease-in-out duration-700 ${
+          <div onClick={toggleMenu} className="menubar fixed top-[66px] left-0 right-0 bottom-0  bg-black bg-opacity-40">
+          <div onClick={(e) =>stopProp(e)} className={`fixed custom:hidden bg-white h-[100vh] w-[80vw] !transition-transform ease-in-out duration-700 ${
           menu ? "right-0" : "right-[-100%]"}`}>
             <ul className="text-[1.4rem] mt-[32px] ">
               <li className="">

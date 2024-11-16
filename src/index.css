@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'SoDoSans';
+    src: url('/sodo-sans/SoDoSans-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+@font-face {
+    font-family: 'SoDoSansReg';
+    src: url('/sodo-sans/SoDoSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+@font-face {
+    font-family: 'SoDoSansSemiBold';
+    src: url('/sodo-sans/SoDoSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+.header{
+    box-shadow:  0 1px 3px #0000001a, 0 2px 2px #0000000f, 0 0 2px #00000012
+}
+.menu-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-icon.open {
+  transform: rotate(180deg);
+}
+.menu-icon.close {
+  transform: rotate(0deg); 
+}

@@ -155,7 +155,7 @@ function Header() {
               <a className="border  px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]" href="">Join now</a>
               </div>
               <span className="text-[0.9em] block mx-[2rem] mt-[16px]  font-semibold hover:text-[#00754a] hover:fill-[#00754a]">
-                <a href="inline-flex">
+                <a href="">
                   <svg
                     aria-hidden="true"
                     className="align-middle pr-[0.5rem] inline-block"

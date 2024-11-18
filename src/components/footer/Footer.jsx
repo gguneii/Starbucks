@@ -7,7 +7,7 @@ function Footer() {
     setOpen(open === index ? null : index);
   };
   return (
-    <footer>
+    <footer className="footer border-t mt-8">
       <div className="lg:flex justify-start gap-8 lg:px-5">
         <div className="lg:w-[190px]">
           <h2 className="">

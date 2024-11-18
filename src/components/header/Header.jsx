@@ -82,17 +82,17 @@ function Header() {
             <div className="hidden custom:flex flex-grow-[1]  justify-between items-center">
               <ul className="flex justify-center items-center text-[0.9em] m-0 p-0 gap-[24px] font-soDoSans uppercase">
                 <li className="py-8 shadow-[inset_0_-6px_#00754a] hover:text-[#00754a]">
-                  <NavLink className="tracking-[0.1em]" href="">
+                  <NavLink to={"menu"} className="tracking-[0.1em]">
                     Menu
                   </NavLink>
                 </li>
                 <li className="hover:text-[#00754a]">
-                  <NavLink className="tracking-[0.1em]" href="">
+                  <NavLink className="tracking-[0.1em]">
                     Rewards
                   </NavLink>
                 </li>
                 <li className="hover:text-[#00754a]">
-                  <NavLink className="tracking-[0.1em]" href="">
+                  <NavLink className="tracking-[0.1em]">
                     Gift Cards
                   </NavLink>
                 </li>
@@ -100,7 +100,7 @@ function Header() {
 
               <div className="flex items-center">
                 <span className="text-[0.9em] block mr-[4rem] font-semibold hover:text-[#00754a] hover:fill-[#00754a]">
-                  <a href="inline-flex">
+                  <a href="">
                     <svg
                       aria-hidden="true"
                       className="align-middle pr-[0.5rem] inline-block"
@@ -139,13 +139,13 @@ function Header() {
           menu ? "right-0" : "right-[-100%]"}`}>
             <ul className="text-[1.4rem] mt-[32px] ">
               <li className="">
-                <a  className="inline-block px-[2rem] py-[1.2rem]"  href="">Menu</a>
+                <NavLink to={"menu"}  className="inline-block px-[2rem] py-[1.2rem]">Menu</NavLink>
               </li>
               <li className="">
-                <a className="inline-block px-[2rem] py-[.4rem]"   href="">Rewards</a>
+                <NavLink className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
               </li>
               <li className="">
-                <a  className="inline-block px-[2rem] py-[1.2rem]"   href="">Gift Cards</a>
+                <NavLink  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
               </li>
             </ul>
             <hr className="pt-[16px] px-[32px] pb-[24px]" />

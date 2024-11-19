@@ -157,7 +157,7 @@ function Footer() {
               className="flex items-center justify-between w-full p-5 font-medium gap-3"
               onClick={() => toggleAccordion(4)}
             >
-              <span className="whitespace-nowrap lg:text-[1.3rem] lg:font-normal">
+              <span className="lg:whitespace-nowrap lg:text-[1.3rem] lg:font-normal">
                 For Business Partners
               </span>
               <svg
@@ -202,7 +202,7 @@ function Footer() {
               className="flex items-center justify-between w-full p-5 font-medium gap-3"
               onClick={() => toggleAccordion(5)}
             >
-              <span className="lg:text-[1.3rem] whitespace-nowrap lg:font-normal">
+              <span className="lg:text-[1.3rem] lg:whitespace-nowrap lg:font-normal">
                 Order and Pick Up
               </span>
               <svg

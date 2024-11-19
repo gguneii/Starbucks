@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   const [menu, setMenu] = useState(false)
@@ -19,9 +19,9 @@ function Header() {
         <div className="max-w-[1500px] mx-auto px-[16px] custom:px-[24px] lg:px-[30px]">
           <div className="all-header flex items-center justify-between">
             <div className="logo w-[85px] h-[64px] flex items-center">
-              <a
+              <Link
                 className="block w-[32px] xxs:w-[40px] custom:w-[51px]"
-                href="/"
+                to={'/'}
               >
                 <svg
                   aria-hidden="true"
@@ -40,9 +40,8 @@ function Header() {
                     <path d="M53.595 57.01h-1.526v4.105h-.547v-4.105h-1.522v-.51h3.595v.51zM54.236 56.5h.811l1.57 3.618h.011l1.574-3.618h.798v4.615h-.551v-3.869h-.012l-1.653 3.869h-.333l-1.659-3.869h-.011v3.869h-.545v-4.615z"></path>
                   </g>
                 </svg>
-              </a>
+              </Link>
             </div>
-
             
             {
               menu ? (
@@ -80,19 +79,19 @@ function Header() {
             }
 
             <div className="hidden custom:flex flex-grow-[1]  justify-between items-center">
-              <ul className="flex justify-center items-center text-[0.9em] m-0 p-0 gap-[24px] font-soDoSans uppercase">
-                <li className="py-8 shadow-[inset_0_-6px_#00754a] hover:text-[#00754a]">
+              <ul className="header-lists flex justify-center items-center text-[0.9em] m-0 p-0 gap-[24px] font-soDoSans uppercase">
+                <li className="py-8 hover:text-[#00754a]">
                   <NavLink to={"menu"} className="tracking-[0.1em]">
                     Menu
                   </NavLink>
                 </li>
-                <li className="hover:text-[#00754a]">
-                  <NavLink className="tracking-[0.1em]">
+                <li className="hover:text-[#00754a] py-8">
+                  <NavLink to={"rewards"} className="tracking-[0.1em]">
                     Rewards
                   </NavLink>
                 </li>
-                <li className="hover:text-[#00754a]">
-                  <NavLink className="tracking-[0.1em]">
+                <li className="hover:text-[#00754a] py-8">
+                  <NavLink to={"gifts"} className="tracking-[0.1em]">
                     Gift Cards
                   </NavLink>
                 </li>
@@ -139,13 +138,13 @@ function Header() {
           menu ? "right-0" : "right-[-100%]"}`}>
             <ul className="text-[1.4rem] mt-[32px] ">
               <li className="">
-                <NavLink to={"menu"}  className="inline-block px-[2rem] py-[1.2rem]">Menu</NavLink>
+                <NavLink to={"menu"} onClick={toggleMenu} className="inline-block px-[2rem] py-[1.2rem]">Menu</NavLink>
               </li>
               <li className="">
-                <NavLink className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
+                <NavLink onClick={toggleMenu} className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
               </li>
               <li className="">
-                <NavLink  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
+                <NavLink onClick={toggleMenu}  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
               </li>
             </ul>
             <hr className="pt-[16px] px-[32px] pb-[24px]" />

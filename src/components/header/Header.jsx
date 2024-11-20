@@ -141,10 +141,10 @@ function Header() {
                 <NavLink to={"menu"} onClick={toggleMenu} className="inline-block px-[2rem] py-[1.2rem]">Menu</NavLink>
               </li>
               <li className="">
-                <NavLink onClick={toggleMenu} className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
+                <NavLink to={'rewards'} onClick={toggleMenu} className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
               </li>
               <li className="">
-                <NavLink onClick={toggleMenu}  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
+                <NavLink to={'gifts'} onClick={toggleMenu}  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
               </li>
             </ul>
             <hr className="pt-[16px] px-[32px] pb-[24px]" />

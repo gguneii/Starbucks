@@ -1,7 +1,6 @@
-import CoffeeAnimation from "../CoffeeAnimation"
 import MenuLists from "./MenuLists"
 
-function Featured() {
+function Favorites() {
   return (
     <div>
         <MenuLists />
@@ -9,4 +8,4 @@ function Featured() {
   )
 }
 
-export default Featured
+export default Favorites

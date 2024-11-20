@@ -4,10 +4,8 @@ import { getAllMenus } from "../services/api"
 export const DATA = createContext(null)
 function DataContext({children}) {
     const [data, setData] = useState(null)
-    // const [product, setProduct] = useState(null)
     useEffect(()=>{
       getAllMenus().then(res => setData(res) )
-      // getProductById().then(res => setProduct(res))
     },[])
 
   return (

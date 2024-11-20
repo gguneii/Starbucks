@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Main() {
   return (
     <main className="main border-b">
@@ -19,12 +21,12 @@ function Main() {
                 Now you can order your favorite Starbucks® handcrafted drink and
                 customize it with any non-dairy milk at no extra charge.*
               </p>
-              <a
+              <Link
                 className="inline-block rounded-full hover:bg-[#004e34] border min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center font-semibold"
-                href=""
+                to={'menu'}
               >
                 Order now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -46,12 +48,12 @@ function Main() {
                 Latte, a Sugar Cookie Almondmilk Latte or an Iced Gingerbread
                 Oatmilk Chai.
               </p>
-              <a
+              <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center font-semibold"
-                href=""
+                to={'menu'}
               >
                 Order now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -99,12 +101,12 @@ function Main() {
               <p className="leading-8 py-[20px] md:px-[16px] md:font-semibold text-[22px] md:max-w-[500px] mx-auto">
                 Make today merry with the festive flavors of a Peppermint Mocha.
               </p>
-              <a
+              <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                href=""
+                to={'menu'}
               >
                 Order now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -126,12 +128,12 @@ function Main() {
                 Grab a toasty warm sandwich or a new Turkey Sage Danish and make
                 your afternoon feel oh-so bright.
               </p>
-              <a
+              <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                href=""
+                to={'menu'}
               >
                 Order now
-              </a>
+              </Link>
             </div>
           </div>
         </div>

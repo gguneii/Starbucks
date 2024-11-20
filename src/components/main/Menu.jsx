@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
@@ -7,12 +7,15 @@ import CoffeeAnimation from "../CoffeeAnimation";
 
 function Menu() {
   const { data } = useContext(DATA);
-  const {id} = useParams()
+  const { id } = useParams();
   //   console.log(data);
-  
-  function selectedItem(id) {
+  // const [mehsul, setMehsul] = useState(null);
 
-  }
+  // if (data) {
+  //   setMehsul(data);
+  // }
+  
+  function selectedItem(id) {}
   return (
     <>
       <Helmet>
@@ -99,6 +102,9 @@ function Menu() {
                       {item.children.map((d, i) => {
                         return (
                           <Link
+                            onClick={() => {
+                              setData;
+                            }}
                             key={i}
                             className="flex items-center custom:w-[300px] lg:w-[350px] xl:w-[400px] 2xl:w-[500px]"
                           >

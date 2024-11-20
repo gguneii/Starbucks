@@ -4,6 +4,7 @@ import Main from "./components/main/Main"
 import Menu from "./components/main/Menu"
 import { Helmet } from "react-helmet"
 import Featured from "./components/main/Featured"
+import Location from "./components/main/Location"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route index element={<Main />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/featured" element={<Featured />} />
+        <Route path="/location" element={<Location />} />
       </Route>
     </Routes>
     </>

@@ -1,7 +1,9 @@
 function GiftCards() {
   return (
-    <div>GiftCards</div>
-  )
+    <main>
+      
+    </main>
+  );
 }
 
-export default GiftCards
+export default GiftCards;

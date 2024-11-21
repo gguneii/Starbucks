@@ -1,7 +1,14 @@
+import { useEffect } from "react";
+
 function Location() {
-  // document.body.style.overflow ='hidden'
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   return (
-    <div className="flex flex-col lg:flex-row   h-[100vh]" >
+    <div className="flex flex-col lg:flex-row   h-[100vh]">
       <div className="left-side lg:w-[40%] ">
         <div className="flex items-center py-[1.6rem] px-[1.6rem]">
           <form className="flex items-center flex-grow relative">
@@ -23,7 +30,7 @@ function Location() {
               </svg>
             </button>
           </form>
-          
+
           <div className="flex self-end">
             <button className="min-w-[35px] min-h-[35px] ml-[2.4rem] whitespace-nowrap border rounded-full border-[#00754a]  px-[14px] text-[#00754a]">
               Filter
@@ -35,7 +42,9 @@ function Location() {
             <article className="border-2 border-[#006241] rounded-lg mx-1 flex justify-between py-4 px-[1.2rem]">
               <div className=" ">
                 <h3 className="font-bold">Globus Center</h3>
-                <p className="text-[14px] font-normal">609 Jafar Jabbarli Street Baku</p>
+                <p className="text-[14px] font-normal">
+                  609 Jafar Jabbarli Street Baku
+                </p>
                 <p className="text-[14px] font-normal">0.7 miles away</p>
                 <ul className="mt-[.8rem]">
                   <li className="flex">
@@ -55,7 +64,9 @@ function Location() {
                         fill="var(--colorBlack)"
                       ></path>
                     </svg>
-                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">Closed</span>
+                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">
+                      Closed
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -86,7 +97,9 @@ function Location() {
                 </div>
 
                 <div className="my-[.8rem]">
-                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">Order here</button>
+                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                    Order here
+                  </button>
                 </div>
               </div>
             </article>
@@ -95,7 +108,9 @@ function Location() {
             <article className="border-2 border-[#006241] rounded-lg mx-1 flex justify-between py-4 px-[1.2rem]">
               <div className=" ">
                 <h3 className="font-bold">Globus Center</h3>
-                <p className="text-[14px] font-normal">609 Jafar Jabbarli Street Baku</p>
+                <p className="text-[14px] font-normal">
+                  609 Jafar Jabbarli Street Baku
+                </p>
                 <p className="text-[14px] font-normal">0.7 miles away</p>
                 <ul className="mt-[.8rem]">
                   <li className="flex">
@@ -115,7 +130,9 @@ function Location() {
                         fill="var(--colorBlack)"
                       ></path>
                     </svg>
-                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">Closed</span>
+                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">
+                      Closed
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -146,7 +163,9 @@ function Location() {
                 </div>
 
                 <div className="my-[.8rem]">
-                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">Order here</button>
+                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                    Order here
+                  </button>
                 </div>
               </div>
             </article>
@@ -157,10 +176,10 @@ function Location() {
         <div className="map">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194472.76853003306!2d49.69014890705255!3d40.394737007992184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d6bd6211cf9%3A0x343f6b5e7ae56c6b!2zQmFrw7w!5e0!3m2!1str!2saz!4v1732005929794!5m2!1str!2saz"
-            allowfullscreen=""
+            allowFullScreen=""
             loading="lazy"
             className="border-0 w-full h-[450px] lg:h-[90vh]"
-            referrerpolicy="no-referrer-when-downgrade"
+            referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
         <section className="locations block lg:hidden mt-4">
@@ -168,7 +187,9 @@ function Location() {
             <article className="border-2 border-[#006241] rounded-lg mx-1 flex justify-between py-4 px-[1.2rem]">
               <div className=" ">
                 <h3 className="font-bold">Globus Center</h3>
-                <p className="text-[14px] font-normal">609 Jafar Jabbarli Street Baku</p>
+                <p className="text-[14px] font-normal">
+                  609 Jafar Jabbarli Street Baku
+                </p>
                 <p className="text-[14px] font-normal">0.7 miles away</p>
                 <ul className="mt-[.8rem]">
                   <li className="flex">
@@ -188,7 +209,9 @@ function Location() {
                         fill="var(--colorBlack)"
                       ></path>
                     </svg>
-                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">Closed</span>
+                    <span className="ml-[.4rem] text-[#00000094] text-[14px] font-semibold">
+                      Closed
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -219,7 +242,9 @@ function Location() {
                 </div>
 
                 <div className="my-[.8rem]">
-                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">Order here</button>
+                  <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                    Order here
+                  </button>
                 </div>
               </div>
             </article>

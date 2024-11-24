@@ -774,9 +774,9 @@ function Rewards() {
         </div>
       </div>
 
-      <div className="bg-[url('/assets/backg.png')] bg-cover">
-        <div className="px-[2rem] py-[2rem]">
-          <div className="bg-[#d4e9e2]">
+      <div className="md:bg-[url('/assets/backg.png')] bg-cover">
+        <div className="px-0 md:px-[2rem] md:py-[2rem]">
+          <div className="bg-[#d4e9e2] px-6 md:px-[2rem]">
           <div className="text-center py-[1rem] md:max-w-[600px]mx-auto ">
             <h2 className="font-semibold text-[1.5rem] pb-[1rem] md:text-[2rem]">
               Keep the Rewards Coming

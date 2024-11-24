@@ -12,14 +12,7 @@ import GiftCards from "./components/main/GiftCards"
 import { useEffect } from "react"
 
 function App() {
-  const {pathname} = useLocation()
-  useEffect(()=>{
-    window.scrollTo({
-      top: 100,
-      left: 100,
-      behavior: "smooth",
-    });
-  },[pathname])
+
   return (
     <>
     <Helmet>

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
 import Basket from "./Basket";
@@ -10,6 +10,15 @@ function Menu() {
   const { data } = useContext(DATA);
   const { name, subname } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({
+      top: 100,
+      left: 100,
+      behavior: "smooth",
+    });
+  }, [pathname]);
 
   useEffect(() => {
     if (data) {
@@ -74,7 +83,7 @@ function Menu() {
             >
               <Link
                 to={selectedCategory ? "/menu" : "#"}
-                className={`${selectedCategory ? "text-inherit" : ""}`} 
+                className={`${selectedCategory ? "text-inherit" : ""}`}
               >
                 Menu
               </Link>
@@ -102,7 +111,9 @@ function Menu() {
                               <div className="max-w-[70px] w-full h-[70px] lg:max-w-[112px] lg:h-[112px] mr-3 mt-3 rounded-full overflow-hidden flex items-center justify-center">
                                 <img
                                   className="max-w-[165px] w-full h-[165px] lg:max-w-[200px] lg:h-[200px] object-cover object-center"
+                                  onError={(e) => {e.target.src ="/assets/errImg.webp"}}
                                   src={
+                                    
                                     d?.children[0]
                                       ? d?.children[0]?.products[0]?.assets
                                           ?.masterImage?.uri
@@ -127,12 +138,19 @@ function Menu() {
                 <h2 className="font-soDoSans text-[1.3rem] custom:text-[1.5rem] lg:text-[2rem] tracking-wide mt-5">
                   {selectedCategory.name}
                 </h2>
-                <div className="flex flex-col flex-wrap custom:gap-6 w-full custom:max-w-[900px] ">
+                <div
+                  className={`flex ${
+                    selectedCategory?.children?.length ||
+                    selectedCategory?.products
+                      ? "flex-col"
+                      : "flex-row"
+                  } flex-wrap custom:gap-6 w-full custom:max-w-[900px]`}
+                >
                   {(selectedCategory?.children?.length
                     ? selectedCategory.children
                     : selectedCategory?.products
                   )?.map((d, i) => {
-                    console.log("subCategory:", d);
+                    // console.log("subCategory:", d);
 
                     return (
                       <Link
@@ -140,17 +158,17 @@ function Menu() {
                         key={i}
                         className="flex w-full items-center "
                       >
-                     {/* burda idi img  */}
+                        {/* burda idi img  */}
                         <div className="xl:text-[20px] w-full">
                           <div className="font-soDoSans text-[1.1rem] custom:text-[1.5rem] mt-5 lg:mt-8">
-                            {d.name}
+                            {d.products ? d.name : ""}
                           </div>
                           <hr className="block w-full my-[1rem]" />
 
                           <div className="grid grid-cols-2 sm:grid-cols-3 custom:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 w-full">
-                            {d?.products?.map((p, i) => {
-                              console.log("prodd :", p);
-                              
+                            {(d?.products || [d])?.map((p, i) => {
+                              // console.log(" subcat ve prodd :", d, p);
+
                               return (
                                 <div
                                   key={i}
@@ -158,15 +176,18 @@ function Menu() {
                                 >
                                   <div className="w-[120px] mx-auto h-[120px] lg:w-[140px] lg:h-[140px] mt-3 rounded-full overflow-hidden flex items-center justify-center">
                                     <img
-                                      className="scale-[2] w-full h-full lg:scale-[2.3] object-cover"
+                                      onError={(e) => {e.target.src ="/assets/errImg.webp"}}
+                                      className="scale-[2] w-full h-full lg:scale-[2.3] object-cover object-center"
                                       src={
-                                        p?.assets?.masterImage?.uri 
+                                        d?.products
+                                          ? p?.assets?.masterImage?.uri
+                                          : d?.assets?.masterImage?.uri
                                       }
                                       alt="coffee_img"
                                     />
                                   </div>
                                   <h2 className="custom:text-[1rem] font-semibold mx-auto mt-4 lg:mt-6 text-center">
-                                    {p.name}
+                                    {d.products ? p.name : d.name}
                                   </h2>
                                 </div>
                               );

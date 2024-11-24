@@ -6,7 +6,7 @@ function Basket() {
       <div className="py-[1rem] flex items-center justify-between w-full px-[1.6rem]">
         <div className="custom:px-[100px] lg:mx-auto">
         <Link
-          to={''}
+          to={'/location'}
           className="flex shadow-[inset_0_-1.5px_0_#ffffff4d] w-full items-center justify-between md:justify-start md:flex-grow-0 min-w-[24px] flex-grow"
         >
           <p className="text-[#ffffffb3] pb-1 text-[14px] font-semibold lg:hidden">

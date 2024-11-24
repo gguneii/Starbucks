@@ -3,36 +3,38 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'SoDoSans';
-    src: url('/sodo-sans/SoDoSans-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "SoDoSans";
+  src: url("/sodo-sans/SoDoSans-Bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
-    font-family: 'SoDoSansReg';
-    src: url('/sodo-sans/SoDoSans-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "SoDoSansReg";
+  src: url("/sodo-sans/SoDoSans-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
-    font-family: 'SoDoSansSemiBold';
-    src: url('/sodo-sans/SoDoSans-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-.header, .main, .footer{
-    box-shadow:  0 1px 3px #0000001a, 0 2px 2px #0000000f, 0 0 2px #00000012;
+  font-family: "SoDoSansSemiBold";
+  src: url("/sodo-sans/SoDoSans-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.header,
+.main,
+.footer {
+  box-shadow: 0 1px 3px #0000001a, 0 2px 2px #0000000f, 0 0 2px #00000012;
 }
 .menu-icon {
   transition: transform 0.3s ease-in-out;
 }
 .menu-lists {
-  overflow-y: scroll; 
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
-  scroll-behavior: smooth; 
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
-.header-lists .active{
+.header-lists .active {
   box-shadow: inset 0 -6px #00754a;
   padding-bottom: 34px;
 }
@@ -46,95 +48,166 @@
   transform: rotate(180deg);
 }
 .menu-icon.close {
-  transform: rotate(0deg); 
+  transform: rotate(0deg);
+}
+
+.favorites .active {
+  border-bottom: 4px solid #00754a;
 }
 
 #wrap {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
 }
 #steam {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background-color: #3d3c3c;
-      border-radius: 50%;
-      margin-left: 75px;
-      margin-top: -75px;
-      z-index: 0;
-      opacity: 0;
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-color: #3d3c3c;
+  border-radius: 50%;
+  margin-left: 75px;
+  margin-top: -75px;
+  z-index: 0;
+  opacity: 0;
 }
 
 .steam-one {
-      animation: steam-one 4s ease-out infinite;
+  animation: steam-one 4s ease-out infinite;
 }
 .steam-three {
-      animation: steam-one 4s ease-out 1s infinite;
+  animation: steam-one 4s ease-out 1s infinite;
 }
 @keyframes steam-one {
-      0% {
-            transform: translateY(0) translateX(0) scale(0.25);
-            opacity: 0.25;
-      }
-      100% {
-            transform: translateY(-200px) translateX(20px) scale(1);
-            opacity: 0;
-      }
-}    
+  0% {
+    transform: translateY(0) translateX(0) scale(0.25);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-200px) translateX(20px) scale(1);
+    opacity: 0;
+  }
+}
 .steam-two {
-      animation: steam-two 4s ease-out 0.5s infinite;
+  animation: steam-two 4s ease-out 0.5s infinite;
 }
 .steam-four {
-      animation: steam-two 4s ease-out 1.5s infinite;
+  animation: steam-two 4s ease-out 1.5s infinite;
 }
 @keyframes steam-two {
-      0% {
-            transform: translateY(0) translateX(0) scale(0.25);
-            opacity: 0.25;
-      }
-      100% {
-            transform: translateY(-200px) translateX(-20px) scale(1);
-            opacity: 0;
-      }
-} 
+  0% {
+    transform: translateY(0) translateX(0) scale(0.25);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-200px) translateX(-20px) scale(1);
+    opacity: 0;
+  }
+}
 .cup-body {
-      position: absolute;
-      width: 100%;
-      height: 200px;
-      background-color: #6c6967;
-      border-radius: 0 0 150px 150px;
-      overflow: hidden;
-      z-index: 1;
-} 
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  background-color: #6c6967;
+  border-radius: 0 0 150px 150px;
+  overflow: hidden;
+  z-index: 1;
+}
 .cup-shade {
-      position: absolute;
-      width: 300px;
-      height: 370px;
-      margin-left: 45%;
-      margin-top: -10px;
-      transform: rotate(50deg);
-      background-color: #006241;
-
+  position: absolute;
+  width: 300px;
+  height: 370px;
+  margin-left: 45%;
+  margin-top: -10px;
+  transform: rotate(50deg);
+  background-color: #006241;
 }
 .cup-handle {
-      position: relative;
-      right: -40%;
-      width: 75px;
-      height: 80px;      
-      border: 15px solid #6c6967 ;
-      margin-left: 135px;
-      margin-bottom: 95px;
-      border-radius: 0 80px 150px 0;
+  position: relative;
+  right: -40%;
+  width: 75px;
+  height: 80px;
+  border: 15px solid #6c6967;
+  margin-left: 135px;
+  margin-bottom: 95px;
+  border-radius: 0 80px 150px 0;
 }
 .saurce {
-      position: absolute;
-      bottom: -30px;
-      width: 100%;
-      height: 20px;
-      border-radius: 0 0 150px 150px;
-      background-color: #8d847e;
-      z-index: 2;
-} 
+  position: absolute;
+  bottom: -30px;
+  width: 100%;
+  height: 20px;
+  border-radius: 0 0 150px 150px;
+  background-color: #8d847e;
+  z-index: 2;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: 99% !important;
+  transform: translateY(-50%);
+  padding: 16px;
+  /* background-color: rgba(0, 0, 0, 0.5); Şəffaf fon */
+  border-radius: 50%; /* Dairəvi düymələr */
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-button-prev {
+  left: 50px !important;
+}
+
+.swiper-button-next {
+  right: 50px !important;
+}
+.swiper-pagination-bullets {
+  position: absolute;
+  z-index: 10 !important;
+  bottom: 0.1% !important;  
+}
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background-color: #6b6b6b !important;
+
+  .isActive{
+      background-color: black !important;
+  }
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Hover effekti */
+}

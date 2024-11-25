@@ -220,7 +220,7 @@ function Footer() {
           </h2>
           <div
             className={`p-5 transition-all duration-300 ${
-              open === 1 ? "block" : "hidden"
+              open === 5 ? "block" : "hidden"
             } lg:block`}
           >
             <ul className="text-gray-500 capitalize">

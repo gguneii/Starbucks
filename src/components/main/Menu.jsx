@@ -154,7 +154,8 @@ function Menu() {
 
                     return (
                       <Link
-                        to={`/menu/${selectedCategory.name}/${d.name}`}
+                        // to={`/menu/${selectedCategory.name}/${d.name}`}
+                        to={'/menu/product'}
                         key={i}
                         className="flex w-full items-center "
                       >

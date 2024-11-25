@@ -10,6 +10,7 @@ import Favorites from "./components/main/Favorites"
 import Rewards from "./components/main/Rewards"
 import GiftCards from "./components/main/GiftCards"
 import { useEffect } from "react"
+import ProductDetails from "./components/main/ProductDetails"
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route index element={<Main />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/menu/:name/:subname" element={<Menu />} />
+        <Route path="/menu/product" element={<ProductDetails />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/previous" element={<Previous />} />
         <Route path="/favorites" element={<Favorites />} />

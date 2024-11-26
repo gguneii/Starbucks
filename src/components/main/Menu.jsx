@@ -3,7 +3,6 @@ import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
 import Basket from "./Basket";
-import CoffeeAnimation from "../CoffeeAnimation";
 import MenuLists from "./MenuLists";
 
 function Menu() {
@@ -91,7 +90,7 @@ function Menu() {
             </h1>
 
             {selectedCategory === null ? (
-              data ? (
+              data && (
                 data.map((item, i) => {
                   return (
                     <section className="right-side" key={i} id={item.name}>
@@ -130,8 +129,6 @@ function Menu() {
                     </section>
                   );
                 })
-              ) : (
-                <CoffeeAnimation />
               )
             ) : (
               <section className="right-side">

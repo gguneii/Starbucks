@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function ProductDetails() {
-    const [selectedVal, setSelectedVal] = useState("Water") 
-    const [selectedVal2, setSelectedVal2] = useState("Signature Espresso") 
-    const handleChange = (e) =>{
-        setSelectedVal(e.target.value)
-    }
-    const handleChange2 =(e) =>{
-        setSelectedVal2(e.target.value)
-    }
+  const [selectedVal, setSelectedVal] = useState("Water");
+  const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
+  const handleChange = (e) => {
+    setSelectedVal(e.target.value);
+  };
+  const handleChange2 = (e) => {
+    setSelectedVal2(e.target.value);
+  }
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 100,
+      behavior: "smooth",
+    });
+  }, [pathname])
+
   return (
-    <main>
-      <nav className="w-full">
+    <main className="">
+      <nav className="w-full sticky top-0 bg-white">
         <ul className="flex lg:max-w-[1500px] mx-auto custom:pl-[115px] px-[1rem] py-[1rem]">
           <li>
             <a href=""></a>Menu /
@@ -46,11 +56,10 @@ function ProductDetails() {
 
       <div className="lg:flex">
         <div className="sizes max-w-[450px] px-[1.6rem] lg:w-[50%] xl:w-[40%] xl:mx-[80px] mx-auto mt-[1.3rem]">
-          <div className="relative">
-            <h2 className="font-semibold text-[1.2rem] pb-[1rem] px-2 md:text-[1.7rem]">
+          <div className="">
+            <h2 className="font-semibold text-[1.2rem] pb-[1rem] px-2 md:text-[1.7rem] border-b-[4px] border-[#d4e9e2]">
               Size options
             </h2>
-            <span className="absolute content-[''] bottom-0 h-[4px] rounded-[12px] bg-[#d4e9e2] w-full"></span>
           </div>
           <form className="mt-10">
             <fieldset className="flex items-center justify-center gap-8">
@@ -88,11 +97,10 @@ function ProductDetails() {
           </form>
         </div>
         <div className="included max-w-[450px] px-[1.6rem] lg:w-[50%] xl:w-[60%] xl:ml-[40px] mx-auto mt-[1.6rem]">
-          <div className="relative">
-            <h2 className="font-semibold text-[1.2rem] pb-[1rem] px-2 md:text-[1.7rem]">
+          <div className="">
+            <h2 className="font-semibold text-[1.2rem] pb-[1rem] px-2 md:text-[1.7rem] border-b-[4px] border-[#d4e9e2]">
               What's included
             </h2>
-            <span className="absolute content-[''] bottom-0 h-[4px] rounded-[12px] bg-[#d4e9e2] w-full"></span>
           </div>
           <div className="water_added">
             <div className="shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg px-[16px] py-[12px] md:py-[8px] relative  mt-5">
@@ -100,7 +108,7 @@ function ProductDetails() {
                 className="absolute left-[12px] text-[#00000094] tracking-wider text-[14px] md:text-[15px] bg-white top-[-50%] transform translate-y-[50%] px-[.4rem]"
                 htmlFor="name"
               >
-                Add-ins 
+                Add-ins
               </label>
               <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
                 Customized
@@ -234,24 +242,33 @@ function ProductDetails() {
               Reset to standard recipe
             </button>
           </div>
-        
         </div>
       </div>
 
       <div className="mt-[3rem] bg-[#1e3932]">
-          <aside className="max-w-[420px] mx-auto">
-            <div className=" py-[40px]">
-              <p className="text-[#cba258] px-2 inline-block border border-[#cba258] rounded-md">
-                <span>200</span>
-                <span>★</span>
-                item
-              </p>
-              <p className="text-[#ffffffb3] text-[14px] pt-[15px]">Espresso shots topped with hot water create a light layer of crema culminating in this wonderfully rich cup with depth and nuance.</p>
-                <p className="text-white pt-[1rem]">15 calories, 0g sugar, 0g fat</p>
-                <a className="text-white border inline-block border-white px-[16px] py-[7px] mt-[1.5rem] rounded-full text-[14px] font-semibold" href="">Full nutrition & ingredients list</a>
-            </div>
-          </aside>
-        </div>
+        <aside className="max-w-[420px] mx-auto lg:mx-[100px]">
+          <div className="py-[40px] px-4">
+            <p className="text-[#cba258] px-2 inline-block border border-[#cba258] rounded-md">
+              <span>200</span>
+              <span>★</span>
+              item
+            </p>
+            <p className="text-[#ffffffb3] text-[14px] pt-[15px]">
+              Espresso shots topped with hot water create a light layer of crema
+              culminating in this wonderfully rich cup with depth and nuance.
+            </p>
+            <p className="text-white pt-[1rem]">
+              15 calories, 0g sugar, 0g fat
+            </p>
+            <a
+              className="text-white border inline-block border-white px-[16px] py-[7px] mt-[1.5rem] rounded-full text-[14px] font-semibold"
+              href=""
+            >
+              Full nutrition & ingredients list
+            </a>
+          </div>
+        </aside>
+      </div>
     </main>
   );
 }

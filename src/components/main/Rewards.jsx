@@ -16,7 +16,7 @@ function Rewards() {
 
   return (
     <main>
-      <div className="bg-[#1e3932] text-white w-full">
+      <div className="bg-[#1e3932] text-white w-full sticky top-0">
         <div className="flex custom:px-[110px] lg:px-[40px]  justify-between items-center max-w-[1500px] mx-auto px-[1.6rem] h-[50px]">
           <h1 className="uppercase font-soDoSans text-[13px] tracking-[0.1em]">
             Starbucks® Rewards

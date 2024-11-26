@@ -14,7 +14,7 @@ function Menu() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({
-      top: 100,
+      top: 0,
       left: 100,
       behavior: "smooth",
     });

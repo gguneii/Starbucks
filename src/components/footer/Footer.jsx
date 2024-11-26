@@ -1,250 +1,113 @@
 import { useState } from "react";
 
+const categories = [
+  {
+    title: "About Us",
+    links: [
+      "Our Company",
+      "Our Coffee",
+      "Stories and news",
+      "Starbucks archive",
+      "Investor Relations",
+      "Customer Service",
+      "Contact us",
+    ],
+  },
+  {
+    title: "Careers",
+    links: [
+      "Culture and Values",
+      "Inclusion, Diversity and Equity",
+      "College Achievement plan",
+      "Alumni Community",
+      "U.S. Careers",
+      "International Careers",
+    ],
+  },
+  {
+    title: "Social Impact",
+    links: ["People", "Planet", "Environmental and Social Impact Reporting"],
+  },
+  {
+    title: "For Business Partners",
+    links: [
+      "Landlord Support Center",
+      "Suppliers",
+      "Corporate Gift card sales",
+      "Office and foodservice coffee",
+    ],
+  },
+  {
+    title: "Order and Pick Up",
+    links: [
+      "Order on the App",
+      "Order on the Web",
+      "Delivery",
+      "Order and pick up options",
+      "Explore and find coffee for home",
+    ],
+  },
+];
+
 function Footer() {
   const [open, setOpen] = useState(null);
-
   const toggleAccordion = (index) => {
     setOpen(open === index ? null : index);
   };
+
+  const ArrowIcon = ({ isOpen }) => (
+    <svg
+      className={`w-[32px] h-[32px] lg:hidden transition-transform duration-300 ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      aria-hidden="true"
+      focusable="false"
+      preserveAspectRatio="xMidYMid meet"
+      viewBox="0 0 24 24"
+    >
+      <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
+    </svg>
+  );
+
   return (
-    <footer className="footer border-t">
-      <div className="lg:flex justify-start gap-8 lg:px-5">
-        <div className="lg:w-[190px]">
-          <h2 className="">
-            <button
-              type="button"
-              className="flex items-center justify-between transition-all duration-300 w-full p-5 font-medium rounded-t-xl gap-3"
-              onClick={() => toggleAccordion(1)}
-            >
-              <span className="lg:text-[1.3rem] lg:font-normal">About Us</span>
-              <svg
-                className={`w-[32px] h-[32px] lg:hidden transition-transform ${
-                  open === 1 ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
+    <footer className="footer">
+      <div className="lg:flex lg:max-[800px] xl:max-w-[1350px] mx-auto border-t mt-8 justify-start gap-8 lg:px-5">
+        {categories.map((category, index) => (
+          <div className="lg:w-[250px] lg:mt-6" key={index}>
+            <h2>
+              <button
+                type="button"
+                className="flex items-center justify-between w-full p-5 font-medium gap-3"
+                onClick={() => toggleAccordion(index)}
               >
-                <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
-              </svg>
-            </button>
-          </h2>
-          <div
-            className={`p-5 transition-all duration-300 ${
-              open === 1 ? "block" : "hidden"
-            } lg:block`}
-          >
-            <ul className="text-gray-500 capitalize">
-              <li className="pb-2">
-                <a href="">Our Company</a>
-              </li>
-              <li className="py-2">
-                <a href="">Our Coffee</a>
-              </li>
-              <li className="py-2">
-                <a href="">Stories and news</a>
-              </li>
-              <li className="py-2">
-                <a href="">Starbucks archive</a>
-              </li>
-              <li className="py-2">
-                <a href="">Investor Relations</a>
-              </li>
-              <li className="py-2">
-                <a href="">Customer Service</a>
-              </li>
-              <li className="py-2">
-                <a href="">Contact us</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="lg:w-[190px]">
-          <h2>
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-5 font-medium gap-3"
-              onClick={() => toggleAccordion(2)}
+                <span className="lg:text-[1.3rem] lg:font-normal">
+                  {category.title}
+                </span>
+                <ArrowIcon isOpen={open === index} />
+              </button>
+            </h2>
+            <div
+              className={`overflow-hidden transition-opacity max-h-0 duration-300 ease-in-out ${
+                open === index
+                  ? "max-h-[500px] opacity-[1]"
+                  : "max-h-0 opacity-0"
+              } lg:max-h-none lg:opacity-100`}
             >
-              <span className="lg:text-[1.3rem] lg:font-normal">Careers</span>
-              <svg
-                className={`w-[32px] h-[32px] lg:hidden transition-transform ${
-                  open === 2 ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-              >
-                <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
-              </svg>
-            </button>
-          </h2>
-          <div
-            className={`p-5 transition-all duration-300 ${
-              open === 2 ? "block" : "hidden"
-            } lg:block`}
-          >
-            <ul className="text-gray-500 capitalize">
-              <li className="pb-2">
-                <a href="">Culture and Values</a>
-              </li>
-              <li className="py-2">
-                <a href="">Inclusion, Diversity and Equity</a>
-              </li>
-              <li className="py-2">
-                <a href="">College Achievement plan</a>
-              </li>
-              <li className="py-2">
-                <a href="">Alumni Community</a>
-              </li>
-              <li className="py-2">
-                <a href="">U.S. Careers</a>
-              </li>
-              <li className="py-2">
-                <a href="">International Careers</a>
-              </li>
-            </ul>
+              <ul className="text-gray-500 capitalize">
+                {category.links.map((link, i) => (
+                  <li className="py-2 px-5" key={i}>
+                    <a href="">{link}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="lg:w-[190px]">
-          <h2>
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-5 font-medium gap-3"
-              onClick={() => toggleAccordion(3)}
-            >
-              <span className="lg:text-[1.3rem] lg:font-normal">
-                Social Impact
-              </span>
-              <svg
-                className={`w-[32px] h-[32px] lg:hidden transition-transform ${
-                  open === 3 ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-              >
-                <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
-              </svg>
-            </button>
-          </h2>
-
-          <div
-            className={`p-5 transition-all duration-300 ${
-              open === 3 ? "block" : "hidden"
-            } lg:block`}
-          >
-            <ul className="text-gray-500 capitalize">
-              <li className="pb-2">
-                <a href="">People</a>
-              </li>
-              <li className="py-2">
-                <a href="">Planet</a>
-              </li>
-              <li className="py-2">
-                <a href="">Environmental and Social Impact Reporting</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="lg:w-[190px]">
-          <h2>
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-5 font-medium gap-3"
-              onClick={() => toggleAccordion(4)}
-            >
-              <span className="lg:whitespace-nowrap lg:text-[1.3rem] lg:font-normal">
-                For Business Partners
-              </span>
-              <svg
-                className={`w-[32px] h-[32px] lg:hidden transition-transform ${
-                  open === 4 ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-              >
-                <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
-              </svg>
-            </button>
-          </h2>
-
-          <div
-            className={`p-5 transition-all duration-300 ${
-              open === 4 ? "block" : "hidden"
-            } lg:block`}
-          >
-            <ul className="text-gray-500 capitalize">
-              <li className="pb-2">
-                <a href="">Landlord Support Center</a>
-              </li>
-              <li className="py-2">
-                <a href="">Suppliers</a>
-              </li>
-              <li className="py-2">
-                <a href="">Corporate Gift card sales</a>
-              </li>
-              <li className="py-2">
-                <a href="">Office and foodservice coffee</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="lg:w-[190px]">
-          <h2>
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-5 font-medium gap-3"
-              onClick={() => toggleAccordion(5)}
-            >
-              <span className="lg:text-[1.3rem] lg:whitespace-nowrap lg:font-normal">
-                Order and Pick Up
-              </span>
-              <svg
-                className={`w-[32px] h-[32px] lg:hidden transition-transform ${
-                  open === 5 ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-              >
-                <path d="M11.96 15.5c-.206 0-.402-.084-.546-.232l-5.188-5.33c-.3-.31-.3-.81 0-1.12.3-.31.79-.31 1.093 0l4.64 4.767 4.723-4.853c.3-.31.79-.31 1.09 0 .303.31.303.812.002 1.122l-5.27 5.414c-.145.148-.34.232-.546.232"></path>
-              </svg>
-            </button>
-          </h2>
-          <div
-            className={`p-5 transition-all duration-300 ${
-              open === 5 ? "block" : "hidden"
-            } lg:block`}
-          >
-            <ul className="text-gray-500 capitalize">
-              <li className="pb-2">
-                <a href="">Order on the App</a>
-              </li>
-              <li className="py-2">
-                <a href="">Order on the Web</a>
-              </li>
-              <li className="py-2">
-                <a href="">Delivery</a>
-              </li>
-              <li className="py-2">
-                <a href="">Order and pick up options</a>
-              </li>
-              <li className="py-2">
-                <a href="">Explore and find coffee for home</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        ))}
       </div>
       <hr className="my-[32px]" />
-      <ul className="flex flex-wrap gap-3 mx-4 lg:px-5">
+
+      <div className="md:max-w-[1350px] mx-auto">
+        <ul className="flex flex-wrap gap-3 mx-4 lg:px-5">
           <li>
             <a href="">
               <svg
@@ -366,22 +229,35 @@ function Footer() {
               </svg>
             </a>
           </li>
-      </ul>
-
-      <ul className="mt-[1.3rem] mx-4 lg:px-5 lg:text-[16px] font-normal">
-        <li className="py-[8px]"><a href="">Privacy Notice</a></li>
-        <li className="py-[8px]"><a href="">Consumer Health Privacy Notice</a></li>
-        <li className="py-[8px]"><a href="">Terms of Use</a></li>
-        <li className="py-[8px]"><a href="">Do Not Share My Personal Information</a></li>
-        <li className="py-[8px]"><a href="">CA Supply Chain Act</a></li>
-        <li className="py-[8px]"><a href="">Accessibility </a></li>
-        <li className="py-[8px]"><a href="">Cookie Preferences</a></li>
-      </ul>
-      
-      <p className="md:px-5 mx-4 py-[20px] text-[#00000094] text-[13px] md:text-[.9rem] font-semibold ">
-      © {new Date().getFullYear()} Starbucks Coffee Company. All rights
-      reserved.
-      </p>
+        </ul>
+        <ul className="mt-[1.3rem] mx-4 lg:px-5 lg:text-[16px] font-normal">
+          <li className="py-[8px]">
+            <a href="">Privacy Notice</a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">Consumer Health Privacy Notice</a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">Terms of Use</a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">Do Not Share My Personal Information</a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">CA Supply Chain Act</a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">Accessibility </a>
+          </li>
+          <li className="py-[8px]">
+            <a href="">Cookie Preferences</a>
+          </li>
+        </ul>
+        <p className="md:px-5 mx-4 py-[20px] h-[20vh] text-[#00000094] text-[13px] md:text-[.9rem] font-semibold ">
+          © {new Date().getFullYear()} Starbucks Coffee Company. All rights
+          reserved.
+        </p>
+      </div>
     </footer>
   );
 }

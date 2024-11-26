@@ -1,4 +1,3 @@
-import CoffeeAnimation from "../CoffeeAnimation"
 import MenuLists from "./MenuLists"
 
 function Featured() {

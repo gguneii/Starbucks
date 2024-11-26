@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
 import Basket from "./Basket";
@@ -118,6 +118,9 @@ function Menu() {
                                           ?.masterImage?.uri
                                       : d?.products[0]?.assets?.masterImage?.uri
                                   }
+                                  width="100%"
+                                  height="100%"
+                                  loading="lazy"
                                   alt="coffee_img"
                                 />
                               </div>
@@ -182,6 +185,9 @@ function Menu() {
                                           : d?.assets?.masterImage?.uri
                                       }
                                       alt="coffee_img"
+                                      width="100%"
+                                      height="100%"
+                                      loading="lazy"
                                     />
                                   </div>
                                   <h2 className="custom:text-[1rem] font-semibold mx-auto mt-4 lg:mt-6 text-center">

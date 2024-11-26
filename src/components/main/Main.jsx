@@ -7,9 +7,12 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row-reverse overflow-x-hidden ">
           <div className="image bg-[#00754a] flex-grow md:w-[60%]">
             <img
-              className="w-full block"
               src="/assets/st1.webp"
               alt="non-dairy drink"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
             />
           </div>
           <div className="content md:w-[40%] flex flex-col justify-center items-center bg-[#006241]">
@@ -23,7 +26,7 @@ function Main() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#004e34] border min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center font-semibold"
-                to={'menu'}
+                to={"menu"}
               >
                 Order now
               </Link>
@@ -33,8 +36,11 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row overflow-x-hidden ">
           <div className="image bg-[#d50032] flex-grow justify-center items-center flex md:w-[50%]">
             <img
-              className="w-full block"
               src="/assets/st2.jpg"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
               alt="non-dairy drink"
             />
           </div>
@@ -50,7 +56,7 @@ function Main() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center font-semibold"
-                to={'menu'}
+                to={"menu"}
               >
                 Order now
               </Link>
@@ -61,8 +67,11 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row-reverse overflow-x-hidden ">
           <div className="image bg-[#00754a] flex-grow md:w-[60%]">
             <img
-              className="w-full block"
               src="/assets/st3.jpg"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
               alt="non-dairy drink"
             />
           </div>
@@ -88,8 +97,11 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row overflow-x-hidden ">
           <div className="image bg-[#06ce8d] flex-grow justify-center items-center flex md:w-[60%]">
             <img
-              className="w-full block"
               src="/assets/st4.jpg"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
               alt="non-dairy drink"
             />
           </div>
@@ -103,7 +115,7 @@ function Main() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                to={'menu'}
+                to={"menu"}
               >
                 Order now
               </Link>
@@ -114,8 +126,11 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row-reverse overflow-x-hidden ">
           <div className="image bg-[#06ce8d] flex-grow justify-center items-center flex md:w-[50%]">
             <img
-              className="w-full block"
               src="/assets/st5.jpg"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
               alt="non-dairy drink"
             />
           </div>
@@ -130,7 +145,7 @@ function Main() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                to={'menu'}
+                to={"menu"}
               >
                 Order now
               </Link>
@@ -140,8 +155,11 @@ function Main() {
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row overflow-x-hidden">
           <div className="image bg-[#1e3932] flex-grow justify-center items-center flex md:w-[55%]">
             <img
-              className="w-full block"
               src="/assets/st6.jpg"
+              width="800"
+              height="450"
+              fetchpriority="high"
+              loading="lazy"
               alt="non-dairy drink"
             />
           </div>

@@ -7,19 +7,9 @@
   src: url("/sodo-sans/SoDoSans-Bold.woff") format("woff");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
-@font-face {
-  font-family: "SoDoSansReg";
-  src: url("/sodo-sans/SoDoSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "SoDoSansSemiBold";
-  src: url("/sodo-sans/SoDoSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
+
 .header,
 .main,
 .footer {

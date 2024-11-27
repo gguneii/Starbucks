@@ -11,6 +11,8 @@ import Rewards from "./components/main/Rewards"
 import GiftCards from "./components/main/GiftCards"
 import { useEffect } from "react"
 import ProductDetails from "./components/main/ProductDetails"
+import AuthLayout from "./layouts/AuthLayout"
+import MainAdmin from "./admin/MainAdmin"
 
 function App() {
 
@@ -31,6 +33,12 @@ function App() {
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/gifts" element={<GiftCards />} />
         <Route path="/location" element={<Location />} />
+      </Route>
+    </Routes>
+
+    <Routes>
+      <Route path="/signin" element={<AuthLayout />}>
+        <Route index element={<MainAdmin />}  />
       </Route>
     </Routes>
     </>

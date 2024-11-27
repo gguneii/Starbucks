@@ -1,24 +1,12 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React from 'react'
+import { Link, Outlet } from 'react-router-dom'
+import Footer from '../components/footer/Footer'
 
-function Header() {
-  const [menu, setMenu] = useState(false)
-  function toggleMenu(){
-    setMenu((prevMenu) => {
-      const isMenuOpen = !prevMenu
-      document.body.style.overflow = isMenuOpen ? "hidden" : "auto"
-      return isMenuOpen
-    })
-  }
-  function stopProp(e){
-    e.stopPropagation()
-  }
+function AuthLayout() {
   return (
     <>
-      <nav className="header border-b">
-        <div className="max-w-[1500px] mx-auto px-[16px] custom:px-[24px] lg:px-[30px]">
-          <div className="all-header flex items-center justify-between">
-            <div className="logo w-[85px] h-[64px] flex items-center">
+     <div className='header py-2 px-[16px] custom:px-[24px] lg:px-[30px]'>
+     <div className="logo w-[85px] h-[64px] flex items-center">
               <Link
                 className="block w-[32px] xxs:w-[40px] custom:w-[51px]"
                 to={'/'}
@@ -42,147 +30,12 @@ function Header() {
                   </g>
                 </svg>
               </Link>
-            </div>
-            
-            {
-              menu ? (
-                <button onClick={toggleMenu} className={`menu custom:hidden hover:bg-[#f0f0f0] rounded-full transition-colors ease-in-out duration-300 h-[44px] w-[44px] flex items-center justify-center ${
-                  menu ? "menu-icon open" : "menu-icon close"}`}>
-                  X
-                </button>
-              )
-              :
-              <button onClick={toggleMenu} className="menu custom:hidden hover:bg-[#f0f0f0] rounded-full transition-colors ease-in-out duration-300 h-[44px] w-[44px] flex items-center justify-center ">
-              <svg
-                fill="#00000094"
-                className="valign-middle absoluteCenter"
-                aria-hidden="true"
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-                width="24px"
-                height="24px"
-                loading="lazy"
-
-              >
-                <path
-                  className="sb-hamburgerButton-middleLine-CLOSED sb-hamburgerButton-animation"
-                  d="M21,12.9H3c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9h18c0.5,0,0.9,0.4,0.9,0.9S21.5,12.9,21,12.9z"
-                ></path>
-                <path
-                  className="sb-hamburgerButton-topLine-CLOSED sb-hamburgerButton-animation sb-hamburgerButton-animation-outer-lines"
-                  d="M21,6.9H3C2.5,6.9,2.1,6.5,2.1,6S2.5,5.1,3,5.1h18c0.5,0,0.9,0.4,0.9,0.9S21.5,6.9,21,6.9z"
-                ></path>
-                <path
-                  className="sb-hamburgerButton-bottomLine-CLOSED sb-hamburgerButton-animation sb-hamburgerButton-animation-outer-lines"
-                  d="M21,18.9H3c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9h18c0.5,0,0.9,0.4,0.9,0.9S21.5,18.9,21,18.9z"
-                ></path>
-              </svg>
-            </button>
-            }
-
-            <div className="hidden custom:flex flex-grow-[1]  justify-between items-center">
-              <ul className="header-lists flex justify-center items-center text-[0.9em] m-0 p-0 gap-[24px] font-soDoSans uppercase">
-                <li className="py-8 hover:text-[#00754a]">
-                  <NavLink to={"menu"} className="tracking-[0.1em]">
-                    Menu
-                  </NavLink>
-                </li>
-                <li className="hover:text-[#00754a] py-8">
-                  <NavLink to={"rewards"} className="tracking-[0.1em]">
-                    Rewards
-                  </NavLink>
-                </li>
-                <li className="hover:text-[#00754a] py-8">
-                  <NavLink to={"gifts"} className="tracking-[0.1em]">
-                    Gift Cards
-                  </NavLink>
-                </li>
-              </ul>
-
-              <div className="flex items-center">
-                <span className="header-lists text-[0.9em] block mr-[4rem] font-semibold ">
-                  <NavLink to={'location'} className='hover:text-[#00754a] hover:fill-[#00754a]'>
-                    <svg
-                      aria-hidden="true"
-                      className="align-middle pr-[0.5rem] inline-block"
-                      focusable="false"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 24 24"
-                      width="32px"
-                      height="32px"
-                  loading="lazy"
-                    >
-                      <path d="M12,11.475 C10.5214286,11.475 9.32142857,10.299 9.32142857,8.85 C9.32142857,7.401 10.5214286,6.225 12,6.225 C13.4785714,6.225 14.6785714,7.401 14.6785714,8.85 C14.6785714,10.299 13.4785714,11.475 12,11.475 M12,1.5 C7.85357143,1.5 4.5,4.7865 4.5,8.85 C4.5,14.3625 12,22.5 12,22.5 C12,22.5 19.5,14.3625 19.5,8.85 C19.5,4.7865 16.1464286,1.5 12,1.5"></path>
-                    </svg>
-                    Find a store
-                  </NavLink>
-                </span>
-
-                <Link
-                  className="border px-[16px] py-[7px] mr-[1.6rem] leading-[1.2] text-[0.9em] font-semibold border-black rounded-full hover:bg-[#eee]"
-                  to={"/signin"}
-                >
-                  Sign in
-                </Link>
-                <a
-                  className="border px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]"
-                  href=""
-                >
-                  Join now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      {
-        menu && (
-          <div onClick={toggleMenu} className="menubar fixed top-[65.1px] left-0 right-0 bottom-0  bg-black bg-opacity-40">
-          <div onClick={(e) =>stopProp(e)} className={`fixed custom:hidden bg-white h-[100vh] w-[80vw] !transition-transform ease-in-out duration-700 ${
-          menu ? "right-0" : "right-[-100%]"}`}>
-            <ul className="text-[1.4rem] mt-[32px] ">
-              <li className="">
-                <NavLink to={"menu"} onClick={toggleMenu} className="inline-block px-[2rem] py-[1.2rem]">Menu</NavLink>
-              </li>
-              <li className="">
-                <NavLink to={'rewards'} onClick={toggleMenu} className="inline-block px-[2rem] py-[.4rem]">Rewards</NavLink>
-              </li>
-              <li className="">
-                <NavLink to={'gifts'} onClick={toggleMenu}  className="inline-block px-[2rem] py-[1.2rem]">Gift Cards</NavLink>
-              </li>
-            </ul>
-            <hr className="pt-[16px] px-[32px] pb-[24px]" />
-            <div className="flex flex-col">
-              <div className="mx-[2rem] flex flex-wrap">
-              <a className="border px-[16px] py-[7px] mr-[1.6rem] leading-[1.2] text-[0.9em] font-semibold border-black rounded-full hover:bg-[#eee]" href="">Sign in</a>
-              <a className="border  px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]" href="">Join now</a>
-              </div>
-              <span className="text-[0.9em] block mx-[2rem] mt-[16px]  font-semibold ">
-                <NavLink onClick={toggleMenu} to={'location'} className='hover:text-[#00754a] hover:fill-[#00754a]'>
-                  <svg
-                    aria-hidden="true"
-                    className="align-middle pr-[0.5rem] inline-block"
-                    focusable="false"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                    width="32px"
-                    height="32px"
-                  loading="lazy"
-                  >
-                    <path d="M12,11.475 C10.5214286,11.475 9.32142857,10.299 9.32142857,8.85 C9.32142857,7.401 10.5214286,6.225 12,6.225 C13.4785714,6.225 14.6785714,7.401 14.6785714,8.85 C14.6785714,10.299 13.4785714,11.475 12,11.475 M12,1.5 C7.85357143,1.5 4.5,4.7865 4.5,8.85 C4.5,14.3625 12,22.5 12,22.5 C12,22.5 19.5,14.3625 19.5,8.85 C19.5,4.7865 16.1464286,1.5 12,1.5"></path>
-                  </svg>
-                  Find a store
-                </NavLink>
-              </span>
-              
-            </div>
-          </div>
-        </div>
-        )
-      }
-      </nav>
+     </div>
+     </div>
+     <Outlet />
+     <Footer /> 
     </>
-  );
+  )
 }
 
-export default Header
+export default AuthLayout

@@ -4,6 +4,7 @@ import Basket from "./Basket";
 
 function ProductDetails() {
   const [selectedVal, setSelectedVal] = useState("Water");
+  const [count, setCount] = useState(1);
   const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
   const handleChange = (e) => {
     setSelectedVal(e.target.value);
@@ -19,6 +20,7 @@ function ProductDetails() {
       behavior: "smooth",
     });
   }, [pathname]);
+  
 
   return (
     <main className="">
@@ -66,7 +68,7 @@ function ProductDetails() {
             <fieldset className="flex items-center justify-center gap-8">
               <label className="flex flex-col items-center justify-center  h-[104px] text-center">
                 <div className="">
-                  <img src="/assets/short.svg" alt="" />
+                  <img loading="lazy" src="/assets/short.svg" alt="short" />
                 </div>
                 <p className="font-semibold text-[14px] py-1 md:text-[17px]">
                   Short
@@ -74,21 +76,21 @@ function ProductDetails() {
                 <p className="text-[14px] md:text-[15px] ">8 fl oz</p>
               </label>
               <label className="flex flex-col items-center justify-center  h-[104px] text-center">
-                <img src="/assets/tall.svg" alt="" />
+                <img loading="lazy" src="/assets/tall.svg" alt="tall" />
                 <p className="font-semibold text-[14px] py-1 md:text-[17px]">
                   Tall
                 </p>
                 <p className="text-[14px] md:text-[15px] ">12 fl oz</p>
               </label>
               <label className="flex flex-col items-center justify-center h-[104px] text-center">
-                <img src="/assets/grande.svg" alt="" />
+                <img loading="lazy" src="/assets/grande.svg" alt="grande" />
                 <p className="font-semibold text-[14px] py-1 md:text-[17px]">
                   Grande
                 </p>
                 <p className="text-[14px] md:text-[15px] ">16 fl oz</p>
               </label>
               <label className="flex flex-col items-center justify-center h-[104px] text-center">
-                <img src="/assets/venti.svg" alt="" />
+                <img loading="lazy" src="/assets/venti.svg" alt="venti" />
                 <p className="font-semibold text-[14px] py-1 md:text-[17px]">
                   Venti
                 </p>
@@ -193,10 +195,13 @@ function ProductDetails() {
               <div className="flex justify-between">
                 <p className="w-full md:text-[1.3rem]">Shots</p>
                 <div className="flex items-center">
-                  <button>
-                    <svg
+                  <button
+                    onClick={() => setCount( count - 1)}
+                  >
+                    {
+                      <svg
                       aria-hidden="true"
-                      className="w-[24px] h-[24px] fill-[#00754a]"
+                      className={`${count === 1 ? "hidden" : "block"} w-[24px] h-[24px] fill-[#00754a] `}
                       focusable="false"
                       preserveAspectRatio="xMidYMid meet"
                       viewBox="0 0 24 24"
@@ -205,9 +210,10 @@ function ProductDetails() {
                       <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
                       <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
                     </svg>
+                    }
                   </button>
-                  <span className="px-2">4</span>
-                  <button>
+                  <span className="px-2">{count}</span>
+                  <button onClick={() => setCount(count + 1)}>
                     <svg
                       aria-hidden="true"
                       className="w-[24px] h-[24px] fill-[#00754a]"
@@ -215,7 +221,6 @@ function ProductDetails() {
                       preserveAspectRatio="xMidYMid meet"
                       viewBox="0 0 24 24"
                       loading="lazy"
-
                     >
                       <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
                       <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>

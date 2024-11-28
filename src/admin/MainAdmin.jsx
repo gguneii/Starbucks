@@ -104,7 +104,7 @@ function MainAdmin() {
                 focusable="false"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 24 24"
-                lazy="loading"
+                loading="lazy"
               >
                 <path d="M4.29 12.104c-.277-.308-.75-.332-1.06-.054-.306.278-.33.752-.053 1.06l4.485 4.963c.29.322.795.33 1.096.017L20.414 6.003c.288-.298.28-.773-.02-1.06-.297-.288-.772-.28-1.06.02L8.237 16.47 4.29 12.105z"></path>
               </svg>

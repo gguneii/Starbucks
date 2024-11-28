@@ -5,12 +5,17 @@ import Basket from "./Basket";
 function ProductDetails() {
   const [selectedVal, setSelectedVal] = useState("Water");
   const [count, setCount] = useState(1);
+  const [size, setSize] = useState("Grande");
   const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
   const handleChange = (e) => {
     setSelectedVal(e.target.value);
   };
   const handleChange2 = (e) => {
     setSelectedVal2(e.target.value);
+  };
+
+  const chooseSize = (selectedSize) => {
+    setSize(selectedSize);
   };
   const { pathname } = useLocation();
   useEffect(() => {
@@ -20,7 +25,6 @@ function ProductDetails() {
       behavior: "smooth",
     });
   }, [pathname]);
-  
 
   return (
     <main className="">
@@ -65,37 +69,40 @@ function ProductDetails() {
             </h2>
           </div>
           <form className="mt-10">
+ 
             <fieldset className="flex items-center justify-center gap-8">
-              <label className="flex flex-col items-center justify-center  h-[104px] text-center">
-                <div className="">
-                  <img loading="lazy" src="/assets/short.svg" alt="short" />
-                </div>
-                <p className="font-semibold text-[14px] py-1 md:text-[17px]">
-                  Short
-                </p>
-                <p className="text-[14px] md:text-[15px] ">8 fl oz</p>
-              </label>
-              <label className="flex flex-col items-center justify-center  h-[104px] text-center">
-                <img loading="lazy" src="/assets/tall.svg" alt="tall" />
-                <p className="font-semibold text-[14px] py-1 md:text-[17px]">
-                  Tall
-                </p>
-                <p className="text-[14px] md:text-[15px] ">12 fl oz</p>
-              </label>
-              <label className="flex flex-col items-center justify-center h-[104px] text-center">
-                <img loading="lazy" src="/assets/grande.svg" alt="grande" />
-                <p className="font-semibold text-[14px] py-1 md:text-[17px]">
-                  Grande
-                </p>
-                <p className="text-[14px] md:text-[15px] ">16 fl oz</p>
-              </label>
-              <label className="flex flex-col items-center justify-center h-[104px] text-center">
-                <img loading="lazy" src="/assets/venti.svg" alt="venti" />
-                <p className="font-semibold text-[14px] py-1 md:text-[17px]">
-                  Venti
-                </p>
-                <p className="text-[14px] md:text-[15px] ">20 fl oz</p>
-              </label>
+              {[
+                { name: "Short", size: "8 fl oz", img: "/assets/short.svg", imgActive:"/assets/shortactive.svg" },
+                { name: "Tall", size: "12 fl oz", img: "/assets/tall.svg", imgActive:"/assets/tallactive.svg" },
+                { name: "Grande", size: "16 fl oz", img: "/assets/grande.svg", imgActive:"/assets/grandeactive.svg" },
+                { name: "Venti", size: "20 fl oz", img: "/assets/venti.svg", imgActive:"/assets/ventiavtive.svg" },
+              ].map((item) => (
+                <label
+                  key={item.name}
+                  onClick={() => chooseSize(item.name)}
+                  className={`flex flex-col items-center justify-center cursor-pointer h-[104px] text-center`}
+                >
+                  <img
+                    loading="lazy"
+                  src= {
+                      size === item.name ?
+                      item.imgActive : 
+                      item.img
+
+                    }
+                    alt={item.name}
+                    className={`w-[45px] h-[45px]  object-contain ${
+                      size === item.name
+                        ? "outline outline-2 outline-[#00754a] outline-offset-2 rounded-full bg-[#f0f7f5] transition-all" // Aktiv olarkən tətbiq olunan siniflər
+                        : ""
+                    }`}
+                  />
+                  <p className="font-semibold text-[14px] py-1 md:text-[17px]">
+                    {item.name}
+                  </p>
+                  <p className="text-[14px] md:text-[15px] ">{item.size}</p>
+                </label>
+              ))}
             </fieldset>
           </form>
         </div>
@@ -195,21 +202,21 @@ function ProductDetails() {
               <div className="flex justify-between">
                 <p className="w-full md:text-[1.3rem]">Shots</p>
                 <div className="flex items-center">
-                  <button
-                    onClick={() => setCount( count - 1)}
-                  >
+                  <button onClick={() => setCount(count - 1)}>
                     {
                       <svg
-                      aria-hidden="true"
-                      className={`${count === 1 ? "hidden" : "block"} w-[24px] h-[24px] fill-[#00754a] `}
-                      focusable="false"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 24 24"
-                      loading="lazy"
-                    >
-                      <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
-                      <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
-                    </svg>
+                        aria-hidden="true"
+                        className={`${
+                          count === 1 ? "hidden" : "block"
+                        } w-[24px] h-[24px] fill-[#00754a] `}
+                        focusable="false"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                        loading="lazy"
+                      >
+                        <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                        <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                      </svg>
                     }
                   </button>
                   <span className="px-2">{count}</span>

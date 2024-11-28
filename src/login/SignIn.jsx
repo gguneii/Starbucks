@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function MainAdmin() {
+function SignIn() {
   const [checked, setChecked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -158,4 +158,4 @@ function MainAdmin() {
   );
 }
 
-export default MainAdmin;
+export default SignIn;

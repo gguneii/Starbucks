@@ -9,11 +9,10 @@ import Previous from "./components/main/Previous"
 import Favorites from "./components/main/Favorites"
 import Rewards from "./components/main/Rewards"
 import GiftCards from "./components/main/GiftCards"
-import { useEffect } from "react"
 import ProductDetails from "./components/main/ProductDetails"
 import AuthLayout from "./layouts/AuthLayout"
-import MainAdmin from "./admin/MainAdmin"
-import SignUp from "./admin/SignUp"
+import SignUp from "./login/SignUp"
+import SignIn from "./login/SignIn"
 
 function App() {
 
@@ -39,7 +38,7 @@ function App() {
 
     <Routes>
       <Route path="/"  element={<AuthLayout />}>
-        <Route path="/signin" element={<MainAdmin />}  />
+        <Route path="/signin" element={<SignIn />}  />
         <Route path="/signup" element={<SignUp />}  />
       </Route>
     </Routes>

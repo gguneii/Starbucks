@@ -13,6 +13,7 @@ import { useEffect } from "react"
 import ProductDetails from "./components/main/ProductDetails"
 import AuthLayout from "./layouts/AuthLayout"
 import MainAdmin from "./admin/MainAdmin"
+import SignUp from "./admin/SignUp"
 
 function App() {
 
@@ -37,8 +38,9 @@ function App() {
     </Routes>
 
     <Routes>
-      <Route path="/signin" element={<AuthLayout />}>
-        <Route index element={<MainAdmin />}  />
+      <Route path="/"  element={<AuthLayout />}>
+        <Route path="/signin" element={<MainAdmin />}  />
+        <Route path="/signup" element={<SignUp />}  />
       </Route>
     </Routes>
     </>

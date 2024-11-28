@@ -125,12 +125,12 @@ function Header() {
                 >
                   Sign in
                 </Link>
-                <a
+                <Link
                   className="border px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]"
-                  href=""
+                  to={"/signup"}
                 >
                   Join now
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -154,8 +154,10 @@ function Header() {
             <hr className="pt-[16px] px-[32px] pb-[24px]" />
             <div className="flex flex-col">
               <div className="mx-[2rem] flex flex-wrap">
-              <a className="border px-[16px] py-[7px] mr-[1.6rem] leading-[1.2] text-[0.9em] font-semibold border-black rounded-full hover:bg-[#eee]" href="">Sign in</a>
-              <a className="border  px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]" href="">Join now</a>
+              <Link to={"/signin"}
+               className="border px-[16px] py-[7px] mr-[1.6rem] leading-[1.2] text-[0.9em] font-semibold border-black rounded-full hover:bg-[#eee]">Sign in</Link>
+              <Link to={"/signup"}
+              className="border  px-[16px] py-[7px] leading-[1.2] text-[0.9em] font-semibold border-black bg-black text-white rounded-full hover:bg-[#333]">Join now</Link>
               </div>
               <span className="text-[0.9em] block mx-[2rem] mt-[16px]  font-semibold ">
                 <NavLink onClick={toggleMenu} to={'location'} className='hover:text-[#00754a] hover:fill-[#00754a]'>

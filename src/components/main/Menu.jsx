@@ -90,49 +90,49 @@ function Menu() {
             </h1>
 
             {selectedCategory === null ? (
-              data && (
-                data.map((item, i) => {
-                  return (
-                    <section className="right-side" key={i} id={item.name}>
-                      <h2 className="font-soDoSans text-[1.1rem] custom:text-[1.5rem] mt-5 lg:mt-6">
-                        {item.name}
-                      </h2>
-                      <hr className="block my-[1rem]" />
+              data &&
+              data.map((item, i) => {
+                return (
+                  <section className="right-side" key={i} id={item.name}>
+                    <h2 className="font-soDoSans text-[1.1rem] custom:text-[1.5rem] mt-5 lg:mt-6">
+                      {item.name}
+                    </h2>
+                    <hr className="block my-[1rem]" />
 
-                      <div className="flex flex-col custom:flex-row flex-wrap custom:gap-6">
-                        {item.children.map((d, i) => {
-                          return (
-                            <Link
-                              to={`/menu/${item.name.toLowerCase()}/${d.name.toLowerCase()}`}
-                              key={i}
-                              className="flex items-center custom:w-[300px] lg:w-[350px] xl:w-[400px] 2xl:w-[500px]"
-                            >
-                              <div className="max-w-[70px] w-full h-[70px] lg:max-w-[112px] lg:h-[112px] mr-3 mt-3 rounded-full overflow-hidden flex items-center justify-center">
-                                <img
-                                  className="max-w-[165px] w-full h-[165px] lg:max-w-[200px] lg:h-[200px] object-cover object-center"
-                                  onError={(e) => {e.target.src ="/assets/errImg.webp"}}
-                                  src={
-                                    
-                                    d?.children[0]
-                                      ? d?.children[0]?.products[0]?.assets
-                                          ?.masterImage?.uri
-                                      : d?.products[0]?.assets?.masterImage?.uri
-                                  }
-                                  width="100%"
-                                  height="100%"
-                                  loading="lazy"
-                                  alt="coffee_img"
-                                />
-                              </div>
-                              <h3 className="xl:text-[20px]">{d.name}</h3>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </section>
-                  );
-                })
-              )
+                    <div className="flex flex-col custom:flex-row flex-wrap custom:gap-6">
+                      {item.children.map((d, i) => {
+                        return (
+                          <Link
+                            to={`/menu/${item.name.toLowerCase()}/${d.name.toLowerCase()}`}
+                            key={i}
+                            className="flex items-center custom:w-[300px] lg:w-[350px] xl:w-[400px] 2xl:w-[500px]"
+                          >
+                            <div className="max-w-[70px] w-full h-[70px] lg:max-w-[112px] lg:h-[112px] mr-3 mt-3 rounded-full overflow-hidden flex items-center justify-center">
+                              <img
+                                className="max-w-[165px] w-full h-[165px] lg:max-w-[200px] lg:h-[200px] object-cover object-center"
+                                onError={(e) => {
+                                  e.target.src = "/assets/errImg.webp";
+                                }}
+                                src={
+                                  d?.children[0]
+                                    ? d?.children[0]?.products[0]?.assets
+                                        ?.masterImage?.uri
+                                    : d?.products[0]?.assets?.masterImage?.uri
+                                }
+                                width="100%"
+                                height="100%"
+                                loading="lazy"
+                                alt="coffee_img"
+                              />
+                            </div>
+                            <h3 className="xl:text-[20px]">{d.name}</h3>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })
             ) : (
               <section className="right-side">
                 <h2 className="font-soDoSans text-[1.3rem] custom:text-[1.5rem] lg:text-[2rem] tracking-wide mt-5">
@@ -150,40 +150,28 @@ function Menu() {
                     ? selectedCategory.children
                     : selectedCategory?.products
                   )?.map((d, i) => {
-                    // console.log("subCategory:", d);
-
                     return (
-                      <Link
-                        // to={`/menu/${selectedCategory.name}/${d.name}`}
-                        to={'/menu/product'}
-                        key={i}
-                        className="flex w-full items-center "
-                      >
-                        {/* burda idi img  */}
+                      <div key={i} className="flex w-full items-center">
                         <div className="xl:text-[20px] w-full">
                           <div className="font-soDoSans text-[1.1rem] custom:text-[1.5rem] mt-5 lg:mt-8">
                             {d.products ? d.name : ""}
                           </div>
                           <hr className="block w-full my-[1rem]" />
-
                           <div className="grid grid-cols-2 sm:grid-cols-3 custom:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 w-full">
-                            {(d?.products || [d])?.map((p, i) => {
-                              // console.log(" subcat ve prodd :", d, p);
-
+                            {(d?.products || [d])?.map((p, j) => {
                               return (
-                                <div
-                                  key={i}
+                                <Link
+                                  to={`/menu/product/${p.productNumber}/${p.formCode}`}
+                                  key={j}
                                   className="w-[50%] justify-start flex flex-col mt-6 flex-wrap"
                                 >
                                   <div className="w-[120px] mx-auto h-[120px] lg:w-[140px] lg:h-[140px] mt-3 rounded-full overflow-hidden flex items-center justify-center">
                                     <img
-                                      onError={(e) => {e.target.src ="/assets/errImg.webp"}}
+                                      onError={(e) => {
+                                        e.target.src = "/assets/errImg.webp";
+                                      }}
                                       className="scale-[2] w-full h-full lg:scale-[2.3] object-cover object-center"
-                                      src={
-                                        d?.products
-                                          ? p?.assets?.masterImage?.uri
-                                          : d?.assets?.masterImage?.uri
-                                      }
+                                      src={p?.assets?.masterImage?.uri}
                                       alt="coffee_img"
                                       width="100%"
                                       height="100%"
@@ -191,14 +179,14 @@ function Menu() {
                                     />
                                   </div>
                                   <h2 className="custom:text-[1rem] font-semibold mx-auto mt-4 lg:mt-6 text-center">
-                                    {d.products ? p.name : d.name}
+                                    {p.name}
                                   </h2>
-                                </div>
+                                </Link>
                               );
                             })}
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>

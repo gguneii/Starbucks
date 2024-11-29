@@ -26,7 +26,7 @@ function App() {
         <Route index element={<Main />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/menu/:name/:subname" element={<Menu />} />
-        <Route path="/menu/product" element={<ProductDetails />} />
+        <Route path="/menu/product/:id/:temp" element={<ProductDetails />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/previous" element={<Previous />} />
         <Route path="/favorites" element={<Favorites />} />

@@ -4,8 +4,11 @@ import { DATA } from "../../context/DataContext";
 function Customize({ handleCustomize, size }) {
   const { details } = useContext(DATA);
   const [count, setCount] = useState(3);
-  const [option, setOption] = useState("");
-
+  
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+  
   useEffect(() => {
     if (size === "Short") {
       setCount(2);
@@ -19,48 +22,74 @@ function Customize({ handleCustomize, size }) {
       setCount(5);
     }
   }, [details, size]);
-
-  const [fields, setFields] = useState({}); // Dinamik olaraq əlavə olunan sahələri saxlamaq üçün state
-
-  const handleOptionClick = (index, selectedProduct) => {
+  
+  const [fields, setFields] = useState({});
+  const [renderedFields, setRenderedFields] = useState([]);
+  
+  
+  const chooseOption = (index, fieldIndex, e) => {
     setFields((prevFields) => {
-      const updatedFields = { ...prevFields }; // Mövcud state-in klonu
-
-      if (!updatedFields[index]) {
-        updatedFields[index] = []; // Yeni massiv əlavə edilir
+      const updatedFields = { ...prevFields };
+      
+      if (updatedFields[index]) {
+        updatedFields[index] = updatedFields[index].map((field, idx) => {
+          if (idx === fieldIndex) {
+            return { ...field, selectedOption: e.target.value };
+          }
+          return field;
+        });
       }
-
+      
+      return updatedFields;
+    });
+  };
+  const [selectedOption, setSelectedOption] = useState("");
+  
+  const handleOptionClick = (index, selectedProduct) => {
+    const selectedName = selectedProduct.form?.name;
+    
+    setFields((prevFields) => {
+      const updatedFields = { ...prevFields };
+      
       updatedFields[index] = [
-        ...(updatedFields[index] || []), // Mövcud dəyərləri qorumaq
+        ...(updatedFields[index]?.filter(
+          (field) => field.label !== selectedName
+        ) || []),
         {
           type: "select",
-          label: selectedProduct.form.name,
-          options: selectedProduct.form.sizes || [],
-          selectedOption: "", // İlk olaraq boş bir dəyər
+          label: selectedName,
+          options: selectedProduct.form?.sizes || [],
+          selectedOption: "",
         },
       ];
 
       return updatedFields;
     });
+
+    setRenderedFields((prev) =>
+      prev.filter(
+        (field) => !(field.index === index && field.option === selectedName)
+      )
+    );
   };
 
-  const chooseOption = (index, fieldIndex, e) => {
-    setFields((prevFields) => {
-      const updatedFields = { ...prevFields }; // Mövcud state-in klonu
 
-      if (updatedFields[index]) {
-        updatedFields[index] = updatedFields[index].map((field, idx) => {
-          if (idx === fieldIndex) {
-            // Seçim yalnız müvafiq field üçün dəyişdirilir
-            return { ...field, selectedOption: e.target.value };
-          }
-          return field; // Digər sahələr olduğu kimi qalır
-        });
-      }
-
-      return updatedFields; // Yenilənmiş state
-    });
+  const handleCombinedChange = (e, index, child, hasSingleOption) => {
+    if (hasSingleOption) {
+      const singleProduct = child.products[0];
+      const selectedSize =
+        singleProduct.form?.sizes[e.target.selectedIndex]?.name || "";
+      setSelectedOption(selectedSize); 
+      console.log("Selected Size:", selectedSize); 
+    } else {
+      const selectedProduct = child.products[e.target.selectedIndex];
+      const selectedName = selectedProduct?.form?.name || "";
+      handleOptionClick(index, selectedProduct);
+      setSelectedOption(selectedName); 
+      console.log("Selected Name:", selectedName); 
+    }
   };
+  
 
   return (
     <>
@@ -91,52 +120,66 @@ function Customize({ handleCustomize, size }) {
                       {item.name}
                     </h2>
                     <div className="products">
-                      {item.children.map((child, idx) => (
-                        <div
-                          className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8"
-                          key={idx}
-                        >
-                          <select
-                            onChange={(e) =>
-                              handleOptionClick(
-                                index,
-                                child.products[e.target.selectedIndex]
-                              )
-                            }
-                            className="w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"
-                            name="name"
-                            id="name"
+                      {item.children.map((child, idx) => {
+                        const hasSingleOption = child.products.length === 1;
+                        const isEmpty = child.products.length === 0;
+
+                        if (isEmpty) return null;
+
+                        // console.log(child.products);
+                        return (
+                          <div
+                            className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8"
+                            key={idx}
                           >
-                            {child.products.map((p, id) => {
-                              // console.log("child", child);
-
-                              // console.log("p:", p.form.sizes);
-
-                              return (
-                                <option value={p.form.name} key={id}>
-                                  {p.form.name}
-                                </option>
-                              );
-                            })}
-                          </select>
-                          <span className="flex justify-between">
-                            <span className="md:text-[1.3rem]">
-                              Add {child.name}
-                            </span>
-                            <svg
-                              aria-hidden="true"
-                              className="w-[24px] h-[24px] fill-[#00754a]"
-                              focusable="false"
-                              preserveAspectRatio="xMidYMid meet"
-                              viewBox="0 0 24 24"
-                              loading="lazy"
+                            <select
+                              onChange={(e) =>
+                                handleCombinedChange(e, index, child, hasSingleOption)
+                              }
+                              className="w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"
+                              name="name"
+                              id="name"
+                              value={selectedOption}
                             >
-                              <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                              <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                            </svg>
-                          </span>
-                        </div>
-                      ))}
+                              {hasSingleOption &&
+                                child.products[0]?.form?.sizes?.map(
+                                  (item, i) => (
+                                    <option key={i} value={item.name}>
+                                      {item.name}
+                                    </option>
+                                  )
+                                )}
+
+                              {!hasSingleOption &&
+                                child.products.map((p, id) =>
+                                  p.form ? (
+                                    <option value={p.form.name} key={id}>
+                                      {p.form.name}
+                                    </option>
+                                  ) : null
+                                )}
+                            </select>
+                            <span className="flex justify-between">
+                              <span className="md:text-[1.3rem]">
+                                {hasSingleOption
+                                  ? child.products[0].form.name
+                                  : `Add ${child.name}`}
+                              </span>
+                              <svg
+                                aria-hidden="true"
+                                className="w-[24px] h-[24px] fill-[#00754a]"
+                                focusable="false"
+                                preserveAspectRatio="xMidYMid meet"
+                                viewBox="0 0 24 24"
+                                loading="lazy"
+                              >
+                                <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                                <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                              </svg>
+                            </span>
+                          </div>
+                        );
+                      })}
 
                       {fields[index] &&
                         fields[index].map((field, fieldIndex) => {
@@ -177,11 +220,11 @@ function Customize({ handleCustomize, size }) {
                                   </span>
                                 </div>
                               ) : (
-                                <div className="flex w-full shadow-[0_0_0_1px_#00000094] rounded-lg overflow-hidden justify-between">
+                                <div className="flex w-full py-1 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg overflow-hidden justify-between">
                                   <div>
                                     <input
                                       type="text"
-                                      className="w-full md:text-[1.2rem]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none px-[16px] py-[12px] md:py-[8px]"
+                                      className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none px-[16px] py-[12px] md:py-[8px]"
                                       placeholder="Enter option"
                                       value={options[0]?.name || ""}
                                       readOnly

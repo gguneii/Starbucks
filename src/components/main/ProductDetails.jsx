@@ -16,7 +16,7 @@ function ProductDetails() {
   const [calory, setCalory] = useState(15);
   const [count, setCount] = useState(3);
   const [size, setSize] = useState("Grande");
-  
+
   useEffect(() => {
     if (size === "Short") {
       setCalory(5);
@@ -375,7 +375,7 @@ function ProductDetails() {
             </div>
           </div>
         ) : (
-         <Customize handleCustomize={handleCustomize} />
+         <Customize handleCustomize={handleCustomize} size={size} />
         )}
 
         <div className="mt-[3rem] bg-[#1e3932]">

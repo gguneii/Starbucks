@@ -115,7 +115,7 @@ function Customize({ handleCustomize, size }) {
         </svg>
         Done Customizing
       </button>
-      <div className="Customizee flex justify-center lg:max-w-[1250px] mx-auto">
+      <div className="Customizee flex justify-center px-3 lg:max-w-[1250px] mx-auto">
         {details?.productOptions && (
           <>
             <div className="left-sided flex flex-wrap justify-center w-full lg:mr-[40px] gap-20">

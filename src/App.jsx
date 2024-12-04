@@ -37,7 +37,7 @@ function App() {
     </Routes>
 
     <Routes>
-      <Route path="/"  element={<AuthLayout />}>
+      <Route element={<AuthLayout />}>
         <Route path="/signin" element={<SignIn />}  />
         <Route path="/signup" element={<SignUp />}  />
       </Route>

@@ -485,8 +485,8 @@ function Rewards() {
                   </p>
                 </div>
               </SwiperSlide>
-              <div className="swiper-button-prev" />
-              <div className="swiper-button-next" />
+                <div className="swiper-button-prev" />
+                <div className="swiper-button-next" />
             </Swiper>
           </div>
         </div>

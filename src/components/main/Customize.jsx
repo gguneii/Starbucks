@@ -4,34 +4,59 @@ import { DATA } from "../../context/DataContext";
 function Customize({ handleCustomize, size }) {
   const { details } = useContext(DATA);
   const [count, setCount] = useState(3);
+  const [countInp, setCountInp] = useState([])
   const [checked, setChecked] = useState(false);
   const [fields, setFields] = useState({});
   const [renderedFields, setRenderedFields] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedSpecialFields, setSelectedSpecialFields] = useState({});
 
+  const { pathname } = useLocation();
+  ScrollTo(pathname, 0);
+
   function rememberPass(e) {
     setChecked(e.target.checked);
   }
 
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
+  const handleIncrement = (index) => {
+    setCountInp((prev) => {
+      const newCounts = [...prev];
+      newCounts[index] = (newCounts[index] || 1) + 1; // İndeksi artır
+      return newCounts;
+    });
   };
+  
+  const handleDecrement = (index) => {
+    setCountInp((prev) => {
+      const newCounts = [...prev];
+      newCounts[index] = Math.max((newCounts[index] || 1) - 1, 1); // Minimum 1-ə qədər azaldın
+      return newCounts;
+    });
+  };
+  
 
   useEffect(() => {
-    if (size === "Short") {
-      setCount(2);
-    } else if (size === "Tall") {
-      setCount(3);
-    } else if (size === "Grande") {
-      setCount(4);
-    } else if (size === "Venti") {
-      setCount(5);
-    } else if (size === "Trenta") {
-      setCount(5);
+    const sizeMapping = {
+      Short: { count: 1, countInp: 2 },
+      Tall: { count: 2, countInp: 3 },
+      Grande: { count: 3, countInp: 4 },
+      Venti: { count: 4, countInp: 5 },
+      Trenta: { count: 4, countInp: 5 },
+    };
+  
+    const newSize = sizeMapping[size];
+    if (newSize) {
+      setCount(newSize.count);
+      setCountInp((prev) => {
+        const newCounts = [...prev];
+        // Məsələn: `details`-ə uyğun olaraq 0-cı elementi dəyişdir
+        newCounts[0] = newSize.countInp; 
+        return newCounts;
+      });
     }
   }, [details, size]);
-
+  
+  
   const chooseOption = (index, fieldIndex, e) => {
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
@@ -88,9 +113,10 @@ function Customize({ handleCustomize, size }) {
       setSizeOptions((prev) => {
         const newSizeOptions = [...prev];
         newSizeOptions[index] = selectedSize; // Sadece ilgili index'i güncelle
-        return newSizeOptions;
+        return newSizeOptions; 
       });
-  
+      console.log("sizeOptionsss:", sizeOptions[index]);
+      
       console.log("Selected Size:", selectedSize);
     } else {
       const selectedProduct = child.products[e.target.selectedIndex];
@@ -143,6 +169,10 @@ function Customize({ handleCustomize, size }) {
 
                         if (isEmpty) return null;
 
+                        // console.log(sizeOptions[index]);
+                        
+                        
+
                         return (
                           <div className="" key={idx}>
                             {child.name === "Chai Teas" ||
@@ -187,7 +217,42 @@ function Customize({ handleCustomize, size }) {
                                     </span>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center px-4">
+                                  child.name === "Espresso Shots" ? (
+                                    <div className="flex items-center px-4">
+                                    <button onClick={() => setCount(Math.max(count - 1, 1))}>
+                                      {
+                                        <svg
+                                          aria-hidden="true"
+                                          className={`${
+                                            count === 1 ? "hidden" : "block"
+                                          } w-[24px] h-[24px] fill-[#00754a] `}
+                                          focusable="false"
+                                          preserveAspectRatio="xMidYMid meet"
+                                          viewBox="0 0 24 24"
+                                          loading="lazy"
+                                        >
+                                          <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                          <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                                        </svg>
+                                      }
+                                    </button>
+                                    <span className="px-2">{count}</span>
+                                    <button onClick={() => setCount(count + 1)}>
+                                      <svg
+                                        aria-hidden="true"
+                                        className="w-[24px] h-[24px] fill-[#00754a]"
+                                        focusable="false"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 24 24"
+                                        loading="lazy"
+                                      >
+                                        <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                        <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  ) : (
+                                    <div className="flex items-center px-4">
                                     <button>
                                       {
                                         <svg
@@ -218,6 +283,7 @@ function Customize({ handleCustomize, size }) {
                                       </svg>
                                     </button>
                                   </div>
+                                  )
                                 )}
                               </div>
                             ) : (
@@ -233,9 +299,9 @@ function Customize({ handleCustomize, size }) {
                                     )
                                   }
                                  value={hasSingleOption ? sizeOptions[index] || "" : selectedOption || ""}
-                                  className={"w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"}
-                                  name={`select-${index}`} // Unique name for each select
-                                  id={`select-${index}`} // Unique id for each selec
+                                  className={`w-full opacity-0 appearance-none absolute inset-0 h-full outline-none`}
+                                  name={`select-${index}`} 
+                                  id={`select-${index}`} 
                                 >
                                   {hasSingleOption &&
                                     child.products[0]?.form?.sizes?.map(
@@ -257,7 +323,7 @@ function Customize({ handleCustomize, size }) {
                                 </select>
 
                                 <span className="flex justify-between">
-                                  <span className="md:text-[1.3rem]">
+                                  <span className="md:text-[1.3rem] opacity-100">
                                     {hasSingleOption
                                       ? sizeOptions[index] ||
                                         child.products[0].form.name
@@ -286,15 +352,21 @@ function Customize({ handleCustomize, size }) {
                           const { options = [] } = field;
                           // console.log(item.name );
 
-                          // const isSpecialField = [
-                          //   "Espresso & Shot Options",
-                          //   "Sweeteners",
-                          //   "Cup Options"
-                          // ].includes(item.name);
-
+                          const isSpecialField = [
+                            "Espresso & Shot Options",
+                            "Sweeteners",
+                            "Cup Options"
+                          ].includes(item.name);
+                          console.log(item.name);
+                          
+                          
+                          if(isSpecialField){
+                            return null
+                          }
+                      
                           return (
                             <div key={fieldIndex} className="my-4">
-                              {options.length > 2 ? (
+                              {options.length > 2 && !isSpecialField ? (
                                 <div className="shadow-[0_0_0_1px_#00000094]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                   <select
                                     onChange={(e) =>
@@ -340,14 +412,14 @@ function Customize({ handleCustomize, size }) {
                                   <div className="flex items-center px-4">
                                     <button
                                       onClick={() =>
-                                        setCount(Math.max(count - 1, 1))
+                                        handleDecrement(index)
                                       }
                                     >
                                       {
                                         <svg
                                           aria-hidden="true"
                                           className={`${
-                                            count === 1 ? "hidden" : "block"
+                                            countInp === 1 ? "hidden" : "block"
                                           } w-[24px] h-[24px] fill-[#00754a] `}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
@@ -359,8 +431,8 @@ function Customize({ handleCustomize, size }) {
                                         </svg>
                                       }
                                     </button>
-                                    <span className="px-2">{count}</span>
-                                    <button onClick={() => setCount(count + 1)}>
+                                    <span className="px-2">{countInp[index] ||1}</span>
+                                    <button onClick={() => handleIncrement(index)}>
                                       <svg
                                         aria-hidden="true"
                                         className="w-[24px] h-[24px] fill-[#00754a]"

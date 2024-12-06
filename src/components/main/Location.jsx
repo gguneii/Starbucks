@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 
 function Location() {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.body.style.overflow = "hidden";
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, []);
   return (
     <div className="flex flex-col lg:flex-row   h-[100vh]">
       <div className="left-side lg:w-[40%] ">

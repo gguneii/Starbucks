@@ -424,8 +424,8 @@ function Rewards() {
                 clickable: true,
               }}
               navigation={{
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".swiper-button-next.swiper-next-2",
+                prevEl: ".swiper-button-prev.swiper-prev-2",
               }}
               keyboard={true}
               modules={[Navigation, Pagination, Keyboard]}
@@ -485,8 +485,8 @@ function Rewards() {
                   </p>
                 </div>
               </SwiperSlide>
-                <div className="swiper-button-prev" />
-                <div className="swiper-button-next" />
+                <div className="swiper-button-next swiper-next-2" />
+                <div className="swiper-button-prev swiper-prev-2" />
             </Swiper>
           </div>
         </div>
@@ -519,8 +519,8 @@ function Rewards() {
                 clickable: true,
               }}
               navigation={{
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".swiper-button-next.swiper-next-2",
+                prevEl: ".swiper-button-prev.swiper-prev-2",
               }}
               keyboard={true}
               modules={[Navigation, Pagination, Keyboard]}
@@ -564,8 +564,8 @@ function Rewards() {
                   </p>
                 </div>
               </SwiperSlide>
-              <div className="swiper-button-prev" />
-              <div className="swiper-button-next" />
+              <div className="swiper-button-next swiper-next-2" />
+              <div className="swiper-button-prev swiper-prev-2" />
             </Swiper>
           </div>
         </div>
@@ -598,8 +598,8 @@ function Rewards() {
                 clickable: true,
               }}
               navigation={{
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".swiper-button-next.swiper-next-2",
+                prevEl: ".swiper-button-prev.swiper-prev-2",
               }}
               keyboard={true}
               modules={[Navigation, Pagination, Keyboard]}
@@ -659,8 +659,8 @@ function Rewards() {
                   </p>
                 </div>
               </SwiperSlide>
-              <div className="swiper-button-prev" />
-              <div className="swiper-button-next" />
+              <div className="swiper-button-next swiper-next-2" />
+              <div className="swiper-button-prev swiper-prev-2" />
             </Swiper>
           </div>
         </div>

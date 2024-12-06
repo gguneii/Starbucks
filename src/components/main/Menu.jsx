@@ -4,6 +4,7 @@ import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
 import Basket from "./Basket";
 import MenuLists from "./MenuLists";
+import ScrollTo from "../../utils/ScrollTo";
 
 function Menu() {
   const { data } = useContext(DATA);
@@ -11,14 +12,7 @@ function Menu() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 100,
-      behavior: "smooth",
-    });
-  }, [pathname]);
-
+  ScrollTo(pathname, 0);
   useEffect(() => {
     if (data) {
       if (name && subname) {

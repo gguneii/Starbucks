@@ -53,7 +53,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
+  /* background: #fff; */
 
   display: flex;
   justify-content: center;
@@ -73,8 +73,8 @@
 }
 .swiper-wrapper{
   display: flex !important;
-  gap: 8 !important;
-  min-height: 180px;
+  /* gap: 8 !important; */
+  /* min-height: 10px !important; */
   align-items: end;
 }
 .swiper-button-next.swiper-next-2,
@@ -137,21 +137,67 @@
   font-weight: bold;
 }
 
-.swiper-button-next.swiper-next-1-disabled {
-  transform: translateX(-5px);
+.swiper-button-prev.swiper-prev-1-disabled {
   opacity: 0;
   pointer-events: none;
+   transform: translateX(-55px); 
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-  
 .swiper-button-next.swiper-next-1-disabled {
-  transform: translateX(5px);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateX(55px); 
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
-@media screen and (min-width: 1024px) {
+
+.swiper-button-prev,
+.swiper-button-next {
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+/* Aktiv slaydlara tam opasiti */
+/* .active-slide img {
+  opacity: 1 !important;
+  transition: opacity 0.3s ease;
+} */
+
+/* Aktiv olmayan slaydlara .8 opasiti */
+/* .blur-slide img {
+  opacity: 0.5 !important;
+  transition: opacity 0.3s ease;
+} */
+
+/* Slaydlara normal hal */
+.swiper-slide img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+ 
+/* .gradient::before,
+.gradient::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px; 
+  pointer-events: none; 
+  z-index: 10;
+}
+
+.gradient::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, .5), rgba(255, 255, 255, ));
+}
+
+.gradient::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+} */
+
+/* @media screen and (min-width: 1024px) {
   .mySwiper {
 height: 130px !important;
-}}
+}} */

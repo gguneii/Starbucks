@@ -9,6 +9,7 @@ export default {
       screens: {
         'xxs': '300px',
         'x4': '400px',
+        'x480': '480px',
         'custom': '800px'
       },
       fontFamily: {

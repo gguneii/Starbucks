@@ -1,40 +1,45 @@
 import { useContext, useEffect, useState } from "react";
 import { DATA } from "../../context/DataContext";
+import { useLocation } from "react-router-dom";
+import ScrollTo from "../../utils/ScrollTo";
 
 function Customize({ handleCustomize, size }) {
   const { details } = useContext(DATA);
   const [count, setCount] = useState(3);
-  const [countInp, setCountInp] = useState([])
   const [checked, setChecked] = useState(false);
   const [fields, setFields] = useState({});
   const [renderedFields, setRenderedFields] = useState([]);
+  const [sizeOptions, setSizeOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const [selectedSpecialFields, setSelectedSpecialFields] = useState({});
-
+  const [countSpecial, setCountSpecial] = useState(1);
+  const [countInp, setCountInp] = useState([]);
+  
   const { pathname } = useLocation();
-  ScrollTo(pathname, 0);
+  ScrollTo(pathname, 500);
 
-  function rememberPass(e) {
+  //bidene checkbox input var onun ucundur
+  function showCheck(e) {
     setChecked(e.target.checked);
   }
 
+  // bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
   const handleIncrement = (index) => {
     setCountInp((prev) => {
       const newCounts = [...prev];
-      newCounts[index] = (newCounts[index] || 1) + 1; // İndeksi artır
+      newCounts[index] = (newCounts[index] || 1) + 1;
       return newCounts;
     });
   };
-  
+
   const handleDecrement = (index) => {
     setCountInp((prev) => {
       const newCounts = [...prev];
-      newCounts[index] = Math.max((newCounts[index] || 1) - 1, 1); // Minimum 1-ə qədər azaldın
+      newCounts[index] = Math.max((newCounts[index] || 1) - 1, 1); 
       return newCounts;
     });
   };
-  
 
+//avtomatik input yarananda sizelara gore input deyerini gostersin
   useEffect(() => {
     const sizeMapping = {
       Short: { count: 1, countInp: 2 },
@@ -43,37 +48,19 @@ function Customize({ handleCustomize, size }) {
       Venti: { count: 4, countInp: 5 },
       Trenta: { count: 4, countInp: 5 },
     };
-  
+
     const newSize = sizeMapping[size];
     if (newSize) {
       setCount(newSize.count);
       setCountInp((prev) => {
-        const newCounts = [...prev];
-        // Məsələn: `details`-ə uyğun olaraq 0-cı elementi dəyişdir
-        newCounts[0] = newSize.countInp; 
+        const newCounts = new Array(prev.length).fill(newSize.countInp); // Bütün array-i eyni dəyərlə yeniləyirik
         return newCounts;
       });
     }
   }, [details, size]);
-  
-  
-  const chooseOption = (index, fieldIndex, e) => {
-    setFields((prevFields) => {
-      const updatedFields = { ...prevFields };
 
-      if (updatedFields[index]) {
-        updatedFields[index] = updatedFields[index].map((field, idx) => {
-          if (idx === fieldIndex) {
-            return { ...field, selectedOption: e.target.value };
-          }
-          return field;
-        });
-      }
-
-      return updatedFields;
-    });
-  };
-
+ 
+  // selectlere click edende yeni select ve ya sadece div(ve ya input da olar) yaranmasi ucun olan funksiya
   const handleOptionClick = (index, selectedProduct) => {
     const selectedName = selectedProduct.form?.name;
 
@@ -101,36 +88,58 @@ function Customize({ handleCustomize, size }) {
       )
     );
   };
-  const [sizeOption, setSizeOption] = useState("");
-  const [sizeOptions, setSizeOptions] = useState([]);
+   //yeni select ve div yarananda onun icine optionlarin maplenmesi
+   const chooseOption = (index, fieldIndex, e) => {
+    setFields((prevFields) => {
+      const updatedFields = { ...prevFields };
+
+      if (updatedFields[index]) {
+        updatedFields[index] = updatedFields[index].map((field, idx) => {
+          if (idx === fieldIndex) {
+            return { ...field, selectedOption: e.target.value };
+          }
+          return field;
+        });
+      }
+
+      return updatedFields;
+    });
+  };
+  console.log(fields);
+
+
+  //selecte 2 funksiya yazmaliydim, ona gore umumi funksiya yaratdim her 2sinide bunun icine yazdim
 
   const handleCombinedChange = (e, index, child, hasSingleOption) => {
+    //hasSingleOption o demekdiki bezilerinde selectlere click etdikde yeni select ve ya div yaranmir
+    //  sadece hemin selectden option secirsen ve selectim de deyisir i fso
+
     if (hasSingleOption) {
       const singleProduct = child.products[0];
       const selectedSize =
         singleProduct.form?.sizes[e.target.selectedIndex]?.name || "";
-  
+
       setSizeOptions((prev) => {
         const newSizeOptions = [...prev];
-        newSizeOptions[index] = selectedSize; // Sadece ilgili index'i güncelle
-        return newSizeOptions; 
+        newSizeOptions[index] = selectedSize;
+        return newSizeOptions;
       });
-      console.log("sizeOptionsss:", sizeOptions[index]);
-      
-      console.log("Selected Size:", selectedSize);
+
+      // console.log("Selected Size:", selectedSize);
     } else {
       const selectedProduct = child.products[e.target.selectedIndex];
       const selectedName = selectedProduct?.form?.name || "";
       handleOptionClick(index, selectedProduct);
       setSelectedOption(selectedName);
-      console.log("Selected Name:", selectedName);
+      // console.log("Selected Name:", selectedName);
     }
   };
-  
+
   useEffect(() => {
-    console.log("Selected Option Updated:", selectedOption);
+    // console.log("Selected Option Updated:", selectedOption);
   }, [selectedOption]);
 
+  // bunlara baxma
   // const specialChildNames = ["Chai Teas", "Espresso Shots", "Other", "Liquid Sweeteners"];
   // const isSpecialChild = (name) => specialChildNames.includes(name);
 
@@ -170,8 +179,6 @@ function Customize({ handleCustomize, size }) {
                         if (isEmpty) return null;
 
                         // console.log(sizeOptions[index]);
-                        
-                        
 
                         return (
                           <div className="" key={idx}>
@@ -179,25 +186,22 @@ function Customize({ handleCustomize, size }) {
                             child.name === "Espresso Shots" ||
                             child.name === "Other" ||
                             child.name === "Liquid Sweeteners" ? (
-                              // Input field for "chai" or "shots"
-                              <div className="flex w-full py-1 mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg overflow-hidden justify-between">
+                              
+                              <div className="flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
                                 <div>
-                                  <input
-                                    type="text"
-                                    className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none px-[16px] py-[12px] md:py-[8px]"
-                                    readOnly
-                                    value={`Add ${child.products[0].form.name}`}
-                                  />
+                                  <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none">
+                                    {`Add ${child.products[0].form.name}`}
+                                  </p>
                                 </div>
                                 {child.name === "Other" ? (
                                   <div className="relative flex items-center px-3">
                                     <label htmlFor="remember"></label>
                                     <input
-                                      onChange={rememberPass}
+                                      onChange={showCheck}
                                       className="border-0 opacity-0 overflow-hidden absolute w-[22px] h-[22px] right-3 top-3 cursor-pointer"
                                       type="checkbox"
                                       name=""
-                                      id="remember"
+                                      id="checkbox"
                                     />
                                     <span>
                                       <svg
@@ -216,10 +220,13 @@ function Customize({ handleCustomize, size }) {
                                       </svg>
                                     </span>
                                   </div>
-                                ) : (
-                                  child.name === "Espresso Shots" ? (
-                                    <div className="flex items-center px-4">
-                                    <button onClick={() => setCount(Math.max(count - 1, 1))}>
+                                ) : child.name === "Espresso Shots" ? (
+                                  <div className="flex items-center px-4">
+                                    <button
+                                      onClick={() =>
+                                        setCount(Math.max(count - 1, 1))
+                                      }
+                                    >
                                       {
                                         <svg
                                           aria-hidden="true"
@@ -251,9 +258,15 @@ function Customize({ handleCustomize, size }) {
                                       </svg>
                                     </button>
                                   </div>
-                                  ) : (
-                                    <div className="flex items-center px-4">
-                                    <button>
+                                ) : (
+                                  <div className="flex items-center px-4">
+                                    <button
+                                      onClick={() =>
+                                        setCountSpecial((prev) =>
+                                          Math.max(prev - 1, 1)
+                                        )
+                                      }
+                                    >
                                       {
                                         <svg
                                           aria-hidden="true"
@@ -268,8 +281,12 @@ function Customize({ handleCustomize, size }) {
                                         </svg>
                                       }
                                     </button>
-                                    <span className="px-2">1</span>
-                                    <button>
+                                    <span className="px-2">{countSpecial}</span>
+                                    <button
+                                      onClick={() =>
+                                        setCountSpecial((prev) => prev + 1)
+                                      }
+                                    >
                                       <svg
                                         aria-hidden="true"
                                         className="w-[24px] h-[24px] fill-[#00754a]"
@@ -283,7 +300,6 @@ function Customize({ handleCustomize, size }) {
                                       </svg>
                                     </button>
                                   </div>
-                                  )
                                 )}
                               </div>
                             ) : (
@@ -298,10 +314,14 @@ function Customize({ handleCustomize, size }) {
                                       hasSingleOption
                                     )
                                   }
-                                 value={hasSingleOption ? sizeOptions[index] || "" : selectedOption || ""}
+                                  value={
+                                    hasSingleOption
+                                      ? sizeOptions[index] || ""
+                                      : selectedOption || ""
+                                  }
                                   className={`w-full opacity-0 appearance-none absolute inset-0 h-full outline-none`}
-                                  name={`select-${index}`} 
-                                  id={`select-${index}`} 
+                                  name={`select-${index}`}
+                                  id={`select-${index}`}
                                 >
                                   {hasSingleOption &&
                                     child.products[0]?.form?.sizes?.map(
@@ -321,7 +341,12 @@ function Customize({ handleCustomize, size }) {
                                       ) : null
                                     )}
                                 </select>
-
+                                  {/* problemlerden biri bu spanin icine ne cur yazmaliydim ki sizeOptions[index]
+                                  bezilerinde duzgun yazilsin yeniki option secende digerlerinde deyismesin
+                                  (eslinde span icerisinde duzgun isleyir, sadece men selecte opacity-0 vermisem deye gorunmur
+                                  o daki designa goredi evvelce basga name gorunmelidi, sonra optiona click edende o ad yazilmalidi
+                                  ona gore bu hisse alinmir, yoxlamag ucun opacity-0 silsen goressenki duzgun secir optionlari heresine uygun)
+                                  */}
                                 <span className="flex justify-between">
                                   <span className="md:text-[1.3rem] opacity-100">
                                     {hasSingleOption
@@ -346,7 +371,7 @@ function Customize({ handleCustomize, size }) {
                           </div>
                         );
                       })}
-
+                    {/* bu hisse yeni select ve div yaranmasi hissesidi */}
                       {fields[index] &&
                         fields[index].map((field, fieldIndex) => {
                           const { options = [] } = field;
@@ -355,15 +380,17 @@ function Customize({ handleCustomize, size }) {
                           const isSpecialField = [
                             "Espresso & Shot Options",
                             "Sweeteners",
-                            "Cup Options"
+                            "Cup Options",
                           ].includes(item.name);
-                          console.log(item.name);
-                          
-                          
-                          if(isSpecialField){
-                            return null
+                          // console.log(item.name);
+                          console.log(countInp);
+
+                          if (isSpecialField) {
+                            return null;
                           }
-                      
+                          
+                          // Esas problemlerden biride burdaki isSpecialField vare o selectlere click edende yeni hecne yaranmamalidi
+                          // sadece hemiun selectden secilen option name olarag gorunmelidi
                           return (
                             <div key={fieldIndex} className="my-4">
                               {options.length > 2 && !isSpecialField ? (
@@ -383,6 +410,9 @@ function Customize({ handleCustomize, size }) {
                                       </option>
                                     ))}
                                   </select>
+                                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
+                                      Customized
+                                    </span>
                                   <span className="flex justify-between">
                                     <span className="md:text-[1.2rem]">
                                       {field.selectedOption || field.label}
@@ -399,20 +429,20 @@ function Customize({ handleCustomize, size }) {
                                   </span>
                                 </div>
                               ) : (
-                                <div className="flex w-full py-1 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg overflow-hidden justify-between">
+                                <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg justify-between">
                                   <div>
-                                    <input
-                                      type="text"
-                                      className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none px-[16px] py-[12px] md:py-[8px]"
-                                      placeholder="Enter option"
-                                      value={options[0]?.name || ""}
-                                      readOnly
-                                    />
+                                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[.4rem] transform translate-y-[50%]">
+                                      Customized
+                                    </span>
+                                    <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
+                                      {options[0]?.name || ""}
+                                    </p>
+                                   
                                   </div>
                                   <div className="flex items-center px-4">
                                     <button
                                       onClick={() =>
-                                        handleDecrement(index)
+                                        handleDecrement(fieldIndex)
                                       }
                                     >
                                       {
@@ -431,8 +461,14 @@ function Customize({ handleCustomize, size }) {
                                         </svg>
                                       }
                                     </button>
-                                    <span className="px-2">{countInp[index] ||1}</span>
-                                    <button onClick={() => handleIncrement(index)}>
+                                    <span className="px-2">
+                                      {countInp[fieldIndex]}
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        handleIncrement(fieldIndex)
+                                      }
+                                    >
                                       <svg
                                         aria-hidden="true"
                                         className="w-[24px] h-[24px] fill-[#00754a]"

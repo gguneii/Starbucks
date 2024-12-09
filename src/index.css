@@ -71,6 +71,12 @@
   margin-left: auto;
   margin-right: auto;
 }
+.swiper-wrapper{
+  display: flex !important;
+  gap: 8 !important;
+  min-height: 180px;
+  align-items: end;
+}
 .swiper-button-next.swiper-next-2,
 .swiper-button-prev.swiper-prev-2 {
   position: absolute;
@@ -130,3 +136,22 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+.swiper-button-next.swiper-next-1-disabled {
+  transform: translateX(-5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+  
+.swiper-button-next.swiper-next-1-disabled {
+  transform: translateX(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+@media screen and (min-width: 1024px) {
+  .mySwiper {
+height: 130px !important;
+}}

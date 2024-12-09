@@ -14,7 +14,7 @@ function GiftCards() {
         Featured
       </h2>
 
-      <div className="">
+      {/* <div className="">
         <Swiper
           slidesPerView={2}
           slidesPerGroup={2}
@@ -83,6 +83,118 @@ function GiftCards() {
             <p className="text-[13px] font-medium px-4">Effortlessly send up to 10 eGifts per purchase. Select a design to start!</p>
           </div>
         </div>
+      </div> */}
+
+      <div
+        className={`relative flex items-center transition-all duration-500`}
+      >
+        <Swiper
+        
+        cssMode
+          spaceBetween={20}
+          slidesPerView={2}
+          slidesPerGroup={2}
+          navigation={{
+            nextEl: ".swiper-button-next.swiper-next-1", 
+            prevEl: ".swiper-button-prev.swiper-prev-1", 
+          }}
+          modules={[Navigation]}
+        >
+          <SwiperSlide className="lg:!w-[20%] md:!w-[30%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] md:!w-[30%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] md:!w-[30%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] md:!w-[30%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          <SwiperSlide className="lg:!w-[20%] flex justify-center items-center overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform hover:translate-y-[-10px] transition duration-300">
+            <img
+              className="object-cover rounded-sm"
+              src="/assets/gift.png"
+              alt=""
+            />
+          </SwiperSlide>
+          
+          <div className="swiper-button-prev swiper-prev-1" />
+          <div className="swiper-button-next swiper-next-1" />
+        </Swiper>
       </div>
     </main>
   );

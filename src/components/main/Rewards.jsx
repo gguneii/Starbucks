@@ -16,7 +16,7 @@ function Rewards() {
 
   return (
     <main>
-      <div className="bg-[#1e3932] text-white w-full sticky top-0">
+      <div className="bg-[#1e3932] text-white w-full sticky z-[10] top-0">
         <div className="flex custom:px-[110px] lg:px-[40px]  justify-between items-center max-w-[1500px] mx-auto px-[1.6rem] h-[50px]">
           <h1 className="uppercase font-soDoSans text-[13px] tracking-[0.1em]">
             Starbucks® Rewards
@@ -170,12 +170,12 @@ function Rewards() {
       </div>
 
       <div className="favorites">
-        <div className="bg-[#d3e8e154] pt-[4rem]">
+        <div className="bg-[#d3e8e154] pt-[4rem] z-[-1]">
           <h2 className="text-center font-semibold pb-[1.6rem] text-[1.6rem]">
             Get your favorites for free
           </h2>
           <div className="">
-            <div className="flex favorites md:max-w-[540px] mx-auto">
+            <div className="flex favorites md:max-w-[540px] mx-auto z-[-1]">
               {[25, 100, 200, 300, 400].map((value) => (
                 <button
                   key={value}

@@ -13,7 +13,8 @@ function Customize({ handleCustomize, size }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [countSpecial, setCountSpecial] = useState(1);
   const [countInp, setCountInp] = useState([]);
-  
+  const [opacity, setOpacity] = useState(true);
+
   const { pathname } = useLocation();
   ScrollTo(pathname, 500);
 
@@ -34,35 +35,33 @@ function Customize({ handleCustomize, size }) {
   const handleDecrement = (index) => {
     setCountInp((prev) => {
       const newCounts = [...prev];
-      newCounts[index] = Math.max((newCounts[index] || 1) - 1, 1); 
+      newCounts[index] = Math.max((newCounts[index] || 1) - 1, 1);
       return newCounts;
     });
   };
 
-//avtomatik input yarananda sizelara gore input deyerini gostersin
-useEffect(() => {
-  const sizeMapping = {
-    Short: { count: 1, countInp: 2 },
-    Tall: { count: 2, countInp: 3 },
-    Grande: { count: 3, countInp: 4 },
-    Venti: { count: 4, countInp: 5 },
-    Trenta: { count: 4, countInp: 5 },
-  };
+  //avtomatik input yarananda sizelara gore input deyerini gostersin
+  useEffect(() => {
+    const sizeMapping = {
+      Short: { count: 1, countInp: 2 },
+      Tall: { count: 2, countInp: 3 },
+      Grande: { count: 3, countInp: 4 },
+      Venti: { count: 4, countInp: 5 },
+      Trenta: { count: 4, countInp: 5 },
+    };
 
-  const newSize = sizeMapping[size];
-  if (newSize) {
-    setCount(newSize.count);
+    const newSize = sizeMapping[size];
+    if (newSize) {
+      setCount(newSize.count);
 
-    setCountInp((prev) => {
-      // İlkin olaraq ya boş massiv, ya da əvvəlki massiv dəyəri
-      const newCounts = Array(5).fill(newSize.countInp); // İlkin olaraq 5 indekslik massiv
-      return newCounts;
-    });
-  }
-}, [size]);
+      setCountInp((prev) => {
+        // İlkin olaraq ya boş massiv, ya da əvvəlki massiv dəyəri
+        const newCounts = Array(5).fill(newSize.countInp); // İlkin olaraq 5 indekslik massiv
+        return newCounts;
+      });
+    }
+  }, [size]);
 
-
- 
   // selectlere click edende yeni select ve ya sadece div(ve ya input da olar) yaranmasi ucun olan funksiya
   const handleOptionClick = (index, selectedProduct) => {
     const selectedName = selectedProduct.form?.name;
@@ -91,8 +90,8 @@ useEffect(() => {
       )
     );
   };
-   //yeni select ve div yarananda onun icine optionlarin maplenmesi
-   const chooseOption = (index, fieldIndex, e) => {
+  //yeni select ve div yarananda onun icine optionlarin maplenmesi
+  const chooseOption = (index, fieldIndex, e) => {
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
 
@@ -108,8 +107,7 @@ useEffect(() => {
       return updatedFields;
     });
   };
-  console.log(fields);
-
+  // console.log(fields);
 
   //selecte 2 funksiya yazmaliydim, ona gore umumi funksiya yaratdim her 2sinide bunun icine yazdim
 
@@ -176,10 +174,19 @@ useEffect(() => {
                     </h2>
                     <div className="products">
                       {item.children.map((child, idx) => {
-                        const hasSingleOption = child.products.length === 1;
+                        const isSpecialField = [
+                          "Espresso & Shot Options",
+                          "Sweeteners",
+                          "Cup Options",
+                        ].includes(item.name);
+                        const hasSingleOption =
+                          child.products.length === 1 || isSpecialField;
                         const isEmpty = child.products.length === 0;
 
                         if (isEmpty) return null;
+
+                        // console.log(item.name);
+                        // console.log("Child prod:", child);
 
                         // console.log(sizeOptions[index]);
 
@@ -189,11 +196,10 @@ useEffect(() => {
                             child.name === "Espresso Shots" ||
                             child.name === "Other" ||
                             child.name === "Liquid Sweeteners" ? (
-                              
                               <div className="flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
                                 <div>
                                   <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none">
-                                    {`Add ${child.products[0].form.name}`}
+                                    {`Ad ${child.products[0].form.name}`}
                                   </p>
                                 </div>
                                 {child.name === "Other" ? (
@@ -235,7 +241,7 @@ useEffect(() => {
                                           aria-hidden="true"
                                           className={`${
                                             count === 1 ? "hidden" : "block"
-                                          } w-[24px] h-[24px] fill-[#00754a] `}
+                                          } w-[24px] h-[24px] fill-[#00754a]`}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
                                           viewBox="0 0 24 24"
@@ -273,7 +279,7 @@ useEffect(() => {
                                       {
                                         <svg
                                           aria-hidden="true"
-                                          className={` w-[24px] h-[24px] fill-[#00754a] `}
+                                          className={` w-[24px] h-[24px] fill-[#00754a]`}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
                                           viewBox="0 0 24 24"
@@ -305,7 +311,7 @@ useEffect(() => {
                                   </div>
                                 )}
                               </div>
-                            ) : (
+                            ) : !hasSingleOption ? (
                               // Default select dropdown
                               <div className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                 <select
@@ -322,34 +328,30 @@ useEffect(() => {
                                       ? sizeOptions[index] || ""
                                       : selectedOption || ""
                                   }
-                                  className={`w-full opacity-0 appearance-none absolute inset-0 h-full outline-none`}
+                                  className={`w-full appearance-none absolute inset-0 h-full outline-none opacity-0 `}
                                   name={`select-${index}`}
                                   id={`select-${index}`}
                                 >
-                                  {hasSingleOption &&
+                                  {/* {hasSingleOption &&
                                     child.products[0]?.form?.sizes?.map(
                                       (item, i) => (
                                         <option key={i} value={item.name}>
                                           {item.name}
                                         </option>
                                       )
-                                    )}
+                                    )} */}
 
                                   {!hasSingleOption &&
-                                    child.products.map((p, id) =>
-                                      p.form ? (
+                                    child.products.map((p, id) => {
+                                      // console.log(p);
+
+                                      return p.form ? (
                                         <option value={p.form.name} key={id}>
                                           {p.form.name}
                                         </option>
-                                      ) : null
-                                    )}
+                                      ) : null;
+                                    })}
                                 </select>
-                                  {/* problemlerden biri bu spanin icine ne cur yazmaliydim ki sizeOptions[index]
-                                  bezilerinde duzgun yazilsin yeniki option secende digerlerinde deyismesin
-                                  (eslinde span icerisinde duzgun isleyir, sadece men selecte opacity-0 vermisem deye gorunmur
-                                  o daki designa goredi evvelce basga name gorunmelidi, sonra optiona click edende o ad yazilmalidi
-                                  ona gore bu hisse alinmir, yoxlamag ucun opacity-0 silsen goressenki duzgun secir optionlari heresine uygun)
-                                  */}
                                 <span className="flex justify-between">
                                   <span className="md:text-[1.3rem] opacity-100">
                                     {hasSingleOption
@@ -370,11 +372,64 @@ useEffect(() => {
                                   </svg>
                                 </span>
                               </div>
+                            ) : (
+                              <div className="overflow-hidden min-h-[45px] border shadow-[inset_0_1px_4px_#0000001a]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
+                                {/* salam qaqaqqaqa */}
+                                <select
+                                  className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
+                                  name={`select-${index}`}
+                                  id={`select-${index}`}
+                                >
+                                  {isSpecialField
+                                    ? child.products.map((p, id) =>
+                                        p.form ? (
+                                          <option
+                                            selected={id == 0}
+                                            hidden={id == 0}
+                                            disabled={id == 0}
+                                            className="text-[16px]"
+                                            value={p.form.name}
+                                            key={id}
+                                          >
+                                            {id == 0
+                                              ? `Add ${child.name}`
+                                              : ` ${p.form.name}`}
+                                          </option>
+                                        ) : null
+                                      )
+                                    : child.products.map((p, id) => {
+                                        const yeniArr = [
+                                          {
+                                            sizeCode: "light",
+                                            name: p.form.name,
+                                            sku: "183459",
+                                          },
+                                          ...p.form.sizes,
+                                        ];
+                                        return yeniArr.map((size, i) => {
+                                          return (
+                                            <option
+                                              selected={i == 0}
+                                              hidden={i == 0}
+                                              disabled={i == 0}
+                                              className="text-[16px]"
+                                              value={size.name}
+                                              key={i}
+                                            >
+                                              {i == 0
+                                                ? `Add ${size.name}`
+                                                : ` ${size.name}`}
+                                            </option>
+                                          );
+                                        });
+                                      })}
+                                </select>
+                              </div>
                             )}
                           </div>
                         );
                       })}
-                    {/* bu hisse yeni select ve div yaranmasi hissesidi */}
+                      {/* bu hisse yeni select ve div yaranmasi hissesidi */}
                       {fields[index] &&
                         fields[index].map((field, fieldIndex) => {
                           const { options = [] } = field;
@@ -386,12 +441,12 @@ useEffect(() => {
                             "Cup Options",
                           ].includes(item.name);
                           // console.log(item.name);
-                          console.log(countInp);
+                          // console.log(countInp);
 
                           if (isSpecialField) {
                             return null;
                           }
-                          
+
                           // Esas problemlerden biride burdaki isSpecialField vare o selectlere click edende yeni hecne yaranmamalidi
                           // sadece hemiun selectden secilen option name olarag gorunmelidi
                           return (
@@ -414,8 +469,8 @@ useEffect(() => {
                                     ))}
                                   </select>
                                   <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
-                                      Customized
-                                    </span>
+                                    Customized
+                                  </span>
                                   <span className="flex justify-between">
                                     <span className="md:text-[1.2rem]">
                                       {field.selectedOption || field.label}
@@ -434,13 +489,12 @@ useEffect(() => {
                               ) : (
                                 <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg justify-between">
                                   <div>
-                                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[.4rem] transform translate-y-[50%]">
+                                    <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[.4rem] transform translate-y-[50%]">
                                       Customized
                                     </span>
                                     <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
                                       {options[0]?.name || ""}
                                     </p>
-                                   
                                   </div>
                                   <div className="flex items-center px-4">
                                     <button

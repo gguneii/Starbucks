@@ -2,6 +2,20 @@ import { Helmet } from "react-helmet";
 import CategorySwiper from "./CategorySwiper";
 
 function GiftCards() {
+  const giftArr = [
+    { title: "Holiday", categoryName: "Holiday" },
+    { title: "Red Cup", categoryName: "Red Cup" },
+    { title: "Birthday", categoryName: "Birthday" },
+    { title: "Thank You", categoryName: "Thank You" },
+    { title: "Celebration", categoryName: "Celebration" },
+    { title: "Thanksgiving | 11/28", categoryName: "Thanksgiving | 11/28" },
+    { title: "Appreciation", categoryName: "Appreciation" },
+    { title: "Wicked", categoryName: "Wicked" },
+    { title: "Encouragement", categoryName: "Encouragement" },
+    { title: "Affection", categoryName: "Affection" },
+    { title: "Workplace", categoryName: "Workplace" },
+    { title: "Anytime", categoryName: "Anytime" },
+  ];
 
   return (
     <>
@@ -15,10 +29,7 @@ function GiftCards() {
           </h1>
         </div>
 
-        <CategorySwiper
-          title="Featured"
-          categoryName="Featured"
-        />
+        <CategorySwiper title="Featured" categoryName="Featured" />
 
         <div className="px-4 mt-8 md:pl-[100px]">
           <div className="flex items-center justify-center bg-[#edebe9] p-4 rounded-lg md:justify-start">
@@ -63,44 +74,9 @@ function GiftCards() {
           </div>
         </div>
 
-        <CategorySwiper title="Holiday" categoryName="Holiday"  />
-
-        <CategorySwiper title="Red Cup" categoryName="Red Cup" />
-        <CategorySwiper
-          title="Birthday"
-          categoryName="Birthday"
-          
-        />
-        <CategorySwiper
-          title="Thank You"
-          categoryName="Thank You"
-        />
-        <CategorySwiper
-          title="Celebration"
-          categoryName="Celebration"
-        />
-        <CategorySwiper
-          title="Thanksgiving | 11/28"
-          categoryName="Thanksgiving | 11/28"
-        />
-        <CategorySwiper
-          title="Appreciation"
-          categoryName="Appreciation"
-        />
-        <CategorySwiper title="Wicked" categoryName="Wicked"  />
-        <CategorySwiper
-          title="Encouragement"
-          categoryName="Encouragement"
-        />
-        <CategorySwiper
-          title="Affection"
-          categoryName="Affection"
-        />
-        <CategorySwiper
-          title="Workplace"
-          categoryName="Workplace"
-        />
-        <CategorySwiper title="Anytime" categoryName="Anytime"  />
+        {giftArr.map((i, ind) => (
+          <CategorySwiper key={ind} title={i.title} categoryName={i.categoryName} />
+        ))}
 
         <div className="py-10 mt-10 bg-[#f9f9f9] md:text-center md:flex items-center justify-ceter md:px-[90px]">
           <img

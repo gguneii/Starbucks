@@ -19,10 +19,7 @@ import CartLayout from "./layouts/CartLayout";
 function App() {
   return (
     <>
-      <Helmet>
-        <title>Starbucks Coffee Company</title>
-      </Helmet>
-      <Routes>
+      <Routes future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
           <Route path="/menu" element={<Menu />} />
@@ -35,16 +32,12 @@ function App() {
           <Route path="/gifts" element={<GiftCards />} />
           <Route path="/location" element={<Location />} />
         </Route>
-      </Routes>
 
-      <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Route>
-      </Routes>
 
-      <Routes>
         <Route element={<CartLayout />}>
           <Route path="/cart" element={<Cart />} />
         </Route>

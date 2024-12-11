@@ -144,8 +144,8 @@ function ProductDetails() {
           <div className="xl:max-w-[1000px] mx-auto flex flex-col lg:flex-row items-center">
             <div className="overflow-hidden max-w-[330px] lg:mr-[88px] xl:mx-0 mx-auto">
               <img
-                className="w-full"
-                src={productName?.assets?.masterImage?.uri || ""}
+                className={`w-full ${productName ? "" : "rounded-full"}`}
+                src={productName?.assets?.masterImage?.uri || "/assets/imgError.png"}
                 alt="error_img"
                 // onError={(e) => {
                 //   e.target.src = "/assets/errImg.webp";

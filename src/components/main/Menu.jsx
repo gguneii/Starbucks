@@ -63,7 +63,8 @@ function Menu() {
                     ))}
                   </div>
                 </div>
-              ))}
+              ))
+              }
           </div>
 
           <div className="lg:w-[80%] w-full">

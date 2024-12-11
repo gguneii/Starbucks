@@ -40,24 +40,27 @@ function Customize({ handleCustomize, size }) {
   };
 
 //avtomatik input yarananda sizelara gore input deyerini gostersin
-  useEffect(() => {
-    const sizeMapping = {
-      Short: { count: 1, countInp: 2 },
-      Tall: { count: 2, countInp: 3 },
-      Grande: { count: 3, countInp: 4 },
-      Venti: { count: 4, countInp: 5 },
-      Trenta: { count: 4, countInp: 5 },
-    };
+useEffect(() => {
+  const sizeMapping = {
+    Short: { count: 1, countInp: 2 },
+    Tall: { count: 2, countInp: 3 },
+    Grande: { count: 3, countInp: 4 },
+    Venti: { count: 4, countInp: 5 },
+    Trenta: { count: 4, countInp: 5 },
+  };
 
-    const newSize = sizeMapping[size];
-    if (newSize) {
-      setCount(newSize.count);
-      setCountInp((prev) => {
-        const newCounts = new Array(prev.length).fill(newSize.countInp); // Bütün array-i eyni dəyərlə yeniləyirik
-        return newCounts;
-      });
-    }
-  }, [details, size]);
+  const newSize = sizeMapping[size];
+  if (newSize) {
+    setCount(newSize.count);
+
+    setCountInp((prev) => {
+      // İlkin olaraq ya boş massiv, ya da əvvəlki massiv dəyəri
+      const newCounts = Array(5).fill(newSize.countInp); // İlkin olaraq 5 indekslik massiv
+      return newCounts;
+    });
+  }
+}, [size]);
+
 
  
   // selectlere click edende yeni select ve ya sadece div(ve ya input da olar) yaranmasi ucun olan funksiya

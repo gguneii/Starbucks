@@ -13,7 +13,7 @@ import ProductDetails from "./components/main/ProductDetails";
 import AuthLayout from "./layouts/AuthLayout";
 import SignUp from "./login/SignUp";
 import SignIn from "./login/SignIn";
-import Cart from "./cart/Cart";
+import Cart from "./components/cart/Cart";
 import CartLayout from "./layouts/CartLayout";
 
 function App() {

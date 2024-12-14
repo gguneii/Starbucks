@@ -1,8 +1,7 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Main from "./components/main/Main";
 import Menu from "./components/main/Menu";
-import { Helmet } from "react-helmet";
 import Featured from "./components/main/Featured";
 import Location from "./components/main/Location";
 import Previous from "./components/main/Previous";

@@ -145,7 +145,10 @@ function ProductDetails() {
             <div className="overflow-hidden max-w-[330px] lg:mr-[88px] xl:mx-0 mx-auto">
               <img
                 className={`w-full ${productName ? "" : "rounded-full"}`}
-                src={productName?.assets?.masterImage?.uri || "/assets/imgError.png"}
+                src={
+                  productName?.assets?.masterImage?.uri ||
+                  "/assets/imgError.png"
+                }
                 alt="error_img"
                 // onError={(e) => {
                 //   e.target.src = "/assets/errImg.webp";
@@ -328,10 +331,16 @@ function ProductDetails() {
                         }
                       </button>
                       <span className="px-2">{count}</span>
-                      <button onClick={() => setCount(count + 1)}>
+                      <button
+                        onClick={() =>
+                          setCount((prev) => Math.min(prev + 1, 12))
+                        }
+                      >
                         <svg
                           aria-hidden="true"
-                          className="w-[24px] h-[24px] fill-[#00754a]"
+                          className={`${
+                            count === 12 ? "hidden" : "block"
+                          } w-[24px] h-[24px] fill-[#00754a]`}
                           focusable="false"
                           preserveAspectRatio="xMidYMid meet"
                           viewBox="0 0 24 24"
@@ -375,7 +384,7 @@ function ProductDetails() {
             </div>
           </div>
         ) : (
-         <Customize handleCustomize={handleCustomize} size={size} />
+          <Customize handleCustomize={handleCustomize} size={size} />
         )}
 
         <div className="mt-[3rem] bg-[#1e3932]">

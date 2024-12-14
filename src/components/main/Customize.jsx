@@ -11,9 +11,11 @@ function Customize({ handleCustomize, size }) {
   const [renderedFields, setRenderedFields] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const [countSpecial, setCountSpecial] = useState(1);
+  const [countChai, setCountChai] = useState(null);
+  const [countSweet, setCountSweet] = useState(null);
   const [countInp, setCountInp] = useState([]);
-  const [opacity, setOpacity] = useState(true);
+
+  const [isCustomized, setIsCustomized] = useState({});
 
   const { pathname } = useLocation();
   ScrollTo(pathname, 500);
@@ -24,13 +26,13 @@ function Customize({ handleCustomize, size }) {
   }
 
   // bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
-  const handleIncrement = (index) => {
-    setCountInp((prev) => {
-      const newCounts = [...prev];
-      newCounts[index] = (newCounts[index] || 1) + 1;
-      return newCounts;
-    });
-  };
+const handleIncrement = (index) => {
+  setCountInp((prev) => {
+    const newCounts = [...prev];
+    newCounts[index] = Math.min((newCounts[index] || 1) + 1, 12); // 12 limitini tətbiq edir
+    return newCounts;
+  });
+};
 
   const handleDecrement = (index) => {
     setCountInp((prev) => {
@@ -92,13 +94,21 @@ function Customize({ handleCustomize, size }) {
   };
   //yeni select ve div yarananda onun icine optionlarin maplenmesi
   const chooseOption = (index, fieldIndex, e) => {
+    const selectedValue = e.target.value;
+
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
 
       if (updatedFields[index]) {
         updatedFields[index] = updatedFields[index].map((field, idx) => {
           if (idx === fieldIndex) {
-            return { ...field, selectedOption: e.target.value };
+            // "No" sözünü yoxlayır
+            return {
+              ...field,
+              selectedOption: selectedValue.includes("No")
+                ? "" // Əgər "No" varsa, seçimi sıfırlayır
+                : selectedValue,
+            };
           }
           return field;
         });
@@ -107,14 +117,10 @@ function Customize({ handleCustomize, size }) {
       return updatedFields;
     });
   };
+
   // console.log(fields);
 
-  //selecte 2 funksiya yazmaliydim, ona gore umumi funksiya yaratdim her 2sinide bunun icine yazdim
-
   const handleCombinedChange = (e, index, child, hasSingleOption) => {
-    //hasSingleOption o demekdiki bezilerinde selectlere click etdikde yeni select ve ya div yaranmir
-    //  sadece hemin selectden option secirsen ve selectim de deyisir i fso
-
     if (hasSingleOption) {
       const singleProduct = child.products[0];
       const selectedSize =
@@ -132,6 +138,7 @@ function Customize({ handleCustomize, size }) {
       const selectedName = selectedProduct?.form?.name || "";
       handleOptionClick(index, selectedProduct);
       setSelectedOption(selectedName);
+
       // console.log("Selected Name:", selectedName);
     }
   };
@@ -140,9 +147,33 @@ function Customize({ handleCustomize, size }) {
     // console.log("Selected Option Updated:", selectedOption);
   }, [selectedOption]);
 
-  // bunlara baxma
-  // const specialChildNames = ["Chai Teas", "Espresso Shots", "Other", "Liquid Sweeteners"];
-  // const isSpecialChild = (name) => specialChildNames.includes(name);
+  // const handleSelectChange = (e, productId) => {
+  //   const selectedValue = e.target.value;
+  //   setIsCustomized((prev) => ({
+  //     ...prev,
+  //     [productId]: !!selectedValue, // Məhsulun yalnız seçilmiş olub-olmamasını yeniləyir
+  //   }));
+  // };
+
+  const handleSelectChange = (e, childName) => {
+    const selectedValue = e.target.value;
+
+    // Seçimi sıfırlamaq üçün yoxlama
+    if (selectedValue.includes("No")) {
+      // Seçimi default halına qaytarır
+      e.target.value = ""; // Default seçimi göstərmək üçün boş dəyər
+      setIsCustomized((prev) => ({
+        ...prev,
+        [childName]: false, // Customized etiketini gizlət
+      }));
+    } else {
+      // Seçim "No" ilə bitmirsə, Customized etiketini göstər
+      setIsCustomized((prev) => ({
+        ...prev,
+        [childName]: true,
+      }));
+    }
+  };
 
   return (
     <>
@@ -179,31 +210,30 @@ function Customize({ handleCustomize, size }) {
                           "Sweeteners",
                           "Cup Options",
                         ].includes(item.name);
+
                         const hasSingleOption =
                           child.products.length === 1 || isSpecialField;
+                        const specialChildNames = [
+                          "Chai Teas",
+                          "Espresso Shots",
+                          "Other",
+                          "Liquid Sweeteners",
+                        ].includes(child.name);
                         const isEmpty = child.products.length === 0;
 
                         if (isEmpty) return null;
 
-                        // console.log(item.name);
-                        // console.log("Child prod:", child);
-
-                        // console.log(sizeOptions[index]);
-
                         return (
                           <div className="" key={idx}>
-                            {child.name === "Chai Teas" ||
-                            child.name === "Espresso Shots" ||
-                            child.name === "Other" ||
-                            child.name === "Liquid Sweeteners" ? (
+                            {specialChildNames ? (
                               <div className="flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
                                 <div>
                                   <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none">
-                                    {`Ad ${child.products[0].form.name}`}
+                                    {`Add ${child.products[0].form.name}`}
                                   </p>
                                 </div>
                                 {child.name === "Other" ? (
-                                  <div className="relative flex items-center px-3">
+                                  <div className="relative flex items-center">
                                     <label htmlFor="remember"></label>
                                     <input
                                       onChange={showCheck}
@@ -230,7 +260,7 @@ function Customize({ handleCustomize, size }) {
                                     </span>
                                   </div>
                                 ) : child.name === "Espresso Shots" ? (
-                                  <div className="flex items-center px-4">
+                                  <div className="flex items-center">
                                     <button
                                       onClick={() =>
                                         setCount(Math.max(count - 1, 1))
@@ -253,10 +283,62 @@ function Customize({ handleCustomize, size }) {
                                       }
                                     </button>
                                     <span className="px-2">{count}</span>
-                                    <button onClick={() => setCount(count + 1)}>
+                                    <button onClick={() => setCount((prev) => Math.min(prev +1, 12))}>
                                       <svg
                                         aria-hidden="true"
-                                        className="w-[24px] h-[24px] fill-[#00754a]"
+                                        className={`${
+                                          count === 12 ? "hidden" : "block"
+                                        } w-[24px] h-[24px] fill-[#00754a]`}
+                                        focusable="false"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 24 24"
+                                        loading="lazy"
+                                      >
+                                        <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                        <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                ) : child.name === "Chai Teas" ? (
+                                  <div className="flex items-center">
+                                    <button
+                                       onClick={() =>
+                                        setCountChai((prev) => (prev === 1 ? null : Math.max(prev - 1, 1)))
+                                      }
+                                    >
+                                      {
+                                        <svg
+                                          aria-hidden="true"
+                                          className={`${
+                                            countChai === null ? "hidden" : "block"
+                                          } w-[24px] h-[24px] fill-[#00754a]`}
+                                          focusable="false"
+                                          preserveAspectRatio="xMidYMid meet"
+                                          viewBox="0 0 24 24"
+                                          loading="lazy"
+                                        >
+                                          <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                          <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                                        </svg>
+                                      }
+                                    </button>
+                                    <span
+                                      className={`${
+                                        countChai === null ? "hidden" : "block"
+                                      } px-2`}
+                                    >
+                                      {countChai}
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        setCountChai((prev) => (prev === null ? 1 : Math.min(prev + 1, 12)))
+                                      }
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        className={`${
+                                          countChai === 12 ? "hidden" : "block"
+                                        } w-[24px] h-[24px] fill-[#00754a]`}
                                         focusable="false"
                                         preserveAspectRatio="xMidYMid meet"
                                         viewBox="0 0 24 24"
@@ -268,18 +350,18 @@ function Customize({ handleCustomize, size }) {
                                     </button>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center px-4">
+                                  <div className="flex items-center">
                                     <button
                                       onClick={() =>
-                                        setCountSpecial((prev) =>
-                                          Math.max(prev - 1, 1)
-                                        )
+                                        setCountSweet((prev) => (prev === 1 ? null : Math.max(prev - 1, 1)))
                                       }
                                     >
                                       {
                                         <svg
                                           aria-hidden="true"
-                                          className={` w-[24px] h-[24px] fill-[#00754a]`}
+                                          className={`${
+                                            countSweet === null ? "hidden" : "block"
+                                          } w-[24px] h-[24px] fill-[#00754a]`}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
                                           viewBox="0 0 24 24"
@@ -290,15 +372,23 @@ function Customize({ handleCustomize, size }) {
                                         </svg>
                                       }
                                     </button>
-                                    <span className="px-2">{countSpecial}</span>
+                                    <span
+                                      className={`${
+                                        countSweet === null ? "hidden" : "block"
+                                      } px-2`}
+                                    >
+                                      {countSweet}
+                                    </span>
                                     <button
-                                      onClick={() =>
-                                        setCountSpecial((prev) => prev + 1)
+                                       onClick={() =>
+                                        setCountSweet((prev) => (prev === null ? 1 : Math.min(prev + 1, 12)))
                                       }
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        className="w-[24px] h-[24px] fill-[#00754a]"
+                                        className={`${
+                                          countSweet === 12 ? "hidden" : "block"
+                                        } w-[24px] h-[24px] fill-[#00754a]`}
                                         focusable="false"
                                         preserveAspectRatio="xMidYMid meet"
                                         viewBox="0 0 24 24"
@@ -332,19 +422,8 @@ function Customize({ handleCustomize, size }) {
                                   name={`select-${index}`}
                                   id={`select-${index}`}
                                 >
-                                  {/* {hasSingleOption &&
-                                    child.products[0]?.form?.sizes?.map(
-                                      (item, i) => (
-                                        <option key={i} value={item.name}>
-                                          {item.name}
-                                        </option>
-                                      )
-                                    )} */}
-
                                   {!hasSingleOption &&
                                     child.products.map((p, id) => {
-                                      // console.log(p);
-
                                       return p.form ? (
                                         <option value={p.form.name} key={id}>
                                           {p.form.name}
@@ -373,30 +452,31 @@ function Customize({ handleCustomize, size }) {
                                 </span>
                               </div>
                             ) : (
-                              <div className="overflow-hidden min-h-[45px] border shadow-[inset_0_1px_4px_#0000001a]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
+                              <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                 {/* salam qaqaqqaqa */}
                                 <select
+                                  onChange={(e) =>
+                                    handleSelectChange(e, child.name)
+                                  }
                                   className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
-                                  name={`select-${index}`}
-                                  id={`select-${index}`}
+                                  name={`select-${child.name}`}
+                                  id={`select-${child.name}`}
                                 >
+                                  <option disabled selected hidden value="">
+                                    Add {child.name}
+                                  </option>
                                   {isSpecialField
-                                    ? child.products.map((p, id) =>
-                                        p.form ? (
+                                    ? child.products.map((p, id) => {
+                                        return p.form ? (
                                           <option
-                                            selected={id == 0}
-                                            hidden={id == 0}
-                                            disabled={id == 0}
                                             className="text-[16px]"
-                                            value={p.form.name}
+                                            value={p.form?.name}
                                             key={id}
                                           >
-                                            {id == 0
-                                              ? `Add ${child.name}`
-                                              : ` ${p.form.name}`}
+                                            {` ${p.form.name}`}
                                           </option>
-                                        ) : null
-                                      )
+                                        ) : null;
+                                      })
                                     : child.products.map((p, id) => {
                                         const yeniArr = [
                                           {
@@ -407,6 +487,8 @@ function Customize({ handleCustomize, size }) {
                                           ...p.form.sizes,
                                         ];
                                         return yeniArr.map((size, i) => {
+                                          // console.log(child.id);
+
                                           return (
                                             <option
                                               selected={i == 0}
@@ -424,6 +506,24 @@ function Customize({ handleCustomize, size }) {
                                         });
                                       })}
                                 </select>
+                                {isCustomized[child.name] && (
+                                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem] transform translate-y-[50%]">
+                                    Customized
+                                  </span>
+                                )}
+                                <div className="flex pr-6 z-10">
+                                  <svg
+                                    aria-hidden="true"
+                                    className="w-[24px] z-[-1] h-[24px] fill-[#00754a] overflow-hidden flex justify-end absolute "
+                                    focusable="false"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    viewBox="0 0 24 24"
+                                    loading="lazy"
+                                  >
+                                    <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                                    <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                                  </svg>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -447,8 +547,6 @@ function Customize({ handleCustomize, size }) {
                             return null;
                           }
 
-                          // Esas problemlerden biride burdaki isSpecialField vare o selectlere click edende yeni hecne yaranmamalidi
-                          // sadece hemiun selectden secilen option name olarag gorunmelidi
                           return (
                             <div key={fieldIndex} className="my-4">
                               {options.length > 2 && !isSpecialField ? (
@@ -506,7 +604,7 @@ function Customize({ handleCustomize, size }) {
                                         <svg
                                           aria-hidden="true"
                                           className={`${
-                                            countInp === 1 ? "hidden" : "block"
+                                            countInp[fieldIndex] === 1 ? "hidden" : "block"
                                           } w-[24px] h-[24px] fill-[#00754a] `}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
@@ -528,7 +626,9 @@ function Customize({ handleCustomize, size }) {
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        className="w-[24px] h-[24px] fill-[#00754a]"
+                                        className={`${
+                                          countInp[fieldIndex] === 12 ? "hidden" : "block"
+                                        } w-[24px] h-[24px] fill-[#00754a] `}
                                         focusable="false"
                                         preserveAspectRatio="xMidYMid meet"
                                         viewBox="0 0 24 24"
@@ -549,120 +649,6 @@ function Customize({ handleCustomize, size }) {
                 );
               })}
             </div>
-
-            {/* Sağ tərəf */}
-            {/* <div className="right-sided flex justify-center items-center flex-col lg:w-1/2 gap-6">
-            {details.productOptions.map((item, index) => {
-                return index > 3 ? (
-                  <div className="max-w-[400px] w-full" key={index}>
-                    <h2 className="font-semibold text-[1.2rem] pb-[1rem] px-2 md:text-[1.7rem] border-b-[4px] border-[#d4e9e2]">
-                      {item.name}
-                    </h2>
-                    <div className="products">
-                      {item.children.map((child, idx) => (
-                        <div
-                          className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8"
-                          key={idx}
-                        >
-                          <select
-                            onChange={(e) =>
-                              handleOptionClick(
-                                index,
-                                child.products[e.target.selectedIndex]
-                              )
-                            }
-                            className="w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"
-                            name="name"
-                            id="name"
-                          >
-                            {child.products.map((p, id) => {
-                              // console.log("child", child);
-
-                              // console.log("p:", p.form.sizes);
-
-                              return (
-                                <option
-                                  value={p.form.name}
-                                  key={id}
-                                >
-                                  {p.form.name}
-                                </option>
-                              );
-                            })}
-                          </select>
-                          <span className="flex justify-between">
-                            <span className="md:text-[1.3rem]">
-                              Add {child.name}
-                            </span>
-                            <svg
-                              aria-hidden="true"
-                              className="w-[24px] h-[24px] fill-[#00754a]"
-                              focusable="false"
-                              preserveAspectRatio="xMidYMid meet"
-                              viewBox="0 0 24 24"
-                              loading="lazy"
-                            >
-                              <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                              <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                            </svg>
-                          </span>
-                        </div>
-                      ))}
-
-                      {fields[index] &&
-                        fields[index].map((field, fieldIndex) => {
-                          const { options } = field;
-                            console.log(field);
-                            
-                          return (
-                            <div key={fieldIndex} className="my-4">
-                              {options.length > 2 ? (
-                                <div className="shadow-[0_0_0_1px_#00000094]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
-                                  <select
-                                    className="w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"
-                                    name="name"
-                                    id="name"
-                                  >
-                                    {options.map((opt, optIdx) => (
-                                      <option key={optIdx} value={opt.name}>
-                                        {opt.name}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  <span className="flex justify-between">
-                                    <span className="md:text-[1.3rem]">
-                                     {field.label}
-                                    </span>
-                                    <svg
-                                      aria-hidden="true"
-                                      className="w-[24px] h-[24px] fill-[#00754a]"
-                                      focusable="false"
-                                      preserveAspectRatio="xMidYMid meet"
-                                      viewBox="0 0 24 24"
-                                      loading="lazy"
-                                    >
-                                      <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                                      <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                                    </svg>
-                                  </span>
-                                </div>
-                              ) : (
-                                <input
-                                  type="text"
-                                  className="w-full shadow-[0_0_0_1px_#00000094]  focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none rounded-lg px-[16px] py-[12px] md:py-[8px] relative  border"
-                                  placeholder="Enter option"
-                                  value={options[0]?.name || ""}
-                                  readOnly
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                ) : null;
-              })}
-            </div> */}
           </>
         )}
       </div>
@@ -687,59 +673,6 @@ function Customize({ handleCustomize, size }) {
           </span>
         </button>
       </div>
-
-      {/* <div className="Customizee flex flex-wrap justify-center max-w-[1000px] mx-auto gap-20">
-              {details?.productOptions &&
-                details?.productOptions.map((item, i) => {
-                  return (
-                    <div className="max-w-[400px] w-full">
-                      <h2 className="font-semibold text-[1.2rem]  pb-[1rem] px-2 md:text-[1.7rem] border-b-[4px] border-[#d4e9e2]">
-                        {item.name}
-                      </h2>
-                      <div className="">
-                        {item.children.map((child) => {
-                          return (
-                            <>
-                              <div className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative  mt-8">
-                                <select
-                                  className="w-full opacity-0 appearance-none absolute inset-0 h-full outline-none"
-                                  name="name"
-                                  id="name"
-                                >
-                                  {child.products.map((p) => {
-                                    return (
-                                      <option value=" 2/3 Decaf">
-                                        {p.form.name}
-                                      </option>
-                                    );
-                                  })}
-                                </select>
-                                <span className="flex justify-between">
-                                  <span className="md:text-[1.3rem]">
-                                    Add {child.name}
-                                  </span>
-
-                                  <svg
-                                    aria-hidden="true"
-                                    className="w-[24px] h-[24px] fill-[#00754a]"
-                                    focusable="false"
-                                    preserveAspectRatio="xMidYMid meet"
-                                    viewBox="0 0 24 24"
-                                    loading="lazy"
-                                  >
-                                    <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                                    <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                                  </svg>
-                                </span>
-                              </div>
-                            </>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-            </div> */}
     </>
   );
 }

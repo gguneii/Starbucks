@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Basket() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#1e3932] z-[2] ">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#1e3932] z-[20] ">
       <div className="py-[1rem] flex items-center justify-between w-full px-[1.6rem]">
         <div className="custom:px-[100px] lg:mx-auto">
         <Link

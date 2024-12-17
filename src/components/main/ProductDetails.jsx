@@ -5,17 +5,21 @@ import { DATA } from "../../context/DataContext";
 import { Helmet } from "react-helmet";
 import Customize from "./Customize";
 import ScrollTo from "../../utils/ScrollTo";
+import { SELECTCONTEXT } from "../../context/SelectContext";
 
 function ProductDetails() {
   const [selectedVal, setSelectedVal] = useState("Water");
   const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
   const { data, details } = useContext(DATA);
+  const { isCustomized, setIsCustomized, allEvents, setAllEvents } =
+    useContext(SELECTCONTEXT);
   const { id, temp } = useParams();
   const [productName, setProductName] = useState(null);
   const [showCustomize, setShowCustomize] = useState(true);
   const [calory, setCalory] = useState(15);
   const [count, setCount] = useState(3);
   const [size, setSize] = useState("Grande");
+  console.log(allEvents);
 
   useEffect(() => {
     if (size === "Short") {
@@ -115,7 +119,15 @@ function ProductDetails() {
   const handleCustomize = (val) => {
     setShowCustomize(val);
   };
-
+  const handleInputChange = (key, value) => {
+    setAllEvents((prev) => ({
+      ...prev,
+      [key]: {
+        ...prev[key],
+        value,
+      },
+    }));
+  };
   return (
     <>
       <Helmet>
@@ -181,7 +193,6 @@ function ProductDetails() {
                       const sizeImage = sizeImages.find(
                         (ad) => ad.name === item.sizeCode
                       );
-                      // console.log("sizeImage:", sizeImage);
 
                       return (
                         <label
@@ -221,6 +232,100 @@ function ProductDetails() {
                   What's included
                 </h2>
               </div>
+              {/* LOCALLLSTORAGEDEN GELENLERRRRR */}
+              <div className="mt-5">
+                {Object.entries(allEvents).map(([key, field], index) => {
+                  console.log("field: ", field);
+                  
+                  return (
+                    <div key={index} className="mb-4">
+                     
+  
+                      {/* Şərt: Options sayı 2-dən çoxdursa, select göstər */}
+                      {Array.isArray(field.options) &&
+                      field.options.length > 2 ? (
+                        <select
+                          id={key}
+                          name={key}
+                          className="border border-gray-300 rounded px-3 py-2 w-full"
+                          value={field.value || ""}
+                          onChange={(e) =>
+                            setAllEvents((prev) => ({
+                              ...prev,
+                              [key]: { ...field, value: e.target.value },
+                            }))
+                          }
+                        >
+                          {field.options.map((option, idx) => (
+                            <option key={idx} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
+                        <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg justify-between">
+                          <div>
+                            {/* <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[.4rem] transform translate-y-[50%]">
+                              Customized
+                            </span> */}
+                            <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
+                              {field.value}
+                            </p>
+                          </div>
+                          <div className="flex items-center px-4">
+                            <button
+                             onClick={() => {
+                              setAllEvents((prev) => {
+                                const updatedField = { ...prev[key] };  // [key] istifadə et
+                                updatedField.number = updatedField.number > 0 ? updatedField.number - 1 : 0;
+                                return { ...prev, [key]: updatedField };  // [key] ilə field-i yenilə
+                              });
+                            }}
+                            >
+                              {
+                                <svg
+                                  aria-hidden="true"
+                                  className={` w-[24px] h-[24px] fill-[#00754a] `}
+                                  focusable="false"
+                                  preserveAspectRatio="xMidYMid meet"
+                                  viewBox="0 0 24 24"
+                                  loading="lazy"
+                                >
+                                  <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                  <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                                </svg>
+                              }
+                            </button>
+                            <span className="px-2">{field.number || 0}</span>
+                            <button
+                                onClick={() => {
+                                  setAllEvents((prev) => {
+                                    const updatedField = { ...prev[key] };  // [key] istifadə et
+                                    updatedField.number = (updatedField.number || 0) + 1;
+                                    return { ...prev, [key]: updatedField };  // [key] ilə field-i yenilə
+                                  });
+                                }}
+                            >
+                              <svg
+                                aria-hidden="true"
+                                className={` w-[24px] h-[24px] fill-[#00754a] `}
+                                focusable="false"
+                                preserveAspectRatio="xMidYMid meet"
+                                viewBox="0 0 24 24"
+                                loading="lazy"
+                              >
+                                <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
               <div className="water_added">
                 <div className="shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg px-[16px] py-[12px] md:py-[8px] relative  mt-5">
                   <label
@@ -236,6 +341,7 @@ function ProductDetails() {
                     className="w-full opacity-0 appearance-none absolute inset-0 h-full z-[1] outline-none"
                     name="name"
                     id="name"
+                    // value={isCustomized}
                     onChange={handleChange}
                   >
                     <option value="Extra Water">Extra Water</option>
@@ -384,7 +490,12 @@ function ProductDetails() {
             </div>
           </div>
         ) : (
-          <Customize handleCustomize={handleCustomize} size={size} />
+          <Customize
+            handleCustomize={handleCustomize}
+            count={count}
+            setCount={setCount}
+            size={size}
+          />
         )}
 
         <div className="mt-[3rem] bg-[#1e3932]">

@@ -81,7 +81,7 @@ function Main() {
                 Unwrap your first gift
               </h1>
               <p className="leading-6 py-[20px] px-4 font-semibold md:text-[19px] md:max-w-[400px] lg:leading-8">
-                Join Starbucks® Rewards and get a <strong>free drink</strong>{" "}
+                Join Starbucks® Rewards and get a <strong>free drink</strong>
                 with qualifying purchase during your first week.**
               </p>
               <a

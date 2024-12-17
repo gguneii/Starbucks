@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { DATA } from "../../context/DataContext";
 import { useLocation } from "react-router-dom";
 import ScrollTo from "../../utils/ScrollTo";
+import { SELECTCONTEXT } from "../../context/SelectContext";
 
-function Customize({ handleCustomize, size }) {
+function Customize({ handleCustomize, count, setCount, size}) {
   const { details } = useContext(DATA);
-  const [count, setCount] = useState(3);
+  // const [count, setCount] = useState(3);
   const [checked, setChecked] = useState(false);
   const [fields, setFields] = useState({});
   const [renderedFields, setRenderedFields] = useState([]);
@@ -14,9 +15,15 @@ function Customize({ handleCustomize, size }) {
   const [countChai, setCountChai] = useState(null);
   const [countSweet, setCountSweet] = useState(null);
   const [countInp, setCountInp] = useState([]);
-
   const [isCustomized, setIsCustomized] = useState({});
-
+  // const [allEvents, setAllEvents] = useState({})
+  // const { fields, setFields, selectedOption, setSelectedOption, sizeOptions, setSizeOptions, isCustomized, setIsCustomized,
+  //   countChai, setCountChai, countSweet, setCountSweet, countInp, setCountInp, checked, setChecked,
+  //   allEvents, setAllEvents
+  //  } = useContext(SELECTCONTEXT)
+  const{allEvents, setAllEvents}=useContext(SELECTCONTEXT)
+  console.log(allEvents);
+  
   const { pathname } = useLocation();
   ScrollTo(pathname, 500);
 
@@ -25,7 +32,7 @@ function Customize({ handleCustomize, size }) {
     setChecked(e.target.checked);
   }
 
-  // bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
+// bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
 const handleIncrement = (index) => {
   setCountInp((prev) => {
     const newCounts = [...prev];
@@ -42,7 +49,7 @@ const handleIncrement = (index) => {
     });
   };
 
-  //avtomatik input yarananda sizelara gore input deyerini gostersin
+  // input yarananda avtomatik sizelara gore input deyerini gostersin
   useEffect(() => {
     const sizeMapping = {
       Short: { count: 1, countInp: 2 },
@@ -54,7 +61,8 @@ const handleIncrement = (index) => {
 
     const newSize = sizeMapping[size];
     if (newSize) {
-      setCount(newSize.count);
+
+      // setCount(newSize.count);
 
       setCountInp((prev) => {
         // İlkin olaraq ya boş massiv, ya da əvvəlki massiv dəyəri
@@ -92,35 +100,42 @@ const handleIncrement = (index) => {
       )
     );
   };
+
   //yeni select ve div yarananda onun icine optionlarin maplenmesi
   const chooseOption = (index, fieldIndex, e) => {
-    const selectedValue = e.target.value;
-
+    const selectedValue = e.target.value.trim(); // Dəyəri boşluqlardan təmizləyirik
+    // console.log(selectedValue);
+  
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
-
+  
       if (updatedFields[index]) {
         updatedFields[index] = updatedFields[index].map((field, idx) => {
           if (idx === fieldIndex) {
-            // "No" sözünü yoxlayır
+            // İlk sözün "No" olub-olmadığını yoxlayırıq
+            const firstWord = selectedValue.split(" ")[0]; // Cümləni boşluqlara görə ayırırıq
             return {
               ...field,
-              selectedOption: selectedValue.includes("No")
-                ? "" // Əgər "No" varsa, seçimi sıfırlayır
+              selectedOption: firstWord === "No"
+                ? "" // Əgər ilk söz "No"-dırsa, seçimi sıfırlayırıq
                 : selectedValue,
             };
           }
           return field;
         });
       }
-
+  
       return updatedFields;
     });
   };
-
-  // console.log(fields);
+  
 
   const handleCombinedChange = (e, index, child, hasSingleOption) => {
+    const { name, value } = e.target;
+
+  // Yeni dəyəri allEvents obyektinə əlavə et
+ 
+  
     if (hasSingleOption) {
       const singleProduct = child.products[0];
       const selectedSize =
@@ -131,8 +146,8 @@ const handleIncrement = (index) => {
         newSizeOptions[index] = selectedSize;
         return newSizeOptions;
       });
-
       // console.log("Selected Size:", selectedSize);
+
     } else {
       const selectedProduct = child.products[e.target.selectedIndex];
       const selectedName = selectedProduct?.form?.name || "";
@@ -140,6 +155,15 @@ const handleIncrement = (index) => {
       setSelectedOption(selectedName);
 
       // console.log("Selected Name:", selectedName);
+      setAllEvents((prev) => ({
+        ...prev,
+        [`${name}_${Date.now()}`]: { // Unikal açar yaratmaq üçün Date.now() istifadə olunur
+          value, // Yeni seçilmiş dəyər
+          options: selectedProduct.form?.sizes || [], // Mövcud seçimlər
+          number: countInp[0] || 0, // Default olaraq 0-dan başla
+        },
+      }));
+      
     }
   };
 
@@ -147,17 +171,9 @@ const handleIncrement = (index) => {
     // console.log("Selected Option Updated:", selectedOption);
   }, [selectedOption]);
 
-  // const handleSelectChange = (e, productId) => {
-  //   const selectedValue = e.target.value;
-  //   setIsCustomized((prev) => ({
-  //     ...prev,
-  //     [productId]: !!selectedValue, // Məhsulun yalnız seçilmiş olub-olmamasını yeniləyir
-  //   }));
-  // };
-
   const handleSelectChange = (e, childName) => {
     const selectedValue = e.target.value;
-
+    
     // Seçimi sıfırlamaq üçün yoxlama
     if (selectedValue.includes("No")) {
       // Seçimi default halına qaytarır
@@ -226,7 +242,7 @@ const handleIncrement = (index) => {
                         return (
                           <div className="" key={idx}>
                             {specialChildNames ? (
-                              <div className="flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
+                              <div className=" flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
                                 <div>
                                   <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none">
                                     {`Add ${child.products[0].form.name}`}
@@ -405,13 +421,15 @@ const handleIncrement = (index) => {
                               // Default select dropdown
                               <div className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                 <select
-                                  onChange={(e) =>
+                                  onChange={(e) =>         
+                                  {
                                     handleCombinedChange(
                                       e,
                                       index,
                                       child,
                                       hasSingleOption
                                     )
+                                  }
                                   }
                                   value={
                                     hasSingleOption
@@ -488,7 +506,6 @@ const handleIncrement = (index) => {
                                         ];
                                         return yeniArr.map((size, i) => {
                                           // console.log(child.id);
-
                                           return (
                                             <option
                                               selected={i == 0}

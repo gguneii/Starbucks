@@ -11,9 +11,6 @@ function SelectContext({children}) {
   const [countInp, setCountInp] = useState([]);
   const [checked, setChecked] = useState(false);
 
-
-
-
   const [allEvents, setAllEvents] = useState(() => {
     const stored = localStorage.getItem("allEvents");
     return stored ? JSON.parse(stored) : {};

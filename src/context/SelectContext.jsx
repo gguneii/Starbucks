@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react"
 
-export const SELECTCONTEXT = createContext()
+export const SELECTCONTEXT = createContext(null)
 function SelectContext({children}) {
   const [fields, setFields] = useState({});
   const [selectedOption, setSelectedOption] = useState("");

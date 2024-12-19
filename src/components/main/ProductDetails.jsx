@@ -11,15 +11,26 @@ function ProductDetails() {
   const [selectedVal, setSelectedVal] = useState("Water");
   const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
   const { data, details } = useContext(DATA);
-  const { isCustomized, setIsCustomized, allEvents, setAllEvents } =
-    useContext(SELECTCONTEXT);
+  const {
+    allEvents,
+    setAllEvents,
+    checked,
+    setChecked,
+    countChai,
+    setCountChai,
+    countSweet,
+    setCountSweet,
+  } = useContext(SELECTCONTEXT);
   const { id, temp } = useParams();
   const [productName, setProductName] = useState(null);
   const [showCustomize, setShowCustomize] = useState(true);
   const [calory, setCalory] = useState(15);
   const [count, setCount] = useState(3);
   const [size, setSize] = useState("Grande");
-  console.log(allEvents);
+  const [showCustomized, setShowCustomized] = useState(false);
+  const [showCustomized2, setShowCustomized2] = useState(false);
+  // console.log(allEvents);
+  const defaultCount = (size === "Short" ? 1 : size === "Tall" ? 2 : size === "Grande" ? 3 : 4);
 
   useEffect(() => {
     if (size === "Short") {
@@ -40,10 +51,26 @@ function ProductDetails() {
     }
   }, [size]);
   const handleChange = (e) => {
-    setSelectedVal(e.target.value);
+    const selectedOption = e.target.value;
+    setSelectedVal(selectedOption);
+
+    // Əgər seçilən dəyər "No Water"dirsə, Customized yazısını gizlətmək üçün
+    if (selectedOption === "No Water") {
+      setShowCustomized(false); // Customized yazısını gizlədirik
+    } else {
+      setShowCustomized(true); // Digər seçimlərdə Customized yazısını göstəririk
+    }
   };
   const handleChange2 = (e) => {
-    setSelectedVal2(e.target.value);
+    const selectedOption = e.target.value;
+    setSelectedVal2(selectedOption);
+
+    // Əgər seçilən dəyər "Decaf Espresso Roast"dirsə, Customized yazısını gizlətmək üçün
+    if (selectedOption === "Signature Espresso") {
+      setShowCustomized2(false); // Customized yazısını gizlədirik
+    } else {
+      setShowCustomized2(true); // Digər seçimlərdə Customized yazısını göstəririk
+    }
   };
 
   const chooseSize = (selectedSize) => {
@@ -119,15 +146,15 @@ function ProductDetails() {
   const handleCustomize = (val) => {
     setShowCustomize(val);
   };
-  const handleInputChange = (key, value) => {
-    setAllEvents((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        value,
-      },
-    }));
-  };
+  // const handleInputChange = (key, value) => {
+  //   setAllEvents((prev) => ({
+  //     ...prev,
+  //     [key]: {
+  //       ...prev[key],
+  //       value,
+  //     },
+  //   }));
+  // };
   return (
     <>
       <Helmet>
@@ -235,33 +262,57 @@ function ProductDetails() {
               {/* LOCALLLSTORAGEDEN GELENLERRRRR */}
               <div className="mt-5">
                 {Object.entries(allEvents).map(([key, field], index) => {
-                  console.log("field: ", field);
-                  
+                  // console.log("field oprions", [key, field][0]);
+                  const specialOptions = [
+                    "select-Ristretto or Long Shot",
+                    "select-Shot Prep",
+                  ].includes([key, field][0]);
+
                   return (
                     <div key={index} className="mb-4">
-                     
-  
                       {/* Şərt: Options sayı 2-dən çoxdursa, select göstər */}
                       {Array.isArray(field.options) &&
-                      field.options.length > 2 ? (
-                        <select
-                          id={key}
-                          name={key}
-                          className="border border-gray-300 rounded px-3 py-2 w-full"
-                          value={field.value || ""}
-                          onChange={(e) =>
-                            setAllEvents((prev) => ({
-                              ...prev,
-                              [key]: { ...field, value: e.target.value },
-                            }))
-                          }
-                        >
-                          {field.options.map((option, idx) => (
-                            <option key={idx} value={option.name}>
-                              {option.name}
-                            </option>
-                          ))}
-                        </select>
+                      (field.options.length > 2 || specialOptions) ? (
+                        <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
+                          <select
+                            id={key}
+                            name={key}
+                            className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
+                            value={field.value || ""}
+                            onChange={(e) =>
+                              setAllEvents((prev) => ({
+                                ...prev,
+                                [key]: { ...field, value: e.target.value },
+                              }))
+                            }
+                          >
+                            {field.options.map((option, idx) => {
+                              return (
+                                <option
+                                  key={idx}
+                                  value={option.name || option}
+                                  // className={option ? (idx === 0 ? " hidden disabled" : "") : ""}
+                                  // selected={field.value === option.name}
+                                >
+                                  {option.name || option}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <div className="flex pr-6 z-10">
+                            <svg
+                              aria-hidden="true"
+                              className="w-[24px] z-[-1] h-[24px] fill-[#00754a] overflow-hidden flex justify-end absolute "
+                              focusable="false"
+                              preserveAspectRatio="xMidYMid meet"
+                              viewBox="0 0 24 24"
+                              loading="lazy"
+                            >
+                              <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                              <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                            </svg>
+                          </div>
+                        </div>
                       ) : (
                         // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
                         <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg justify-between">
@@ -275,13 +326,16 @@ function ProductDetails() {
                           </div>
                           <div className="flex items-center px-4">
                             <button
-                             onClick={() => {
-                              setAllEvents((prev) => {
-                                const updatedField = { ...prev[key] };  // [key] istifadə et
-                                updatedField.number = updatedField.number > 0 ? updatedField.number - 1 : 0;
-                                return { ...prev, [key]: updatedField };  // [key] ilə field-i yenilə
-                              });
-                            }}
+                              onClick={() => {
+                                setAllEvents((prev) => {
+                                  const updatedField = { ...prev[key] }; // [key] istifadə et
+                                  updatedField.number =
+                                    updatedField.number > 0
+                                      ? updatedField.number - 1
+                                      : 0;
+                                  return { ...prev, [key]: updatedField }; // [key] ilə field-i yenilə
+                                });
+                              }}
                             >
                               {
                                 <svg
@@ -299,13 +353,14 @@ function ProductDetails() {
                             </button>
                             <span className="px-2">{field.number || 0}</span>
                             <button
-                                onClick={() => {
-                                  setAllEvents((prev) => {
-                                    const updatedField = { ...prev[key] };  // [key] istifadə et
-                                    updatedField.number = (updatedField.number || 0) + 1;
-                                    return { ...prev, [key]: updatedField };  // [key] ilə field-i yenilə
-                                  });
-                                }}
+                              onClick={() => {
+                                setAllEvents((prev) => {
+                                  const updatedField = { ...prev[key] }; // [key] istifadə et
+                                  updatedField.number =
+                                    (updatedField.number || 0) + 1;
+                                  return { ...prev, [key]: updatedField }; // [key] ilə field-i yenilə
+                                });
+                              }}
                             >
                               <svg
                                 aria-hidden="true"
@@ -323,8 +378,156 @@ function ProductDetails() {
                         </div>
                       )}
                     </div>
-                  )
+                  );
                 })}
+                {countChai && (
+                  <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
+                    <p>Add Chai</p>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() =>
+                          setCountChai((prev) =>
+                            prev === 1 ? null : Math.max(prev - 1, 1)
+                          )
+                        }
+                      >
+                        {
+                          <svg
+                            aria-hidden="true"
+                            className={`${
+                              countChai === null ? "hidden" : "block"
+                            } w-[24px] h-[24px] fill-[#00754a]`}
+                            focusable="false"
+                            preserveAspectRatio="xMidYMid meet"
+                            viewBox="0 0 24 24"
+                            loading="lazy"
+                          >
+                            <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                            <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                          </svg>
+                        }
+                      </button>
+                      <span
+                        className={`${
+                          countChai === null ? "hidden" : "block"
+                        } px-2`}
+                      >
+                        {countChai}
+                      </span>
+                      <button
+                        onClick={() =>
+                          setCountChai((prev) =>
+                            prev === null ? 1 : Math.min(prev + 1, 12)
+                          )
+                        }
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className={`${
+                            countChai === 12 ? "hidden" : "block"
+                          } w-[24px] h-[24px] fill-[#00754a]`}
+                          focusable="false"
+                          preserveAspectRatio="xMidYMid meet"
+                          viewBox="0 0 24 24"
+                          loading="lazy"
+                        >
+                          <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                          <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {countSweet && (
+                  <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
+                    <p>Add Classic Syrup</p>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() =>
+                          setCountSweet((prev) =>
+                            prev === 1 ? null : Math.max(prev - 1, 1)
+                          )
+                        }
+                      >
+                        {
+                          <svg
+                            aria-hidden="true"
+                            className={`${
+                              countSweet === null ? "hidden" : "block"
+                            } w-[24px] h-[24px] fill-[#00754a]`}
+                            focusable="false"
+                            preserveAspectRatio="xMidYMid meet"
+                            viewBox="0 0 24 24"
+                            loading="lazy"
+                          >
+                            <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                            <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                          </svg>
+                        }
+                      </button>
+                      <span
+                        className={`${
+                          countSweet === null ? "hidden" : "block"
+                        } px-2`}
+                      >
+                        {countSweet}
+                      </span>
+                      <button
+                        onClick={() =>
+                          setCountSweet((prev) =>
+                            prev === null ? 1 : Math.min(prev + 1, 12)
+                          )
+                        }
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className={`${
+                            countSweet === 12 ? "hidden" : "block"
+                          } w-[24px] h-[24px] fill-[#00754a]`}
+                          focusable="false"
+                          preserveAspectRatio="xMidYMid meet"
+                          viewBox="0 0 24 24"
+                          loading="lazy"
+                        >
+                          <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                          <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {checked && (
+                  <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
+                    <div className="flex items-center">
+                      <label
+                        htmlFor="checkbox"
+                        className="flex items-center cursor-pointer"
+                      >
+                        <span>Personal Cup</span>
+                        <span className="ml-4">
+                          <input
+                            onChange={(e) => setChecked(e.target.checked)}
+                            className="absolute w-0 h-0 opacity-0 right-4"
+                            type="checkbox"
+                            id="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            className={`w-[24px] h-[24px] border absolute right-4 top-3 rounded-lg border-[#00754a] ${
+                              checked ? "bg-[#00754a] fill-white" : "fill-none"
+                            }`}
+                            focusable="false"
+                            preserveAspectRatio="xMidYMid meet"
+                            viewBox="0 0 24 24"
+                            loading="lazy"
+                          >
+                            <path d="M4.29 12.104c-.277-.308-.75-.332-1.06-.054-.306.278-.33.752-.053 1.06l4.485 4.963c.29.322.795.33 1.096.017L20.414 6.003c.288-.298.28-.773-.02-1.06-.297-.288-.772-.28-1.06.02L8.237 16.47 4.29 12.105z"></path>
+                          </svg>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="water_added">
                 <div className="shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg px-[16px] py-[12px] md:py-[8px] relative  mt-5">
@@ -334,9 +537,11 @@ function ProductDetails() {
                   >
                     Add-ins
                   </label>
-                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
-                    Customized
-                  </span>
+                  {showCustomized && (
+                    <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
+                      Customized
+                    </span>
+                  )}
                   <select
                     className="w-full opacity-0 appearance-none absolute inset-0 h-full z-[1] outline-none"
                     name="name"
@@ -372,9 +577,11 @@ function ProductDetails() {
                 >
                   Espresso & Shot Options
                 </label>
-                <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
-                  Customized
-                </span>
+                {showCustomized2 && (
+                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
+                    Customized
+                  </span>
+                )}
                 <select
                   className="w-full opacity-0 appearance-none absolute inset-0 h-full z-[1] outline-none"
                   name="name"
@@ -413,9 +620,13 @@ function ProductDetails() {
                   >
                     Espresso & Shot Options
                   </label>
-                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
+                 {
+                  count !== defaultCount && (
+                    <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
                     Customized
                   </span>
+                  )
+                 }
                   <div className="flex justify-between">
                     <p className="w-full md:text-[1.3rem]">Shots</p>
                     <div className="flex items-center">

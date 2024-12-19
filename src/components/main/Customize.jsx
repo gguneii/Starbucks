@@ -7,21 +7,21 @@ import { SELECTCONTEXT } from "../../context/SelectContext";
 function Customize({ handleCustomize, count, setCount, size}) {
   const { details } = useContext(DATA);
   // const [count, setCount] = useState(3);
-  const [checked, setChecked] = useState(false);
-  const [fields, setFields] = useState({});
+  // const [checked, setChecked] = useState(false);
+  // const [fields, setFields] = useState({});
   const [renderedFields, setRenderedFields] = useState([]);
-  const [sizeOptions, setSizeOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [countChai, setCountChai] = useState(null);
-  const [countSweet, setCountSweet] = useState(null);
-  const [countInp, setCountInp] = useState([]);
-  const [isCustomized, setIsCustomized] = useState({});
+  // const [sizeOptions, setSizeOptions] = useState([]);
+  // const [selectedOption, setSelectedOption] = useState("");
+  // const [countChai, setCountChai] = useState(null);
+  // const [countSweet, setCountSweet] = useState(null);
+  // const [countInp, setCountInp] = useState([]);
+  // const [isCustomized, setIsCustomized] = useState({});
   // const [allEvents, setAllEvents] = useState({})
-  // const { fields, setFields, selectedOption, setSelectedOption, sizeOptions, setSizeOptions, isCustomized, setIsCustomized,
-  //   countChai, setCountChai, countSweet, setCountSweet, countInp, setCountInp, checked, setChecked,
-  //   allEvents, setAllEvents
-  //  } = useContext(SELECTCONTEXT)
-  const{allEvents, setAllEvents}=useContext(SELECTCONTEXT)
+  const { fields, setFields, selectedOption, setSelectedOption, sizeOptions, setSizeOptions, isCustomized, setIsCustomized,
+    countChai, setCountChai, countSweet, setCountSweet, countInp, setCountInp, checked, setChecked,
+    allEvents, setAllEvents
+   } = useContext(SELECTCONTEXT)
+  // const{allEvents, setAllEvents}=useContext(SELECTCONTEXT)
   console.log(allEvents);
   
   const { pathname } = useLocation();
@@ -104,7 +104,6 @@ const handleIncrement = (index) => {
   //yeni select ve div yarananda onun icine optionlarin maplenmesi
   const chooseOption = (index, fieldIndex, e) => {
     const selectedValue = e.target.value.trim(); // Dəyəri boşluqlardan təmizləyirik
-    // console.log(selectedValue);
   
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
@@ -154,7 +153,6 @@ const handleIncrement = (index) => {
       handleOptionClick(index, selectedProduct);
       setSelectedOption(selectedName);
 
-      // console.log("Selected Name:", selectedName);
       setAllEvents((prev) => ({
         ...prev,
         [`${name}_${Date.now()}`]: { // Unikal açar yaratmaq üçün Date.now() istifadə olunur
@@ -172,12 +170,15 @@ const handleIncrement = (index) => {
   }, [selectedOption]);
 
   const handleSelectChange = (e, childName) => {
+    const { name, value, options } = e.target;
     const selectedValue = e.target.value;
+    const allOptions = Array.from(options)
+    .map((option) => option.value)
+    .filter((value) => value.trim() !== ""); // Boş opsiyonları xaric edin
+  
     
-    // Seçimi sıfırlamaq üçün yoxlama
     if (selectedValue.includes("No")) {
-      // Seçimi default halına qaytarır
-      e.target.value = ""; // Default seçimi göstərmək üçün boş dəyər
+      e.target.value = ""; 
       setIsCustomized((prev) => ({
         ...prev,
         [childName]: false, // Customized etiketini gizlət
@@ -189,6 +190,13 @@ const handleIncrement = (index) => {
         [childName]: true,
       }));
     }
+    setAllEvents((prev) => ({
+      ...prev,
+      [name]: { 
+        value, // Yeni seçilmiş dəyər
+        options: allOptions, // Bütün mövcud seçimlər
+      },
+    }));
   };
 
   return (
@@ -242,7 +250,7 @@ const handleIncrement = (index) => {
                         return (
                           <div className="" key={idx}>
                             {specialChildNames ? (
-                              <div className=" flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
+                              <div className="flex w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[16px] py-[12px]  rounded-lg overflow-hidden justify-between">
                                 <div>
                                   <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  outline-none">
                                     {`Add ${child.products[0].form.name}`}
@@ -253,7 +261,7 @@ const handleIncrement = (index) => {
                                     <label htmlFor="remember"></label>
                                     <input
                                       onChange={showCheck}
-                                      className="border-0 opacity-0 overflow-hidden absolute w-[22px] h-[22px] right-3 top-3 cursor-pointer"
+                                      className="border-0 opacity-0 overflow-hidden absolute w-[22px] h-[22px] right-0 top-0 cursor-pointer"
                                       type="checkbox"
                                       name=""
                                       id="checkbox"

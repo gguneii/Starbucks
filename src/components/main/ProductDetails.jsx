@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Basket from "./Basket";
 import { DATA } from "../../context/DataContext";
+import { SELECTCONTEXT } from "../../context/SelectContext";
 import { Helmet } from "react-helmet";
 import Customize from "./Customize";
 import ScrollTo from "../../utils/ScrollTo";
-import { SELECTCONTEXT } from "../../context/SelectContext";
 
 function ProductDetails() {
   const [selectedVal, setSelectedVal] = useState("Water");
   const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
-  const { data, details } = useContext(DATA);
+  const { data } = useContext(DATA);
   const {
     allEvents,
     setAllEvents,

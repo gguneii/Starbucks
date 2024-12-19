@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { DATA } from "../../context/DataContext";
+import { SELECTCONTEXT } from "../../context/SelectContext";
 import { useLocation } from "react-router-dom";
 import ScrollTo from "../../utils/ScrollTo";
-import { SELECTCONTEXT } from "../../context/SelectContext";
 
 function Customize({ handleCustomize, count, setCount, size}) {
   const { details } = useContext(DATA);
@@ -22,7 +22,7 @@ function Customize({ handleCustomize, count, setCount, size}) {
     allEvents, setAllEvents
    } = useContext(SELECTCONTEXT)
   // const{allEvents, setAllEvents}=useContext(SELECTCONTEXT)
-  console.log(allEvents);
+  // console.log(allEvents);
   
   const { pathname } = useLocation();
   ScrollTo(pathname, 500);

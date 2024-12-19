@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { DATA } from "../../context/DataContext";
-import { SELECTCONTEXT } from "../../context/SelectContext";
+// import { SELECTCONTEXT } from "../../context/SelectContext";
 import { useLocation } from "react-router-dom";
 import ScrollTo from "../../utils/ScrollTo";
+import { SELECTCONTEXT } from "../../context/SelectContext";
 
 function Customize({ handleCustomize, count, setCount, size}) {
   const { details } = useContext(DATA);

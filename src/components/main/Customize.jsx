@@ -204,7 +204,7 @@ const handleIncrement = (index) => {
     <>
       <button
         onClick={() => handleCustomize(true)}
-        className="flex items-center text-[20px] font-semibold my-8 ml-16"
+        className="flex items-center text-[20px] hover:bg-[#f0f0f0] px-4 py-2 rounded-full font-semibold my-8 ml-16"
       >
         <svg
           aria-hidden="true"
@@ -479,7 +479,8 @@ const handleIncrement = (index) => {
                                 </span>
                               </div>
                             ) : (
-                              <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
+                             <div className="relative">
+                               <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                 {/* salam qaqaqqaqa */}
                                 <select
                                   onChange={(e) =>
@@ -532,11 +533,6 @@ const handleIncrement = (index) => {
                                         });
                                       })}
                                 </select>
-                                {isCustomized[child.name] && (
-                                  <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem] transform translate-y-[50%]">
-                                    Customized
-                                  </span>
-                                )}
                                 <div className="flex pr-6 z-10">
                                   <svg
                                     aria-hidden="true"
@@ -550,7 +546,15 @@ const handleIncrement = (index) => {
                                     <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
                                   </svg>
                                 </div>
+                                
                               </div>
+                              {isCustomized[child.name] && (
+                                  <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]"
+                                  >
+                                    Customized
+                                  </span>
+                                )}
+                             </div>
                             )}
                           </div>
                         );

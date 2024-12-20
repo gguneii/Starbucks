@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Basket from "./Basket";
 import { DATA } from "../../context/DataContext";
 import { SELECTCONTEXT } from "../../context/SelectContext";
@@ -8,8 +8,6 @@ import Customize from "./Customize";
 import ScrollTo from "../../utils/ScrollTo";
 
 function ProductDetails() {
-  const [selectedVal, setSelectedVal] = useState("Water");
-  const [selectedVal2, setSelectedVal2] = useState("Signature Espresso");
   const { data } = useContext(DATA);
   const {
     allEvents,
@@ -20,34 +18,70 @@ function ProductDetails() {
     setCountChai,
     countSweet,
     setCountSweet,
+    reset,
   } = useContext(SELECTCONTEXT);
   const { id, temp } = useParams();
   const [productName, setProductName] = useState(null);
   const [showCustomize, setShowCustomize] = useState(true);
   const [calory, setCalory] = useState(15);
-  const [count, setCount] = useState(3);
   const [size, setSize] = useState("Grande");
-  const [showCustomized, setShowCustomized] = useState(false);
-  const [showCustomized2, setShowCustomized2] = useState(false);
-  // console.log(allEvents);
-  const defaultCount = (size === "Short" ? 1 : size === "Tall" ? 2 : size === "Grande" ? 3 : 4);
+  const [defaultCount2, setDefaultCount2] = useState(3);
+
+  const initialState2 = {
+    count: defaultCount2,
+    selectedVal: "Water",
+    selectedVal2: "Signature Espresso",
+    showCustomized: false,
+    showCustomized2: false,
+  };
+
+  const reset2 = () => {
+    setCount(initialState2.count);
+    setSelectedVal(initialState2.selectedVal);
+    setSelectedVal2(initialState2.selectedVal2);
+    setShowCustomized(initialState2.showCustomized);
+    setShowCustomized2(initialState2.showCustomized2);
+  };
+
+  const [count, setCount] = useState(initialState2.count);
+  const [selectedVal, setSelectedVal] = useState(initialState2.selectedVal);
+  const [selectedVal2, setSelectedVal2] = useState(initialState2.selectedVal2);
+  const [showCustomized, setShowCustomized] = useState(
+    initialState2.showCustomized
+  );
+  const [showCustomized2, setShowCustomized2] = useState(
+    initialState2.showCustomized2
+  );
+
+  const handleReset = () => {
+    reset();
+    reset2();
+  };
+
+  const defaultCount =
+    size === "Short" ? 1 : size === "Tall" ? 2 : size === "Grande" ? 3 : 4;
 
   useEffect(() => {
     if (size === "Short") {
       setCalory(5);
       setCount(1);
+      setDefaultCount2(1);
     } else if (size === "Tall") {
       setCalory(10);
       setCount(2);
+      setDefaultCount2(2);
     } else if (size === "Grande") {
       setCalory(15);
       setCount(3);
+      setDefaultCount2(3);
     } else if (size === "Venti") {
       setCalory(15);
       setCount(4);
+      setDefaultCount2(4);
     } else if (size === "Trenta") {
       setCalory(15);
       setCount(4);
+      setDefaultCount2(4);
     }
   }, [size]);
   const handleChange = (e) => {
@@ -89,6 +123,8 @@ function ProductDetails() {
               (prod) =>
                 prod.productNumber === parseInt(id) && prod.formCode === temp
             );
+            // console.log("prodd:", items);
+
             if (product) {
               return product;
             }
@@ -146,15 +182,8 @@ function ProductDetails() {
   const handleCustomize = (val) => {
     setShowCustomize(val);
   };
-  // const handleInputChange = (key, value) => {
-  //   setAllEvents((prev) => ({
-  //     ...prev,
-  //     [key]: {
-  //       ...prev[key],
-  //       value,
-  //     },
-  //   }));
-  // };
+ 
+
   return (
     <>
       <Helmet>
@@ -168,15 +197,13 @@ function ProductDetails() {
       <main className="">
         <nav className="w-full sticky top-0 z-[2] bg-white">
           <ul className="flex lg:max-w-[1500px] mx-auto custom:pl-[115px] px-[1rem] py-[1rem]">
-            <li>
-              <a href=""></a>Menu /
+            <li className="text-[14px]">
+              <Link to={"/menu"}>
+                Menu
+                <span className="px-1">/</span>
+              </Link>
             </li>
-            <li>
-              <a href=""></a> Hot Coffees /{" "}
-            </li>
-            <li>
-              <a href=""></a> Caffe Americano
-            </li>
+            <li className="text-[14px] font-semibold">{productName?.name}</li>
           </ul>
         </nav>
         <div className="bg-[#1f3933]">
@@ -189,9 +216,6 @@ function ProductDetails() {
                   "/assets/imgError.png"
                 }
                 alt="error_img"
-                // onError={(e) => {
-                //   e.target.src = "/assets/errImg.webp";
-                // }}
               />
             </div>
             <div className="content max-w-[420px] mx-auto text-center lg:ml-[44px] xl:mx-auto lg:text-start">
@@ -262,7 +286,6 @@ function ProductDetails() {
               {/* LOCALLLSTORAGEDEN GELENLERRRRR */}
               <div className="mt-5">
                 {Object.entries(allEvents).map(([key, field], index) => {
-                  // console.log("field oprions", [key, field][0]);
                   const specialOptions = [
                     "select-Ristretto or Long Shot",
                     "select-Shot Prep",
@@ -273,45 +296,50 @@ function ProductDetails() {
                       {/* Şərt: Options sayı 2-dən çoxdursa, select göstər */}
                       {Array.isArray(field.options) &&
                       (field.options.length > 2 || specialOptions) ? (
-                        <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
-                          <select
-                            id={key}
-                            name={key}
-                            className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
-                            value={field.value || ""}
-                            onChange={(e) =>
-                              setAllEvents((prev) => ({
-                                ...prev,
-                                [key]: { ...field, value: e.target.value },
-                              }))
-                            }
-                          >
-                            {field.options.map((option, idx) => {
-                              return (
-                                <option
-                                  key={idx}
-                                  value={option.name || option}
-                                  // className={option ? (idx === 0 ? " hidden disabled" : "") : ""}
-                                  // selected={field.value === option.name}
-                                >
-                                  {option.name || option}
-                                </option>
-                              );
-                            })}
-                          </select>
-                          <div className="flex pr-6 z-10">
-                            <svg
-                              aria-hidden="true"
-                              className="w-[24px] z-[-1] h-[24px] fill-[#00754a] overflow-hidden flex justify-end absolute "
-                              focusable="false"
-                              preserveAspectRatio="xMidYMid meet"
-                              viewBox="0 0 24 24"
-                              loading="lazy"
+                        <div className="relative">
+                          <div className="flex items-center relative overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px]  mt-8">
+                            <select
+                              id={key}
+                              name={key}
+                              className={`bg-[#f9f9f9] px-4 pr-10 w-full md:text-[20px] whitespace-normal appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none`}
+                              value={field.value || ""}
+                              onChange={(e) =>
+                                setAllEvents((prev) => ({
+                                  ...prev,
+                                  [key]: { ...field, value: e.target.value },
+                                }))
+                              }
                             >
-                              <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                              <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                            </svg>
+                              {field.options.map((option, idx) => {
+                                return (
+                                  <option
+                                    key={idx}
+                                    value={option.name || option}
+                                    // className={option ? (idx === 0 ? " hidden disabled" : "") : ""}
+                                    // selected={field.value === option.name}
+                                  >
+                                    {option.name || option}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                            <div className="flex items-center whitespace-normal absolute right-4 top-1/2 transform -translate-y-1/2">
+                              <svg
+                                aria-hidden="true"
+                                className="w-[24px] h-[24px] fill-[#00754a] "
+                                focusable="false"
+                                preserveAspectRatio="xMidYMid meet"
+                                viewBox="0 0 24 24"
+                                loading="lazy"
+                              >
+                                <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                                <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                              </svg>
+                            </div>
                           </div>
+                          <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
+                            Customized
+                          </span>
                         </div>
                       ) : (
                         // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
@@ -375,6 +403,10 @@ function ProductDetails() {
                               </svg>
                             </button>
                           </div>
+
+                          <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
+                            Customized
+                          </span>
                         </div>
                       )}
                     </div>
@@ -382,7 +414,7 @@ function ProductDetails() {
                 })}
                 {countChai && (
                   <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
-                    <p>Add Chai</p>
+                    <p className="md:text-[20px] ">Add Chai</p>
                     <div className="flex items-center">
                       <button
                         onClick={() =>
@@ -440,7 +472,7 @@ function ProductDetails() {
                 )}
                 {countSweet && (
                   <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
-                    <p>Add Classic Syrup</p>
+                    <p className="md:text-[20px] ">Add Classic Syrup</p>
                     <div className="flex items-center">
                       <button
                         onClick={() =>
@@ -620,13 +652,11 @@ function ProductDetails() {
                   >
                     Espresso & Shot Options
                   </label>
-                 {
-                  count !== defaultCount && (
+                  {count !== defaultCount && (
                     <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold  px-[.4rem] transform translate-y-[50%]">
-                    Customized
-                  </span>
-                  )
-                 }
+                      Customized
+                    </span>
+                  )}
                   <div className="flex justify-between">
                     <p className="w-full md:text-[1.3rem]">Shots</p>
                     <div className="flex items-center">
@@ -694,7 +724,10 @@ function ProductDetails() {
               </div>
 
               <div className="text-center lg:text-start pt-[3rem]">
-                <button className="px-[16px] py-[7px] font-semibold border border-[#00754a] hover:bg-[#e5f1ec] text-[#00754a] rounded-full">
+                <button
+                  onClick={handleReset}
+                  className="px-[16px] py-[7px] font-semibold border border-[#00754a] hover:bg-[#e5f1ec] text-[#00754a] rounded-full"
+                >
                   Reset to standard recipe
                 </button>
               </div>

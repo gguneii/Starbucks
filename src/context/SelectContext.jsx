@@ -72,9 +72,44 @@ function SelectContext({children}) {
 
   }, [fields, selectedOption, sizeOptions, isCustomized, countChai, countSweet, countInp, checked, allEvents]);
   
+
+  const initialState = {
+    fields: {},
+    selectedOption: "",
+    sizeOptions: [],
+    isCustomized: {},
+    countChai: null,
+    countSweet: null,
+    countInp: [],
+    checked: false,
+    allEvents: {},
+  };
+  const reset = () => {
+    setFields(initialState.fields);
+    setSelectedOption(initialState.selectedOption);
+    setSizeOptions(initialState.sizeOptions);
+    setIsCustomized(initialState.isCustomized);
+    setCountChai(initialState.countChai);
+    setCountSweet(initialState.countSweet);
+    setCountInp(initialState.countInp);
+    setChecked(initialState.checked);
+    setAllEvents(initialState.allEvents);
+  
+    // localStorage-dən də silmək istəyirsənsə:
+    localStorage.removeItem("fields");
+    localStorage.removeItem("selectedOption");
+    localStorage.removeItem("sizeOptions");
+    localStorage.removeItem("isCustomized");
+    localStorage.removeItem("countChai");
+    localStorage.removeItem("countSweet");
+    localStorage.removeItem("countInp");
+    localStorage.removeItem("checked");
+    localStorage.removeItem("allEvents");
+  };
+    
   return (
     <SELECTCONTEXT.Provider value={{fields, setFields, selectedOption, setSelectedOption, sizeOptions, setSizeOptions,isCustomized, setIsCustomized, countChai, setCountChai,
-       countSweet, setCountSweet, countInp, setCountInp, checked, setChecked, allEvents, setAllEvents}}>
+       countSweet, setCountSweet, countInp, setCountInp, checked, setChecked, allEvents, setAllEvents, reset}}>
         {children}
     </SELECTCONTEXT.Provider>
   )

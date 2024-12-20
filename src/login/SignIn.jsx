@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function SignIn() {
   const [checked, setChecked] = useState(false);
@@ -8,6 +8,9 @@ function SignIn() {
   function rememberPass(e) {
     setChecked(e.target.checked);
   }
+  useEffect(() => {
+    document.body.style.overflow = "auto";
+  }, []);
   return (
     <div>
       <h1 className="text-center py-[2rem] font-bold text-[1.6rem]">

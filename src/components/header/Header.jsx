@@ -137,7 +137,7 @@ function Header() {
         </div>
       {
         menu && (
-          <div onClick={toggleMenu} className="menubar fixed top-[65.1px] left-0 right-0 bottom-0  bg-black bg-opacity-40 z-[1000]">
+          <div onClick={toggleMenu} className="menubar fixed custom:hidden top-[65.1px] left-0 right-0 bottom-0  bg-black bg-opacity-40 z-[1000]">
           <div onClick={(e) =>stopProp(e)} className={`fixed custom:hidden bg-white h-[100vh] w-[80vw] !transition-transform ease-in-out duration-700 ${
           menu ? "right-0" : "right-[-100%]"}`}>
             <ul className="text-[1.4rem] mt-[32px] ">

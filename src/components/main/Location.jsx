@@ -170,7 +170,7 @@ function Location() {
                     </div>
 
                     <div className="my-[.8rem]">
-                      <button className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                      <button className="bg-[hsl(158_100%_23%)] whitespace-nowrap font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
                         Order here
                       </button>
                     </div>

@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { BASKET } from "../../context/BasketContext";
 
 function Basket() {
+  const {basket}= useContext(BASKET)
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#1e3932] z-[20] ">
       <div className="py-[1rem] flex items-center justify-between w-full px-[1.6rem]">
@@ -33,7 +36,7 @@ function Basket() {
 
         <Link to={"/cart"} className="ml-[20px] lg:mx-auto">
             <span className="bg-[url('/assets/basket.svg')] w-[32px] h-[32px] inline-flex items-center text-white font-bold justify-center bg-no-repeat">
-              2
+              {basket.length}
             </span>
         </Link>
       </div>

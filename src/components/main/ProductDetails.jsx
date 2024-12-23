@@ -6,6 +6,7 @@ import { SELECTCONTEXT } from "../../context/SelectContext";
 import { Helmet } from "react-helmet";
 import Customize from "./Customize";
 import ScrollTo from "../../utils/ScrollTo";
+import { BASKET } from "../../context/BasketContext";
 
 function ProductDetails() {
   const { data } = useContext(DATA);
@@ -20,6 +21,7 @@ function ProductDetails() {
     setCountSweet,
     reset,
   } = useContext(SELECTCONTEXT);
+  const { addToBasket } = useContext(BASKET);
   const { id, temp } = useParams();
   const [productName, setProductName] = useState(null);
   const [showCustomize, setShowCustomize] = useState(true);
@@ -110,6 +112,7 @@ function ProductDetails() {
   const chooseSize = (selectedSize) => {
     setSize(selectedSize);
   };
+  // console.log(productName);
 
   const { pathname } = useLocation();
   ScrollTo(pathname, 0);
@@ -182,7 +185,6 @@ function ProductDetails() {
   const handleCustomize = (val) => {
     setShowCustomize(val);
   };
- 
 
   return (
     <>
@@ -742,7 +744,7 @@ function ProductDetails() {
           />
         )}
 
-        <div className="mt-[3rem] bg-[#1e3932]">
+        <div className="mt-[3rem]  bg-[#1e3932]">
           <aside className="max-w-[420px] mx-auto lg:mx-[100px]">
             <div className="py-[40px] px-4">
               <p className="text-[#cba258] px-2 inline-block border border-[#cba258] rounded-md">
@@ -769,7 +771,18 @@ function ProductDetails() {
         </div>
 
         <div className="text-end z-[4]">
-          <button className="bg-[#00754a] py-[10px] px-[1rem] text-[1.4rem] text-center fixed bottom-[110px] right-10 font-semibold rounded-full text-white shadow-[0_0_6px_#0000003d, 0_8px_12px_#00000024;]">
+          <button
+            onClick={() =>
+              addToBasket(
+                productName?.name,
+                productName?.assets?.masterImage?.uri,
+                productName?.productNumber,
+                productName?.formCode,
+                size
+              )
+            }
+            className="bg-[#00754a] py-[10px] px-[1rem] text-[1.4rem] text-center fixed bottom-[110px] right-10 font-semibold rounded-full text-white shadow-[0_0_6px_#0000003d, 0_8px_12px_#00000024;]"
+          >
             Add to Order
           </button>
         </div>

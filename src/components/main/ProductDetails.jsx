@@ -20,6 +20,8 @@ function ProductDetails() {
     countSweet,
     setCountSweet,
     reset,
+    idState,
+    setIdState,
   } = useContext(SELECTCONTEXT);
   const { addToBasket } = useContext(BASKET);
   const { id, temp } = useParams();
@@ -28,7 +30,9 @@ function ProductDetails() {
   const [calory, setCalory] = useState(15);
   const [size, setSize] = useState("Grande");
   const [defaultCount2, setDefaultCount2] = useState(3);
-
+  useEffect(() => {
+    setIdState(id);
+  }, []);
   const initialState2 = {
     count: defaultCount2,
     selectedVal: "Water",
@@ -81,7 +85,7 @@ function ProductDetails() {
       setCount(4);
       setDefaultCount2(4);
     } else if (size === "Trenta") {
-      setCalory(15);
+      setCalory(20);
       setCount(4);
       setDefaultCount2(4);
     }
@@ -186,6 +190,8 @@ function ProductDetails() {
     setShowCustomize(val);
   };
 
+  // console.log(productName?.productNumber);
+
   return (
     <>
       <Helmet>
@@ -196,7 +202,7 @@ function ProductDetails() {
         </title>
       </Helmet>
 
-      <main className="">
+      <main>
         <nav className="w-full sticky top-0 z-[2] bg-white">
           <ul className="flex lg:max-w-[1500px] mx-auto custom:pl-[115px] px-[1rem] py-[1rem]">
             <li className="text-[14px]">
@@ -208,7 +214,7 @@ function ProductDetails() {
             <li className="text-[14px] font-semibold">{productName?.name}</li>
           </ul>
         </nav>
-        <div className="bg-[#1f3933]">
+        <div className="bg-[#1f3933] ">
           <div className="xl:max-w-[1000px] mx-auto flex flex-col lg:flex-row items-center">
             <div className="overflow-hidden max-w-[330px] lg:mr-[88px] xl:mx-0 mx-auto">
               <img
@@ -287,7 +293,7 @@ function ProductDetails() {
               </div>
               {/* LOCALLLSTORAGEDEN GELENLERRRRR */}
               <div className="mt-5">
-                {Object.entries(allEvents).map(([key, field], index) => {
+              {Object.entries(allEvents[idState] || {}).map(([key, field], index) => {
                   const specialOptions = [
                     "select-Ristretto or Long Shot",
                     "select-Shot Prep",
@@ -299,26 +305,31 @@ function ProductDetails() {
                       {Array.isArray(field.options) &&
                       (field.options.length > 2 || specialOptions) ? (
                         <div className="relative">
-                          <div className="flex items-center relative overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px]  mt-8">
+                          <div className="flex items-center relative overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px]  mt-8">
                             <select
                               id={key}
                               name={key}
                               className={`bg-[#f9f9f9] px-4 pr-10 w-full md:text-[20px] whitespace-normal appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none`}
                               value={field.value || ""}
-                              onChange={(e) =>
+                              onChange={(e) => {
                                 setAllEvents((prev) => ({
                                   ...prev,
-                                  [key]: { ...field, value: e.target.value },
-                                }))
-                              }
+                                  [idState]: {
+                                    ...prev[idState],
+                                    [key]: {
+                                      ...prev[idState][key],
+                                      value: e.target.value,
+                                    },
+                                  },
+                                }));
+                                
+                              }}
                             >
                               {field.options.map((option, idx) => {
                                 return (
                                   <option
                                     key={idx}
                                     value={option.name || option}
-                                    // className={option ? (idx === 0 ? " hidden disabled" : "") : ""}
-                                    // selected={field.value === option.name}
                                   >
                                     {option.name || option}
                                   </option>
@@ -345,32 +356,35 @@ function ProductDetails() {
                         </div>
                       ) : (
                         // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
-                        <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)]  rounded-lg justify-between">
+                        <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)]  rounded-lg justify-between">
                           <div>
-                            {/* <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%_87%_/33%)]  px-[.4rem] transform translate-y-[50%]">
+                            {/* <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%87%/33%)]  px-[.4rem] transform translate-y-[50%]">
                               Customized
                             </span> */}
-                            <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
+                            <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
                               {field.value}
                             </p>
                           </div>
                           <div className="flex items-center px-4">
                             <button
-                              onClick={() => {
-                                setAllEvents((prev) => {
-                                  const updatedField = { ...prev[key] }; // [key] istifadə et
-                                  updatedField.number =
-                                    updatedField.number > 0
-                                      ? updatedField.number - 1
-                                      : 0;
-                                  return { ...prev, [key]: updatedField }; // [key] ilə field-i yenilə
-                                });
-                              }}
+                            onClick={() => {
+                              setAllEvents((prev) => {
+                                const updatedField = { ...prev[idState][key] };  // Access key from the idState correctly
+                                updatedField.number = updatedField.number > 1 ? updatedField.number - 1 : 1;  // Decrease number safely
+                                return {
+                                  ...prev,
+                                  [idState]: {
+                                    ...prev[idState],
+                                    [key]: updatedField,  // Update the state for the correct key
+                                  },
+                                };
+                              });
+                            }}
                             >
                               {
                                 <svg
                                   aria-hidden="true"
-                                  className={` w-[24px] h-[24px] fill-[#00754a] `}
+                                  className={`w-[24px] h-[24px] fill-[#00754a] ${field.number === 1 && "hidden"}`}
                                   focusable="false"
                                   preserveAspectRatio="xMidYMid meet"
                                   viewBox="0 0 24 24"
@@ -385,16 +399,21 @@ function ProductDetails() {
                             <button
                               onClick={() => {
                                 setAllEvents((prev) => {
-                                  const updatedField = { ...prev[key] }; // [key] istifadə et
-                                  updatedField.number =
-                                    (updatedField.number || 0) + 1;
-                                  return { ...prev, [key]: updatedField }; // [key] ilə field-i yenilə
+                                  const updatedField = { ...prev[idState][key] };  // Access key from the idState correctly
+                                  updatedField.number = updatedField.number + 1;  // Decrease number safely
+                                  return {
+                                    ...prev,
+                                    [idState]: {
+                                      ...prev[idState],
+                                      [key]: updatedField,  // Update the state for the correct key
+                                    },
+                                  };
                                 });
                               }}
                             >
                               <svg
                                 aria-hidden="true"
-                                className={` w-[24px] h-[24px] fill-[#00754a] `}
+                                className={` w-[24px] h-[24px] fill-[#00754a] ${field.number === 12 && "hidden"}`}
                                 focusable="false"
                                 preserveAspectRatio="xMidYMid meet"
                                 viewBox="0 0 24 24"
@@ -413,7 +432,8 @@ function ProductDetails() {
                       )}
                     </div>
                   );
-                })}
+   })}
+                 
                 {countChai && (
                   <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
                     <p className="md:text-[20px] ">Add Chai</p>

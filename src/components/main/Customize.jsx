@@ -1,30 +1,40 @@
 import { useContext, useEffect, useState } from "react";
 import { DATA } from "../../context/DataContext";
 // import { SELECTCONTEXT } from "../../context/SelectContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ScrollTo from "../../utils/ScrollTo";
 import { SELECTCONTEXT } from "../../context/SelectContext";
 
-function Customize({ handleCustomize, count, setCount, size}) {
+function Customize({ handleCustomize, count, setCount, size }) {
   const { details } = useContext(DATA);
-  // const [count, setCount] = useState(3);
-  // const [checked, setChecked] = useState(false);
-  // const [fields, setFields] = useState({});
+  const {id} = useParams()
   const [renderedFields, setRenderedFields] = useState([]);
-  // const [sizeOptions, setSizeOptions] = useState([]);
-  // const [selectedOption, setSelectedOption] = useState("");
-  // const [countChai, setCountChai] = useState(null);
-  // const [countSweet, setCountSweet] = useState(null);
-  // const [countInp, setCountInp] = useState([]);
-  // const [isCustomized, setIsCustomized] = useState({});
-  // const [allEvents, setAllEvents] = useState({})
-  const { fields, setFields, selectedOption, setSelectedOption, sizeOptions, setSizeOptions, isCustomized, setIsCustomized,
-    countChai, setCountChai, countSweet, setCountSweet, countInp, setCountInp, checked, setChecked,
-    allEvents, setAllEvents
-   } = useContext(SELECTCONTEXT)
+  
+  const {
+    fields,
+    setFields,
+    selectedOption,
+    setSelectedOption,
+    sizeOptions,
+    setSizeOptions,
+    isCustomized,
+    setIsCustomized,
+    countChai,
+    setCountChai,
+    countSweet,
+    setCountSweet,
+    countInp,
+    setCountInp,
+    checked,
+    setChecked,
+    allEvents,
+    setAllEvents,
+    idState,
+    setIdState
+  } = useContext(SELECTCONTEXT);
   // const{allEvents, setAllEvents}=useContext(SELECTCONTEXT)
   // console.log(allEvents);
-  
+
   const { pathname } = useLocation();
   ScrollTo(pathname, 500);
 
@@ -33,14 +43,14 @@ function Customize({ handleCustomize, count, setCount, size}) {
     setChecked(e.target.checked);
   }
 
-// bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
-const handleIncrement = (index) => {
-  setCountInp((prev) => {
-    const newCounts = [...prev];
-    newCounts[index] = Math.min((newCounts[index] || 1) + 1, 12); // 12 limitini tətbiq edir
-    return newCounts;
-  });
-};
+  // bu ve bundan sonraki funksiya count + - ucundur, buttonlari ferglendirmek ucun
+  const handleIncrement = (index) => {
+    setCountInp((prev) => {
+      const newCounts = [...prev];
+      newCounts[index] = Math.min((newCounts[index] || 1) + 1, 12); 
+      return newCounts;
+    });
+  };
 
   const handleDecrement = (index) => {
     setCountInp((prev) => {
@@ -49,6 +59,12 @@ const handleIncrement = (index) => {
       return newCounts;
     });
   };
+  useEffect(() => {
+    if (id) {
+      setIdState(id); // ID-nin state-ə təyin edilməsi
+    }
+  }, [id, setIdState]);
+  
 
   // input yarananda avtomatik sizelara gore input deyerini gostersin
   useEffect(() => {
@@ -62,7 +78,6 @@ const handleIncrement = (index) => {
 
     const newSize = sizeMapping[size];
     if (newSize) {
-
       // setCount(newSize.count);
 
       setCountInp((prev) => {
@@ -105,37 +120,35 @@ const handleIncrement = (index) => {
   //yeni select ve div yarananda onun icine optionlarin maplenmesi
   const chooseOption = (index, fieldIndex, e) => {
     const selectedValue = e.target.value.trim(); // Dəyəri boşluqlardan təmizləyirik
-  
+
     setFields((prevFields) => {
       const updatedFields = { ...prevFields };
-  
+
       if (updatedFields[index]) {
         updatedFields[index] = updatedFields[index].map((field, idx) => {
           if (idx === fieldIndex) {
             // İlk sözün "No" olub-olmadığını yoxlayırıq
-            const firstWord = selectedValue.split(" ")[0]; // Cümləni boşluqlara görə ayırırıq
+            const firstWord = selectedValue.split(" ")[0]; 
             return {
               ...field,
-              selectedOption: firstWord === "No"
-                ? "" // Əgər ilk söz "No"-dırsa, seçimi sıfırlayırıq
-                : selectedValue,
+              selectedOption:
+                firstWord === "No"
+                  ? "" 
+                  : selectedValue,
             };
           }
           return field;
         });
       }
-  
+
       return updatedFields;
     });
   };
-  
 
   const handleCombinedChange = (e, index, child, hasSingleOption) => {
     const { name, value } = e.target;
 
-  // Yeni dəyəri allEvents obyektinə əlavə et
- 
-  
+    // Yeni dəyəri allEvents obyektinə əlavə et
     if (hasSingleOption) {
       const singleProduct = child.products[0];
       const selectedSize =
@@ -147,21 +160,24 @@ const handleIncrement = (index) => {
         return newSizeOptions;
       });
       // console.log("Selected Size:", selectedSize);
-
     } else {
       const selectedProduct = child.products[e.target.selectedIndex];
       const selectedName = selectedProduct?.form?.name || "";
       handleOptionClick(index, selectedProduct);
       setSelectedOption(selectedName);
-
-      setAllEvents((prev) => ({
+      
+      setAllEvents((prev) => ({ 
         ...prev,
-        [`${name}_${Date.now()}`]: { // Unikal açar yaratmaq üçün Date.now() istifadə olunur
-          value, // Yeni seçilmiş dəyər
-          options: selectedProduct.form?.sizes || [], // Mövcud seçimlər
-          number: countInp[0] || 0, // Default olaraq 0-dan başla
+        [idState]: {
+          ...(prev[idState] || {}), // Preserves existing data for the current idState
+          [`${name}_${Date.now()}`]: {
+            value, // The selected value
+            options: selectedProduct.form?.sizes || [], // Available options
+            number: countInp[index] || 0, // Default count
+          },
         },
       }));
+      
       
     }
   };
@@ -174,12 +190,11 @@ const handleIncrement = (index) => {
     const { name, value, options } = e.target;
     const selectedValue = e.target.value;
     const allOptions = Array.from(options)
-    .map((option) => option.value)
-    .filter((value) => value.trim() !== ""); // Boş opsiyonları xaric edin
-  
-    
+      .map((option) => option.value)
+      .filter((value) => value.trim() !== ""); // Boş opsiyonları xaric edin
+
     if (selectedValue.includes("No")) {
-      e.target.value = ""; 
+      e.target.value = "";
       setIsCustomized((prev) => ({
         ...prev,
         [childName]: false, // Customized etiketini gizlət
@@ -193,9 +208,12 @@ const handleIncrement = (index) => {
     }
     setAllEvents((prev) => ({
       ...prev,
-      [name]: { 
-        value, // Yeni seçilmiş dəyər
-        options: allOptions, // Bütün mövcud seçimlər
+      [idState]: {
+        ...(prev[idState] || {}), // Əvvəlki məlumatları saxla (əgər varsa)
+        [name]: {
+          value, // Yeni seçilmiş dəyər
+          options: allOptions, // Bütün mövcud seçimlər
+        },
       },
     }));
   };
@@ -308,7 +326,13 @@ const handleIncrement = (index) => {
                                       }
                                     </button>
                                     <span className="px-2">{count}</span>
-                                    <button onClick={() => setCount((prev) => Math.min(prev +1, 12))}>
+                                    <button
+                                      onClick={() =>
+                                        setCount((prev) =>
+                                          Math.min(prev + 1, 12)
+                                        )
+                                      }
+                                    >
                                       <svg
                                         aria-hidden="true"
                                         className={`${
@@ -327,15 +351,21 @@ const handleIncrement = (index) => {
                                 ) : child.name === "Chai Teas" ? (
                                   <div className="flex items-center">
                                     <button
-                                       onClick={() =>
-                                        setCountChai((prev) => (prev === 1 ? null : Math.max(prev - 1, 1)))
+                                      onClick={() =>
+                                        setCountChai((prev) =>
+                                          prev === 1
+                                            ? null
+                                            : Math.max(prev - 1, 1)
+                                        )
                                       }
                                     >
                                       {
                                         <svg
                                           aria-hidden="true"
                                           className={`${
-                                            countChai === null ? "hidden" : "block"
+                                            countChai === null
+                                              ? "hidden"
+                                              : "block"
                                           } w-[24px] h-[24px] fill-[#00754a]`}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
@@ -356,7 +386,11 @@ const handleIncrement = (index) => {
                                     </span>
                                     <button
                                       onClick={() =>
-                                        setCountChai((prev) => (prev === null ? 1 : Math.min(prev + 1, 12)))
+                                        setCountChai((prev) =>
+                                          prev === null
+                                            ? 1
+                                            : Math.min(prev + 1, 12)
+                                        )
                                       }
                                     >
                                       <svg
@@ -378,14 +412,20 @@ const handleIncrement = (index) => {
                                   <div className="flex items-center">
                                     <button
                                       onClick={() =>
-                                        setCountSweet((prev) => (prev === 1 ? null : Math.max(prev - 1, 1)))
+                                        setCountSweet((prev) =>
+                                          prev === 1
+                                            ? null
+                                            : Math.max(prev - 1, 1)
+                                        )
                                       }
                                     >
                                       {
                                         <svg
                                           aria-hidden="true"
                                           className={`${
-                                            countSweet === null ? "hidden" : "block"
+                                            countSweet === null
+                                              ? "hidden"
+                                              : "block"
                                           } w-[24px] h-[24px] fill-[#00754a]`}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
@@ -405,8 +445,12 @@ const handleIncrement = (index) => {
                                       {countSweet}
                                     </span>
                                     <button
-                                       onClick={() =>
-                                        setCountSweet((prev) => (prev === null ? 1 : Math.min(prev + 1, 12)))
+                                      onClick={() =>
+                                        setCountSweet((prev) =>
+                                          prev === null
+                                            ? 1
+                                            : Math.min(prev + 1, 12)
+                                        )
                                       }
                                     >
                                       <svg
@@ -430,16 +474,14 @@ const handleIncrement = (index) => {
                               // Default select dropdown
                               <div className="bg-[#f9f9f9] shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
                                 <select
-                                  onChange={(e) =>         
-                                  {
+                                  onChange={(e) => {
                                     handleCombinedChange(
                                       e,
                                       index,
                                       child,
                                       hasSingleOption
-                                    )
-                                  }
-                                  }
+                                    );
+                                  }}
                                   value={
                                     hasSingleOption
                                       ? sizeOptions[index] || ""
@@ -479,82 +521,80 @@ const handleIncrement = (index) => {
                                 </span>
                               </div>
                             ) : (
-                             <div className="relative">
-                               <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
-                                {/* salam qaqaqqaqa */}
-                                <select
-                                  onChange={(e) =>
-                                    handleSelectChange(e, child.name)
-                                  }
-                                  className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
-                                  name={`select-${child.name}`}
-                                  id={`select-${child.name}`}
-                                >
-                                  <option disabled selected hidden value="">
-                                    Add {child.name}
-                                  </option>
-                                  {isSpecialField
-                                    ? child.products.map((p, id) => {
-                                        return p.form ? (
-                                          <option
-                                            className="text-[16px]"
-                                            value={p.form?.name}
-                                            key={id}
-                                          >
-                                            {` ${p.form.name}`}
-                                          </option>
-                                        ) : null;
-                                      })
-                                    : child.products.map((p, id) => {
-                                        const yeniArr = [
-                                          {
-                                            sizeCode: "light",
-                                            name: p.form.name,
-                                            sku: "183459",
-                                          },
-                                          ...p.form.sizes,
-                                        ];
-                                        return yeniArr.map((size, i) => {
-                                          // console.log(child.id);
-                                          return (
+                              <div className="relative">
+                                <div className="flex overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px] relative mt-8">
+                                  {/* salam qaqaqqaqa */}
+                                  <select
+                                    onChange={(e) =>
+                                      handleSelectChange(e, child.name)
+                                    }
+                                    className={`w-full bg-[#f9f9f9] px-4 md:text-[20px] appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none min-h-[40px]`}
+                                    name={`select-${child.name}`}
+                                    id={`select-${child.name}`}
+                                  >
+                                    <option disabled selected hidden value="">
+                                      Add {child.name}
+                                    </option>
+                                    {isSpecialField
+                                      ? child.products.map((p, id) => {
+                                          return p.form ? (
                                             <option
-                                              selected={i == 0}
-                                              hidden={i == 0}
-                                              disabled={i == 0}
                                               className="text-[16px]"
-                                              value={size.name}
-                                              key={i}
+                                              value={p.form?.name}
+                                              key={id}
                                             >
-                                              {i == 0
-                                                ? `Add ${size.name}`
-                                                : ` ${size.name}`}
+                                              {` ${p.form.name}`}
                                             </option>
-                                          );
-                                        });
-                                      })}
-                                </select>
-                                <div className="flex pr-6 z-10">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="w-[24px] z-[-1] h-[24px] fill-[#00754a] overflow-hidden flex justify-end absolute "
-                                    focusable="false"
-                                    preserveAspectRatio="xMidYMid meet"
-                                    viewBox="0 0 24 24"
-                                    loading="lazy"
-                                  >
-                                    <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                                    <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                                  </svg>
+                                          ) : null;
+                                        })
+                                      : child.products.map((p, id) => {
+                                          const yeniArr = [
+                                            {
+                                              sizeCode: "light",
+                                              name: p.form.name,
+                                              sku: "183459",
+                                            },
+                                            ...p.form.sizes,
+                                          ];
+                                          return yeniArr.map((size, i) => {
+                                            // console.log(child.id);
+                                            return (
+                                              <option
+                                                selected={i == 0}
+                                                hidden={i == 0}
+                                                disabled={i == 0}
+                                                className="text-[16px]"
+                                                value={size.name}
+                                                key={i}
+                                              >
+                                                {i == 0
+                                                  ? `Add ${size.name}`
+                                                  : ` ${size.name}`}
+                                              </option>
+                                            );
+                                          });
+                                        })}
+                                  </select>
+                                  <div className="flex pr-6 z-10">
+                                    <svg
+                                      aria-hidden="true"
+                                      className="w-[24px] z-[-1] h-[24px] fill-[#00754a] overflow-hidden flex justify-end absolute "
+                                      focusable="false"
+                                      preserveAspectRatio="xMidYMid meet"
+                                      viewBox="0 0 24 24"
+                                      loading="lazy"
+                                    >
+                                      <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                                      <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                                    </svg>
+                                  </div>
                                 </div>
-                                
-                              </div>
-                              {isCustomized[child.name] && (
-                                  <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]"
-                                  >
+                                {isCustomized[child.name] && (
+                                  <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
                                     Customized
                                   </span>
                                 )}
-                             </div>
+                              </div>
                             )}
                           </div>
                         );
@@ -634,7 +674,9 @@ const handleIncrement = (index) => {
                                         <svg
                                           aria-hidden="true"
                                           className={`${
-                                            countInp[fieldIndex] === 1 ? "hidden" : "block"
+                                            countInp[fieldIndex] === 1
+                                              ? "hidden"
+                                              : "block"
                                           } w-[24px] h-[24px] fill-[#00754a] `}
                                           focusable="false"
                                           preserveAspectRatio="xMidYMid meet"
@@ -657,7 +699,9 @@ const handleIncrement = (index) => {
                                       <svg
                                         aria-hidden="true"
                                         className={`${
-                                          countInp[fieldIndex] === 12 ? "hidden" : "block"
+                                          countInp[fieldIndex] === 12
+                                            ? "hidden"
+                                            : "block"
                                         } w-[24px] h-[24px] fill-[#00754a] `}
                                         focusable="false"
                                         preserveAspectRatio="xMidYMid meet"

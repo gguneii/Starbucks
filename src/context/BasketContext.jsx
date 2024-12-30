@@ -37,7 +37,7 @@ function BasketContext({ children }) {
       };
   
       setBasket((prevBasket) => [...prevBasket, newProduct]);
-      alert("Məhsul səbətə əlavə edildi!");
+      // alert("Məhsul səbətə əlavə edildi!");
     }
   };
   

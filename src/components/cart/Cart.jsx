@@ -3,10 +3,13 @@ import ScrollTo from "../../utils/ScrollTo";
 import { useContext } from "react";
 import { BASKET } from "../../context/BasketContext";
 import { Helmet } from "react-helmet";
+import { LOCATION } from "../../context/LocationContext";
 
 function Cart() {
   const { pathname } = useLocation();
   const { basket, setBasket } = useContext(BASKET);
+  const {selectedLocation} = useContext(LOCATION)
+  
   ScrollTo(pathname, 0);
 
   // const addProduct = (item) => {
@@ -70,15 +73,21 @@ function Cart() {
             </Link>
           </div>
           <div className="lg:flex flex-col lg:w-[350px] lg:m-auto lg:pb-[2.4rem] ">
-            <h1 className="text-[20px] font-bold my-4 lg:text-[25px]">
+            <h1 className={`text-[20px] font-bold my-4 lg:text-[25px]
+              ${selectedLocation.name ? "py-6" : "py-0"}
+              `}>
               Review order ({basket.length})
             </h1>
             <Link
               to={"/location"}
               className="flex shadow-[inset_0_-1.5px_0_#ffffff4d] w-full items-center justify-between md:justify-start md:flex-grow-0 min-w-[24px] flex-grow"
             >
-              <p className="text-[#ffffffb3] pb-1 text-[14px] lg:text-[18px] font-semibold w-full">
-                Pickup store
+              <p className={`pb-1 text-[14px] lg:text-[18px] font-semibold w-full relative
+                 ${selectedLocation.name ? "text-[white] py-1" :"text-[#ffffffb3]"}`}>
+                  {selectedLocation.name && 
+                  <span className={`absolute top-[-50%] text-[#ffffffb3] transform text-[12px] lg:text-[14px]`}>Pickup Store</span>
+                  }
+                {selectedLocation?.name || 'Pickup store'}
               </p>
 
               <svg

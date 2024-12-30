@@ -118,7 +118,7 @@ const {selectedLocation, setSelectedLocation, locations} = useContext(LOCATION)
                     </div>
 
                     <div className="my-[.8rem]">
-                      <Link to={"/cart"} className="bg-[hsl(158_100%_23%)] whitespace-nowrap font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                      <Link to={"/cart"} className="bg-[hsl(158_100%_23%)] !whitespace-nowrap font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
                         Order here
                       </Link>
                     </div>
@@ -210,8 +210,8 @@ const {selectedLocation, setSelectedLocation, locations} = useContext(LOCATION)
                       </a>
                     </div>
 
-                    <div className="my-[.8rem]">
-                      <Link to={"/cart"} className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[16px] py-[7px] rounded-full">
+                    <div className="my-[.8rem] whitespace-nowrap">
+                      <Link to={"/cart"} className="bg-[hsl(158_100%_23%)] font-semibold text-center text-white px-[18px] py-[7px] rounded-full">
                         Order here
                       </Link>
                     </div>

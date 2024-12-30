@@ -174,7 +174,7 @@ function Footer() {
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="https://www.instagram.com/starbucks/">
               <svg
                 aria-hidden="true"
                 className="w-[32px] h-[32px]"

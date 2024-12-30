@@ -5,6 +5,7 @@ import { Keyboard, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { Helmet } from "react-helmet";
 function Rewards() {
   const [activeIndex, setActive] = useState(25);
   const [modal, setModal] = useState(false);
@@ -15,6 +16,10 @@ function Rewards() {
   };
 
   return (
+   <>
+    <Helmet>
+        <title>Starbucks® Rewards Company</title>
+    </Helmet>
     <main>
       <div className="bg-[#1e3932] text-white w-full sticky z-[10] top-0">
         <div className="flex custom:px-[110px] lg:px-[40px]  justify-between items-center max-w-[1500px] mx-auto px-[1.6rem] h-[50px]">
@@ -864,6 +869,7 @@ function Rewards() {
         </div>
       </div>
     </main>
+   </>
   );
 }
 

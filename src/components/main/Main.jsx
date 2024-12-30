@@ -1,7 +1,12 @@
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 function Main() {
   return (
+    <>
+     <Helmet>
+        <title>Starbucks Coffee Company</title>
+      </Helmet>
     <main className="main border-b">
       <div className="max-w-[1440px] mx-auto">
         <div className="my-[2rem] items-stretch flex flex-col md:flex-row-reverse overflow-x-hidden ">
@@ -207,6 +212,7 @@ function Main() {
         </div>
       </div>
     </main>
+    </>
   );
 }
 

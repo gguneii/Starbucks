@@ -33,7 +33,7 @@ function Featured() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                to={"menu"}
+                to={"/menu"}
               >
                 Order now
               </Link>
@@ -64,7 +64,7 @@ function Featured() {
               </p>
               <Link
                 className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                to={"menu"}
+                to={"/menu"}
               >
                 Order now
               </Link>
@@ -97,7 +97,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#182e28] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -129,7 +129,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#182e28] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -161,7 +161,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#aa032a] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -191,7 +191,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#aa032a] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -224,7 +224,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -254,7 +254,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -286,7 +286,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#aa032a] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -317,7 +317,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#aa032a] border border-white font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -349,7 +349,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>
@@ -379,7 +379,7 @@ function Featured() {
                 </p>
                 <Link
                   className="inline-block rounded-full hover:bg-[#aa032a] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
-                  to={"menu"}
+                  to={"/menu"}
                 >
                   Order now
                 </Link>

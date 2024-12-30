@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 function SignUp() {
   const [checked, setChecked] = useState(false);
@@ -18,6 +19,10 @@ function SignUp() {
     document.body.style.overflow = "auto";
   }, []);
   return (
+    <>
+     <Helmet>
+        <title>Create a Starbucks Account: Starbucks Coffee Company</title>
+      </Helmet>
     <div>
       <h1 className="text-center py-[2rem] font-bold text-[1.6rem]">
         Create an account
@@ -258,6 +263,7 @@ function SignUp() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

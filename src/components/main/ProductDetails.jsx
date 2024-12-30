@@ -261,6 +261,9 @@ function ProductDetails() {
                         >
                           <img
                             loading="lazy"
+                            onError={(e) => {
+                              e.target.src = "/assets/errImg.webp";
+                            }}
                             src={
                               size === item.sizeCode
                                 ? sizeImage?.imgActive

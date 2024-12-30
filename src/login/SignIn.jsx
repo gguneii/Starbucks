@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 function SignIn() {
   const [checked, setChecked] = useState(false);
@@ -12,6 +13,10 @@ function SignIn() {
     document.body.style.overflow = "auto";
   }, []);
   return (
+    <>
+     <Helmet>
+        <title>Account sign in: Starbucks Coffee Company</title>
+      </Helmet>
     <div>
       <h1 className="text-center py-[2rem] font-bold text-[1.6rem]">
         Sign in or create an account
@@ -158,6 +163,7 @@ function SignIn() {
         <button className="border border-[#00754a] text-[#00754a] font-bold rounded-full px-[16px] py-[7px]">Join now</button>
       </div>
     </div>
+    </>
   );
 }
 

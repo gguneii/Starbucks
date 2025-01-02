@@ -262,7 +262,7 @@ function ProductDetails() {
                           <img
                             loading="lazy"
                             onError={(e) => {
-                              e.target.src = "/assets/errImg.webp";
+                              e.target.src = "/assets/imgError.png";
                             }}
                             src={
                               size === item.sizeCode

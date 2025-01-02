@@ -83,7 +83,7 @@ function CategorySwiper({ title, categoryName }) {
             key={gift.productNumber || index}
             className="lg:!w-[20%] x480:!w-[30%] flex justify-center items-center 
             overflow-hidden rounded-lg shadow-[0px_4px_10px_rgba(0,0,0,0.2)] transform 
-            hover:translate-y-[-10px] transition duration-300"
+            transition duration-300"
           >
             <img
               className="object-cover rounded-sm"

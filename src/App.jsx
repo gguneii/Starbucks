@@ -14,6 +14,7 @@ import SignUp from "./login/SignUp";
 import SignIn from "./login/SignIn";
 import Cart from "./components/cart/Cart";
 import CartLayout from "./layouts/CartLayout";
+import JoinTheApp from "./components/main/JoinTheApp";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/previous" element={<Previous />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/rewards" element={<Rewards />} />
+          <Route path="/joinapp" element={<JoinTheApp />} />
           <Route path="/gifts" element={<GiftCards />} />
           <Route path="/location" element={<Location />} />
         </Route>

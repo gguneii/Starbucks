@@ -89,12 +89,12 @@ function Main() {
                 Join Starbucks® Rewards and get a <strong>free drink</strong>
                 with qualifying purchase during your first week.**
               </p>
-              <a
+              <Link to={"/signup"}
                 className="inline-block rounded-full hover:bg-[#d9e4da] border border-[#006241] min-w-[32px] min-h-[32px] px-[8px] md:mt-[12px] py-[4px] text-center font-semibold"
                 href=""
               >
                 Join now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ function Main() {
                 Make today merry with the festive flavors of a Peppermint Mocha.
               </p>
               <Link
-                className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
+                className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
                 to={"menu"}
               >
                 Order now
@@ -149,7 +149,7 @@ function Main() {
                 your afternoon feel oh-so bright.
               </p>
               <Link
-                className="inline-block rounded-full hover:bg-[#aa0028] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
+                className="inline-block rounded-full hover:bg-[#08bf84] border border-[#1e3932] font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
                 to={"menu"}
               >
                 Order now
@@ -178,7 +178,7 @@ function Main() {
                 In select stores 11/7 while supplies last.***
               </p>
               <a
-                className="inline-block rounded-full hover:bg-[#aa0028] border font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
+                className="inline-block rounded-full hover:bg-[#08bf84] border font-bold min-w-[35px] min-h-[35px] px-[16px] md:mt-[32px] py-[8px] text-center"
                 href=""
               >
                 Learn more

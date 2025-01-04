@@ -16,7 +16,7 @@ function Rewards() {
   const handleButton = (index) => {
     setActive(index); // Aktiv indeks yenilənir
     if (swiperRef.current) {
-      swiperRef.current.swiper.slideTo(index); // Swiper-i uyğun slayda keçirtmək
+      swiperRef.current.swiper.slideTo(index); 
     }
   };
   const slides = [
@@ -95,18 +95,17 @@ function Rewards() {
                 </p>
                 <div className="pt-[2rem]">
                   <div>
-                    <a
-                      className="bg-[hsl(158_100%_23%)] text-white px-[16px] md:hidden py-[7px] font-semibold rounded-full"
-                      href=""
+                    <Link to={"/joinapp"}
+                      className="bg-[hsl(158_100%_23%)] cursor-pointer text-white px-[16px] md:hidden py-[7px] font-semibold rounded-full"
                     >
                       Join in the app
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       className="bg-[hsl(158_100%_23%)] hidden md:inline-block text-white px-[16px] py-[7px] font-semibold rounded-full"
-                      href=""
+                      to={"/signup"}
                     >
                       Join now
-                    </a>
+                    </Link>
                   </div>
 
                   <div className="pt-[1.6rem]">
@@ -115,7 +114,7 @@ function Rewards() {
                     </a>
                     <p className="md:inline-block hidden font-normal text-[19px]">
                       Or
-                      <span className="underline"> join in the app </span>
+                      <Link to={"/joinapp"} className="cursor-pointer hover:no-underline underline"> join in the app </Link>
                       for the best experience
                     </p>
                   </div>
@@ -246,8 +245,7 @@ function Rewards() {
 
               <Swiper
                 ref={swiperRef}
-                // spaceBetween={30}
-                // slidesPerView={1}
+                fadeEffect={true}
                 onSlideChange={(swiper) => setActive(swiper.activeIndex)}
               >
                 {slides.map((slide) => (

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import ScrollTo from "../utils/ScrollTo";
+import { Link, useLocation } from "react-router-dom";
 
 function SignUp() {
   const [checked, setChecked] = useState(false);
@@ -18,6 +20,23 @@ function SignUp() {
   useEffect(() => {
     document.body.style.overflow = "auto";
   }, []);
+
+  const { pathname } = useLocation();
+  ScrollTo(pathname, 0);
+
+  const handleSubmit = () => {
+    const missingFields = [];
+    if (!firstName) missingFields.push("First Name");
+    if (!lastName) missingFields.push("Last Name");
+    if (!email) missingFields.push("Email Address");
+    if (!password) missingFields.push("Password");
+
+    if (missingFields.length > 0) {
+      alert(`Please fill in the following fields: ${missingFields.join(", ")}`);
+    } else {
+      window.location.href = "/";
+    }
+  };
   return (
     <>
       <Helmet>
@@ -36,7 +55,7 @@ function SignUp() {
           moremore.
         </p>
         <div className="px-4 md:border rounded-xl md:py-8 md:mx-auto md:max-w-[600px] md:px-16 md:shadow-[0_2px_4px_#00000012,0_4px_5px_#0000000f,0_1px_10px_#0000001a]">
-          <form action="">
+          <form onSubmit={(e) => e.preventDefault()}>
             <p className="pb-6 md:text-[17px]">
               <span className="text-[#00754a]">* </span>
               indicates required field
@@ -257,7 +276,11 @@ function SignUp() {
             </div>
 
             <div className="text-right mt-[50px]">
-              <button className="px-[20px] py-[14px] bg-[#00754a] text-white font-bold text-[18px] rounded-full">
+              <button
+                 type="button"
+                 onClick={handleSubmit}
+                className="px-[20px] py-[14px] bg-[#00754a] text-white font-bold text-[18px] rounded-full"
+              >
                 Create account
               </button>
             </div>

@@ -109,7 +109,7 @@ function Cart() {
               // console.log(item);
 
               return (
-                <div className="md:max-w-[500px] bg-white rounded-lg md:mx-auto mb-2 lg:mb-6 lg:mx-0 z-[1] lg:ml-[40vw] w-full md:shadow-[0px_0px_.5px_0px_#00000024,0px_1px_1px_0px_#0000003d]">
+                <div key={i} className="md:max-w-[500px] bg-white rounded-lg md:mx-auto mb-2 lg:mb-6 lg:mx-0 z-[1] lg:ml-[40vw] w-full md:shadow-[0px_0px_.5px_0px_#00000024,0px_1px_1px_0px_#0000003d]">
                   <div className="flex mx-5 p-4">
                     <div className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] shrink-0 mt-3 rounded-full overflow-hidden flex justify-center items-center ">
                       <img

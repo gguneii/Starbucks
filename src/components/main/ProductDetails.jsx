@@ -30,6 +30,7 @@ function ProductDetails() {
   const [calory, setCalory] = useState(15);
   const [size, setSize] = useState("Grande");
   const [defaultCount2, setDefaultCount2] = useState(3);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     setIdState(id);
   }, []);
@@ -40,7 +41,24 @@ function ProductDetails() {
     showCustomized: false,
     showCustomized2: false,
   };
+  const handleClick = () => {
+    // Burada addToBasket funksiyasını çağırın
+    addToBasket(
+      productName?.name,
+      productName?.assets?.masterImage?.uri,
+      productName?.productNumber,
+      productName?.formCode,
+      size
+    );
 
+    // Div-i göstərmək
+    setVisible(true);
+
+    // 5 saniyə sonra div-i gizlətmək
+    setTimeout(() => {
+      setVisible(false);
+    }, 5000);
+  };
   const reset2 = () => {
     setCount(initialState2.count);
     setSelectedVal(initialState2.selectedVal);
@@ -223,6 +241,9 @@ function ProductDetails() {
                   productName?.assets?.masterImage?.uri ||
                   "/assets/imgError.png"
                 }
+                onError={(e) => {
+                  e.target.src = "/assets/imgError.png";
+                }}
                 alt="error_img"
               />
             </div>
@@ -264,10 +285,17 @@ function ProductDetails() {
                             onError={(e) => {
                               e.target.src = "/assets/imgError.png";
                             }}
+                            // src={
+                            //   size === item.sizeCode
+                            //     ? sizeImage?.imgActive
+                            //     : sizeImage?.img
+                            // }
                             src={
-                              size === item.sizeCode
-                                ? sizeImage?.imgActive
-                                : sizeImage?.img
+                              sizeImage
+                                ? size === item.sizeCode
+                                  ? sizeImage.imgActive
+                                  : sizeImage.img
+                                : "/assets/imgError.png" // sizeImage tapılmadıqda imgError.png istifadə et
                             }
                             alt={item?.sizeCode}
                             className={`w-[45px] h-[45px]  object-contain ${
@@ -296,147 +324,160 @@ function ProductDetails() {
               </div>
               {/* LOCALLLSTORAGEDEN GELENLERRRRR */}
               <div className="mt-5">
-              {Object.entries(allEvents[idState] || {}).map(([key, field], index) => {
-                  const specialOptions = [
-                    "select-Ristretto or Long Shot",
-                    "select-Shot Prep",
-                  ].includes([key, field][0]);
+                {Object.entries(allEvents[idState] || {}).map(
+                  ([key, field], index) => {
+                    const specialOptions = [
+                      "select-Ristretto or Long Shot",
+                      "select-Shot Prep",
+                    ].includes([key, field][0]);
 
-                  return (
-                    <div key={index} className="mb-4">
-                      {/* Şərt: Options sayı 2-dən çoxdursa, select göstər */}
-                      {Array.isArray(field.options) &&
-                      (field.options.length > 2 || specialOptions) ? (
-                        <div className="relative">
-                          <div className="flex items-center relative overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px]  mt-8">
-                            <select
-                              id={key}
-                              name={key}
-                              className={`bg-[#f9f9f9] px-4 pr-10 w-full md:text-[20px] whitespace-normal appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none`}
-                              value={field.value || ""}
-                              onChange={(e) => {
-                                setAllEvents((prev) => ({
-                                  ...prev,
-                                  [idState]: {
-                                    ...prev[idState],
-                                    [key]: {
-                                      ...prev[idState][key],
-                                      value: e.target.value,
+                    return (
+                      <div key={index} className="mb-4">
+                        {/* Şərt: Options sayı 2-dən çoxdursa, select göstər */}
+                        {Array.isArray(field.options) &&
+                        (field.options.length > 2 || specialOptions) ? (
+                          <div className="relative">
+                            <div className="flex items-center relative overflow-hidden justify-end min-h-[47px] border shadow-[inset_0_1px_4px_#0000001a] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] rounded-lg px-[16px] py-[12px] md:py-[8px]  mt-8">
+                              <select
+                                id={key}
+                                name={key}
+                                className={`bg-[#f9f9f9] px-4 pr-10 w-full md:text-[20px] whitespace-normal appearance-none shadow-[inset_0_1px_4px_#0000001a] absolute inset-0 h-full outline-none`}
+                                value={field.value || ""}
+                                onChange={(e) => {
+                                  setAllEvents((prev) => ({
+                                    ...prev,
+                                    [idState]: {
+                                      ...prev[idState],
+                                      [key]: {
+                                        ...prev[idState][key],
+                                        value: e.target.value,
+                                      },
                                     },
-                                  },
-                                }));
-                                
-                              }}
-                            >
-                              {field.options.map((option, idx) => {
-                                return (
-                                  <option
-                                    key={idx}
-                                    value={option.name || option}
-                                  >
-                                    {option.name || option}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                            <div className="flex items-center whitespace-normal absolute right-4 top-1/2 transform -translate-y-1/2">
-                              <svg
-                                aria-hidden="true"
-                                className="w-[24px] h-[24px] fill-[#00754a] "
-                                focusable="false"
-                                preserveAspectRatio="xMidYMid meet"
-                                viewBox="0 0 24 24"
-                                loading="lazy"
+                                  }));
+                                }}
                               >
-                                <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
-                                <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
-                              </svg>
-                            </div>
-                          </div>
-                          <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
-                            Customized
-                          </span>
-                        </div>
-                      ) : (
-                        // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
-                        <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)]  rounded-lg justify-between">
-                          <div>
-                            {/* <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%87%/33%)]  px-[.4rem] transform translate-y-[50%]">
-                              Customized
-                            </span> */}
-                            <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
-                              {field.value}
-                            </p>
-                          </div>
-                          <div className="flex items-center px-4">
-                            <button
-                            onClick={() => {
-                              setAllEvents((prev) => {
-                                const updatedField = { ...prev[idState][key] };  // Access key from the idState correctly
-                                updatedField.number = updatedField.number > 1 ? updatedField.number - 1 : 1;  // Decrease number safely
-                                return {
-                                  ...prev,
-                                  [idState]: {
-                                    ...prev[idState],
-                                    [key]: updatedField,  // Update the state for the correct key
-                                  },
-                                };
-                              });
-                            }}
-                            >
-                              {
+                                {field.options.map((option, idx) => {
+                                  return (
+                                    <option
+                                      key={idx}
+                                      value={option.name || option}
+                                    >
+                                      {option.name || option}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                              <div className="flex items-center whitespace-normal absolute right-4 top-1/2 transform -translate-y-1/2">
                                 <svg
                                   aria-hidden="true"
-                                  className={`w-[24px] h-[24px] fill-[#00754a] ${field.number === 1 && "hidden"}`}
+                                  className="w-[24px] h-[24px] fill-[#00754a] "
+                                  focusable="false"
+                                  preserveAspectRatio="xMidYMid meet"
+                                  viewBox="0 0 24 24"
+                                  loading="lazy"
+                                >
+                                  <path d="M11.4135 16.2678C11.5585 16.4158 11.7545 16.4998 11.9595 16.4998C12.1645 16.4998 12.3605 16.4158 12.5055 16.2678L17.7745 10.8538C18.0756 10.5438 18.0756 10.0418 17.7745 9.73175C17.4725 9.42275 16.9835 9.42275 16.6825 9.73175L11.9595 14.5848L7.31851 9.81675C7.0165 9.50675 6.5275 9.50675 6.2265 9.81675C5.9245 10.1268 5.9245 10.6288 6.2265 10.9388L11.4135 16.2678Z"></path>
+                                  <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12Z"></path>
+                                </svg>
+                              </div>
+                            </div>
+                            <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
+                              Customized
+                            </span>
+                          </div>
+                        ) : (
+                          // Options sayı 2 və ya azdırsa, + və - düymələri ilə div göstər
+                          <div className="flex relative shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)]  rounded-lg justify-between">
+                            <div>
+                              {/* <span className="absolute top-[-50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold focus-within:bg-[hsl(160_32%87%/33%)]  px-[.4rem] transform translate-y-[50%]">
+                              Customized
+                            </span> */}
+                              <p className="w-full md:text-[1.2rem] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%87%/33%)] outline-none px-[16px] py-[12px] md:py-[9px]">
+                                {field.value}
+                              </p>
+                            </div>
+                            <div className="flex items-center px-4">
+                              <button
+                                onClick={() => {
+                                  setAllEvents((prev) => {
+                                    const updatedField = {
+                                      ...prev[idState][key],
+                                    }; // Access key from the idState correctly
+                                    updatedField.number =
+                                      updatedField.number > 1
+                                        ? updatedField.number - 1
+                                        : 1; // Decrease number safely
+                                    return {
+                                      ...prev,
+                                      [idState]: {
+                                        ...prev[idState],
+                                        [key]: updatedField, // Update the state for the correct key
+                                      },
+                                    };
+                                  });
+                                }}
+                              >
+                                {
+                                  <svg
+                                    aria-hidden="true"
+                                    className={`w-[24px] h-[24px] fill-[#00754a] ${
+                                      field.number === 1 && "hidden"
+                                    }`}
+                                    focusable="false"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    viewBox="0 0 24 24"
+                                    loading="lazy"
+                                  >
+                                    <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
+                                    <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                                  </svg>
+                                }
+                              </button>
+                              <span className="px-2">{field.number || 0}</span>
+                              <button
+                                onClick={() => {
+                                  setAllEvents((prev) => {
+                                    const updatedField = {
+                                      ...prev[idState][key],
+                                    }; // Access key from the idState correctly
+                                    updatedField.number =
+                                      updatedField.number + 1; // Decrease number safely
+                                    return {
+                                      ...prev,
+                                      [idState]: {
+                                        ...prev[idState],
+                                        [key]: updatedField, // Update the state for the correct key
+                                      },
+                                    };
+                                  });
+                                }}
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  className={` w-[24px] h-[24px] fill-[#00754a] ${
+                                    field.number === 12 && "hidden"
+                                  }`}
                                   focusable="false"
                                   preserveAspectRatio="xMidYMid meet"
                                   viewBox="0 0 24 24"
                                   loading="lazy"
                                 >
                                   <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
-                                  <path d="M7.58 12.75h9.266c.414 0 .75-.336.75-.75s-.336-.75-.75-.75H7.58c-.414 0-.75.336-.75.75s.336.75.75.75z"></path>
+                                  <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
                                 </svg>
-                              }
-                            </button>
-                            <span className="px-2">{field.number || 0}</span>
-                            <button
-                              onClick={() => {
-                                setAllEvents((prev) => {
-                                  const updatedField = { ...prev[idState][key] };  // Access key from the idState correctly
-                                  updatedField.number = updatedField.number + 1;  // Decrease number safely
-                                  return {
-                                    ...prev,
-                                    [idState]: {
-                                      ...prev[idState],
-                                      [key]: updatedField,  // Update the state for the correct key
-                                    },
-                                  };
-                                });
-                              }}
-                            >
-                              <svg
-                                aria-hidden="true"
-                                className={` w-[24px] h-[24px] fill-[#00754a] ${field.number === 12 && "hidden"}`}
-                                focusable="false"
-                                preserveAspectRatio="xMidYMid meet"
-                                viewBox="0 0 24 24"
-                                loading="lazy"
-                              >
-                                <path d="M12 22.75c5.937 0 10.75-4.813 10.75-10.75S17.937 1.25 12 1.25 1.25 6.063 1.25 12 6.063 22.75 12 22.75zm0-1.5c-5.11 0-9.25-4.14-9.25-9.25S6.89 2.75 12 2.75s9.25 4.14 9.25 9.25-4.14 9.25-9.25 9.25z"></path>
-                                <path d="M11.214 11.25V7.366c0-.434.352-.786.786-.786.434 0 .786.352.786.786v3.884h3.86c.414 0 .75.336.75.75s-.336.75-.75.75h-3.86v3.882c0 .434-.352.786-.786.786-.434 0-.786-.352-.786-.786V12.75H7.38c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.834z"></path>
-                              </svg>
-                            </button>
-                          </div>
+                              </button>
+                            </div>
 
-                          <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
-                            Customized
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  );
-   })}
-                 
+                            <span className="absolute top-[-50%] transform translate-y-[50%] right-[12px] bg-white text-[14px] text-[#00754a] font-semibold px-[.4rem]">
+                              Customized
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                )}
+
                 {countChai && (
                   <div className="flex relative w-full mt-8 shadow-[0_0_0_1px_#00000094] focus-within:shadow-[0_0_0_2px_#00754a] focus-within:bg-[hsl(160_32%_87%_/33%)] px-[16px] py-[12px] rounded-lg overflow-hidden justify-between">
                     <p className="md:text-[20px] ">Add Chai</p>
@@ -795,20 +836,20 @@ function ProductDetails() {
 
         <div className="text-end z-[4]">
           <button
-            onClick={() =>
-              addToBasket(
-                productName?.name,
-                productName?.assets?.masterImage?.uri,
-                productName?.productNumber,
-                productName?.formCode,
-                size
-              )
-            }
+            onClick={handleClick}
             className="bg-[#00754a] py-[10px] px-[1rem] text-[1.4rem] text-center fixed bottom-[110px] right-10 font-semibold rounded-full text-white shadow-[0_0_6px_#0000003d, 0_8px_12px_#00000024;]"
           >
             Add to Order
           </button>
         </div>
+        {visible && (
+          <div className="relative">
+            <div className="fixed flex justify-between bottom-[8%] left-0 right-0 z-[20] text-white text-[1.1em] bg-[#006241] h-[100px] pl-10 py-5">
+            {productName?.name} added
+          <span onClick={() => setVisible(false)} className="absolute cursor-pointer top-2 right-4">X</span>
+          </div>
+          </div>
+        )}
         <Basket />
       </main>
     </>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 function SignIn() {
   const [checked, setChecked] = useState(false);
@@ -22,7 +23,16 @@ function SignIn() {
           Sign in or create an account
         </h1>
         <div className="px-4 md:border rounded-xl md:py-8 md:mx-auto md:max-w-[500px] md:px-6 md:shadow-[0_2px_4px_#00000012,0_4px_5px_#0000000f,0_1px_10px_#0000001a]">
-          <form action="">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!email || !password) {
+                alert("Please fill out all fields.");
+              } else {
+                window.location.href = "/";
+              }
+            }}
+          >
             <p className="pb-6 md:text-[17px]">
               <span className="text-[#00754a]">* </span>
               indicates required field
@@ -38,13 +48,13 @@ function SignIn() {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <label
-              className={`absolute left-[16px] cursor-text peer-focus:translate-y-[40%] peer-focus:top-[-50%] peer-focus:bg-[#f0f7f5] 
+                className={`absolute left-[16px] cursor-text peer-focus:translate-y-[40%] peer-focus:top-[-50%] peer-focus:bg-[#f0f7f5] 
             peer-focus:text-[#00754a] peer-focus:text-[13px] ${
               email
                 ? "top-[-50%] translate-y-[60%] text-[#6c6c6c] bg-white text-[15px]"
                 : "top-[50%] translate-y-[-50%] text-[1.2rem]"
             } px-[.4rem] font-semibold tracking-wide text-[#000000de] z-[2] transition-all`}
-                      htmlFor="username"
+                htmlFor="username"
               >
                 <span className="text-[#00754a]">*</span> Username or email
                 address
@@ -98,7 +108,7 @@ function SignIn() {
               <label htmlFor="remember"></label>
               <input
                 onChange={rememberPass}
-                className="border-0 opacity-0 overflow-hidden absolute left-1 top-2 cursor-pointer"
+                className="border-0 w-[20px] h-[20px] opacity-0 overflow-hidden absolute left-[3px] top-1 cursor-pointer"
                 type="checkbox"
                 name=""
                 id="remember"
@@ -160,9 +170,12 @@ function SignIn() {
             Join Starbucks® Rewards to earn free food and drinks, get free
             refills, pay and order with your phone, and more.
           </p>
-          <button className="border border-[#00754a] text-[#00754a] font-bold rounded-full px-[16px] py-[7px]">
+          <Link
+            to={"/signup"}
+            className="border border-[#00754a] text-[#00754a] font-bold rounded-full px-[16px] py-[7px]"
+          >
             Join now
-          </button>
+          </Link>
         </div>
       </div>
     </>

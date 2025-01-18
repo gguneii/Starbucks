@@ -61,7 +61,7 @@ function Customize({ handleCustomize, count, setCount, size }) {
   };
   useEffect(() => {
     if (id) {
-      setIdState(id); // ID-nin state-ə təyin edilməsi
+      setIdState(id); 
     }
   }, [id, setIdState]);
   
@@ -81,8 +81,7 @@ function Customize({ handleCustomize, count, setCount, size }) {
       // setCount(newSize.count);
 
       setCountInp((prev) => {
-        // İlkin olaraq ya boş massiv, ya da əvvəlki massiv dəyəri
-        const newCounts = Array(5).fill(newSize.countInp); // İlkin olaraq 5 indekslik massiv
+        const newCounts = Array(5).fill(newSize.countInp); 
         return newCounts;
       });
     }

@@ -26,7 +26,6 @@ function SelectContext({ children }) {
     checked: false,
   };
 
-  // Load data from localStorage when `idState` changes
   useEffect(() => {
     const allData = JSON.parse(localStorage.getItem("allEvents")) || {};
     if (allData[idState]) {
@@ -40,11 +39,10 @@ function SelectContext({ children }) {
       setCountInp(currentData.countInp || []);
       setChecked(currentData.checked || false);
     } else {
-      reset(); // Reset if no data for the given `idState`
+      reset(); 
     }
   }, [idState]);
 
-  // Update localStorage whenever any state changes for the current `idState`
   useEffect(() => {
     const allData = JSON.parse(localStorage.getItem("allEvents")) || {};
     allData[idState] = {
@@ -70,7 +68,6 @@ function SelectContext({ children }) {
     checked,
   ]);
 
-  // Reset the state to initial values
   const reset = () => {
     setFields(initialState.fields);
     setSelectedOption(initialState.selectedOption);

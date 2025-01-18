@@ -12,7 +12,6 @@ function BasketContext({ children }) {
   }, [basket]);
 
   const addToBasket = (name, image, id, temp, size) => {
-    // Məhsulun səbətdə olub-olmadığını yoxla
     const productExists = basket.find(
       (item) => item.id === id && item.temp === temp && item.size === size
     );
@@ -26,7 +25,6 @@ function BasketContext({ children }) {
         )
       );
     } else {
-      // Məhsul fərqlidirsə, yeni məhsul əlavə et
       const newProduct = {
         name,
         image,
@@ -37,7 +35,6 @@ function BasketContext({ children }) {
       };
   
       setBasket((prevBasket) => [...prevBasket, newProduct]);
-      // alert("Məhsul səbətə əlavə edildi!");
     }
   };
   

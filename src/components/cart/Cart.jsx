@@ -8,8 +8,8 @@ import { LOCATION } from "../../context/LocationContext";
 function Cart() {
   const { pathname } = useLocation();
   const { basket, setBasket } = useContext(BASKET);
-  const {selectedLocation} = useContext(LOCATION)
-  
+  const { selectedLocation } = useContext(LOCATION);
+
   ScrollTo(pathname, 0);
 
   // const addProduct = (item) => {
@@ -39,14 +39,12 @@ function Cart() {
   return (
     <>
       <Helmet>
-        <title>
-          Review order: Starbucks Coffee Company
-        </title>
+        <title>Review order: Starbucks Coffee Company</title>
       </Helmet>
       <div className="lg:flex lg:justify-between">
         <div className="bg-[#1e3932] text-white flex-grow lg:flex flex-col px-4 py-10 lg:h-[100vh] lg:fixed lg:top-0 lg:bottom-0 lg:w-[40vw] lg:overflow-auto">
-          <div className="hidden lg:flex items-center">
-            <div className="logo w-[85px] h-[64px] items-center">
+          <div className="flex">
+            <div className="logo hidden lg:flex  w-[85px] h-[64px] items-center">
               <Link className="block lg:w-[51px]" to={"/"}>
                 <svg
                   aria-hidden="true"
@@ -68,26 +66,52 @@ function Cart() {
                 </svg>
               </Link>
             </div>
-            <Link to={"/menu"} className="font-bold text-[18px]">
-              Back to menu
-            </Link>
+            <div className="flex items-center">
+              <Link to={"/menu"} className="">
+                <svg
+                  aria-hidden="true"
+                  className="valign-middle pr1 w-[24px] h-[24px] fill-white"
+                  focusable="false"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M15.098 5.78c.292-.293.292-.767 0-1.06-.293-.293-.768-.293-1.06 0L7.62 11.137c-.293.293-.293.768 0 1.06l6.52 6.52c.292.293.767.293 1.06 0 .293-.293.293-.768 0-1.06l-5.99-5.99L15.1 5.78z"></path>
+                </svg>
+              </Link>
+              <Link to={"/menu"} className="font-bold hidden lg:flex  text-[18px]">
+                Back to menu
+              </Link>
+            </div>
           </div>
+
           <div className="lg:flex flex-col lg:w-[350px] lg:m-auto lg:pb-[2.4rem] ">
-            <h1 className={`text-[20px] font-bold my-4 lg:text-[25px]
+            <h1
+              className={`text-[20px] font-bold my-4 lg:text-[25px]
               ${selectedLocation.name ? "py-6" : "py-0"}
-              `}>
+              `}
+            >
               Review order ({basket.length})
             </h1>
             <Link
               to={"/location"}
               className="flex shadow-[inset_0_-1.5px_0_#ffffff4d] w-full items-center justify-between md:justify-start md:flex-grow-0 min-w-[24px] flex-grow"
             >
-              <p className={`pb-1 text-[14px] lg:text-[18px] font-semibold w-full relative
-                 ${selectedLocation.name ? "text-[white] py-1" :"text-[#ffffffb3]"}`}>
-                  {selectedLocation.name && 
-                  <span className={`absolute top-[-50%] text-[#ffffffb3] transform text-[12px] lg:text-[14px]`}>Pickup Store</span>
-                  }
-                {selectedLocation?.name || 'Pickup store'}
+              <p
+                className={`pb-1 text-[14px] lg:text-[18px] font-semibold w-full relative
+                 ${
+                   selectedLocation.name
+                     ? "text-[white] py-1"
+                     : "text-[#ffffffb3]"
+                 }`}
+              >
+                {selectedLocation.name && (
+                  <span
+                    className={`absolute top-[-50%] text-[#ffffffb3] transform text-[12px] lg:text-[14px]`}
+                  >
+                    Pickup Store
+                  </span>
+                )}
+                {selectedLocation?.name || "Pickup store"}
               </p>
 
               <svg
@@ -109,7 +133,10 @@ function Cart() {
               // console.log(item);
 
               return (
-                <div key={i} className="md:max-w-[500px] bg-white rounded-lg md:mx-auto mb-2 lg:mb-6 lg:mx-0 z-[1] lg:ml-[40vw] w-full md:shadow-[0px_0px_.5px_0px_#00000024,0px_1px_1px_0px_#0000003d]">
+                <div
+                  key={i}
+                  className="md:max-w-[500px] bg-white rounded-lg md:mx-auto mb-2 lg:mb-6 lg:mx-0 z-[1] lg:ml-[40vw] w-full md:shadow-[0px_0px_.5px_0px_#00000024,0px_1px_1px_0px_#0000003d]"
+                >
                   <div className="flex mx-5 p-4">
                     <div className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] shrink-0 mt-3 rounded-full overflow-hidden flex justify-center items-center ">
                       <img
